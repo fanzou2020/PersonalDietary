@@ -13,4 +13,8 @@ public class Outdining extends Dining {
         this.group = group;
 
     }
+
+    public String getDining() {
+        return retailer;
+    }
 }

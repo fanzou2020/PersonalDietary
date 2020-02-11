@@ -13,4 +13,8 @@ public class Indining extends Dining {
         this.type = type;
     }
 
+    public String getDining() {
+        return name;
+    }
+
 }

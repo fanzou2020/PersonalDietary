@@ -13,4 +13,8 @@ public class Dining {
     public String toString() {
         return "" +isEaten;
     }
+
+    public String getDining() {
+        return "";
+    }
 }

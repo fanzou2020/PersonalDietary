@@ -1,8 +1,11 @@
 package team4.personaldietary;
 
-/* some code from https://www.tutorialspoint.com/javafx/layout_borderpane.htm
+/* some code modified and adapted from:
+ * https://www.tutorialspoint.com/javafx/layout_borderpane.htm
  * https://www.tutorialspoint.com/javafx/layout_gridpane.htm
- * http://tutorials.jenkov.com/javafx/index.html */
+ * http://tutorials.jenkov.com/javafx/index.html
+ * https://gist.github.com/jewelsea/5559262
+ */
 
 import javafx.application.Application;
 import javafx.beans.Observable;
@@ -28,12 +31,29 @@ public class DietGUI extends Application {
         ListView listV = new ListView();
         GridPane gridPane = new GridPane();
 
+        //dining object list to add children to and update the displaying string adequately.
         ObservableList<Dining> diningList = FXCollections.observableArrayList();
         diningList.add(new Indining("Bread", "12:00PM", "One Slice", "homemade", true));
         diningList.add(new Indining("Cheese", "3:00pm", "10 grams", "bought", true));
         diningList.add(new Outdining("A&W", "5:00pm", "dinner", "meat", true));
 
         ListView<Dining> listViewDining = new ListView<>(diningList);
+
+        listViewDining.setEditable(true);
+
+        listViewDining.setCellFactory(param -> new ListCell<Dining>() {
+            @Override
+            protected void updateItem(Dining item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getDining() == null) {
+                    setText(null);
+                }
+                else {
+                    setText(item.getDining());
+                }
+            }
+        });
 
 
         Text text1 = new Text("Name");
@@ -55,6 +75,30 @@ public class DietGUI extends Application {
         Button button1 = new Button("Add Button");
         Button button2 = new Button("In/Out Switch");
         Button button3 = new Button("Remove Button");
+
+        // Sets an event to add dining object to listview on button click.
+        button1.setOnAction((event -> {
+            diningList.add(new Indining("Cake", "1:00am", "one piece", "homemade", true));
+            listViewDining.getItems().add((Dining) diningList);
+        }));
+
+        // Sets event for removal of dining object from listview on button click.
+        button3.setOnAction((event -> {
+            final int selectedID = listViewDining.getSelectionModel().getSelectedIndex();
+//            if (selectedID != -1) {
+//                Dining item = listViewDining.getSelectionModel().getSelectedItem();
+//
+//                final int newSelectedID =
+//                        (selectedID == listViewDining.getItems().size() - 1)
+//                            ? selectedID - 1
+//                            : selectedID;
+
+                listViewDining.getItems().remove(selectedID);
+
+
+            //}
+        }));
+
 
         CheckBox cBox1 = new CheckBox("Food Group 1");
         CheckBox cBox2 = new CheckBox("Food Group 2");
@@ -89,20 +133,20 @@ public class DietGUI extends Application {
         gridPane.add(textField7, 1, 6);
         gridPane.add(button1, 0, 7);
 
-        // event handles add food button
-        EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-
-            }
-        };
+//        // event handles add food button
+//        EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//
+//            }
+//        };
 
         //Setting the top, bottom, center, right and left nodes to the pane
         bPane.setTop(new TextField("Top"));
         bPane.setBottom(checkHBox);
         bPane.setLeft(gridPane);
         bPane.setRight(button3);
-        bPane.setCenter(listV);
+        bPane.setCenter(listViewDining);
 
         //Creating a scene object
         Scene scene = new Scene(bPane);
