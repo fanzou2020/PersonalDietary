@@ -10,6 +10,22 @@ public class Dining {
         this.isEaten = isEaten;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public boolean getIsEaten() {
+        return isEaten;
+    }
+
+    public void setIsEaten(boolean eaten) {
+        isEaten = eaten;
+    }
+
     public String toString() {
         return "" +isEaten;
     }

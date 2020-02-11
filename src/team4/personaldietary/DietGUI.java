@@ -28,32 +28,32 @@ public class DietGUI extends Application {
         // Listview can list items, used in the center pane.
         // The grid pane sets up input boxes and buttons on left pane.
         BorderPane bPane = new BorderPane();
-        ListView listV = new ListView();
+        //ListView listV = new ListView();
         GridPane gridPane = new GridPane();
 
         //dining object list to add children to and update the displaying string adequately.
         ObservableList<Dining> diningList = FXCollections.observableArrayList();
-        diningList.add(new Indining("Bread", "12:00PM", "One Slice", "homemade", true));
-        diningList.add(new Indining("Cheese", "3:00pm", "10 grams", "bought", true));
-        diningList.add(new Outdining("A&W", "5:00pm", "dinner", "meat", true));
+//        diningList.add(new Indining("Bread", "12:00PM", "One Slice", "homemade", true));
+//        diningList.add(new Indining("Cheese", "3:00pm", "10 grams", "bought", true));
+//        diningList.add(new Outdining("A&W", "5:00pm", "dinner", "meat", true));
 
         ListView<Dining> listViewDining = new ListView<>(diningList);
 
-        listViewDining.setEditable(true);
-
-        listViewDining.setCellFactory(param -> new ListCell<Dining>() {
-            @Override
-            protected void updateItem(Dining item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null || item.getDining() == null) {
-                    setText(null);
-                }
-                else {
-                    setText(item.getDining());
-                }
-            }
-        });
+//        listViewDining.setEditable(true);
+//
+//        listViewDining.setCellFactory(param -> new ListCell<Dining>() {
+//            @Override
+//            protected void updateItem(Dining item, boolean empty) {
+//                super.updateItem(item, empty);
+//
+//                if (empty || item == null || item.getDining() == null) {
+//                    setText(null);
+//                }
+//                else {
+//                    setText(item.getDining());
+//                }
+//            }
+//        });
 
 
         Text text1 = new Text("Name");
@@ -64,39 +64,36 @@ public class DietGUI extends Application {
         Text text6 = new Text("Type");
         Text text7 = new Text("Retailer");
 
-        TextField textField1 = new TextField();
-        TextField textField2 = new TextField();
-        TextField textField3 = new TextField();
-        TextField textField4 = new TextField();
-        TextField textField5 = new TextField();
-        TextField textField6 = new TextField();
-        TextField textField7 = new TextField();
+        TextField nameField = new TextField();
+        TextField mealField = new TextField();
+        TextField servingField = new TextField();
+        TextField groupField = new TextField();
+        TextField timeField = new TextField();
+        TextField typeField = new TextField();
+        TextField retailerField = new TextField();
 
         Button button1 = new Button("Add Button");
         Button button2 = new Button("In/Out Switch");
         Button button3 = new Button("Remove Button");
 
         // Sets an event to add dining object to listview on button click.
+        // *NOTE* add isEaten checkmark or radio dot and insert boolean for constructor.
+        // *NOTE* Also add a clear textfields and look into simplifying it by not having
+        // *NOTE* a arraylist collection added to listview and just have listview.
+        // *NOTE* currently only displays boolean in listview. fix this.
         button1.setOnAction((event -> {
-            diningList.add(new Indining("Cake", "1:00am", "one piece", "homemade", true));
+            Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
+                    servingField.getText(), true);
+            diningList.add(diningItem);
             listViewDining.getItems().add((Dining) diningList);
         }));
 
         // Sets event for removal of dining object from listview on button click.
         button3.setOnAction((event -> {
             final int selectedID = listViewDining.getSelectionModel().getSelectedIndex();
-//            if (selectedID != -1) {
-//                Dining item = listViewDining.getSelectionModel().getSelectedItem();
-//
-//                final int newSelectedID =
-//                        (selectedID == listViewDining.getItems().size() - 1)
-//                            ? selectedID - 1
-//                            : selectedID;
 
                 listViewDining.getItems().remove(selectedID);
 
-
-            //}
         }));
 
 
@@ -112,34 +109,26 @@ public class DietGUI extends Application {
         hBox.setLayoutX(10);
         hBox.setLayoutY(7);
 
-        listV.getItems().add("Food 1");
-        listV.getItems().add("Food 2");
-        listV.getItems().add("Food 3");
-        listV.getItems().add("Food 4");
+//        listV.getItems().add("Food 1");
+//        listV.getItems().add("Food 2");
+//        listV.getItems().add("Food 3");
+//        listV.getItems().add("Food 4");
 
         gridPane.add(text1, 0, 0);
-        gridPane.add(textField1, 1, 0);
+        gridPane.add(nameField, 1, 0);
         gridPane.add(text2, 0, 1);
-        gridPane.add(textField2, 1, 1);
+        gridPane.add(mealField, 1, 1);
         gridPane.add(text3, 0, 2);
-        gridPane.add(textField3, 1, 2);
+        gridPane.add(servingField, 1, 2);
         gridPane.add(text4, 0, 3);
-        gridPane.add(textField4, 1, 3);
+        gridPane.add(groupField, 1, 3);
         gridPane.add(text5, 0, 4);
-        gridPane.add(textField5, 1, 4);
+        gridPane.add(timeField, 1, 4);
         gridPane.add(text6, 0, 5);
-        gridPane.add(textField6, 1, 5);
+        gridPane.add(typeField, 1, 5);
         gridPane.add(text7, 0, 6);
-        gridPane.add(textField7, 1, 6);
+        gridPane.add(retailerField, 1, 6);
         gridPane.add(button1, 0, 7);
-
-//        // event handles add food button
-//        EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent e) {
-//
-//            }
-//        };
 
         //Setting the top, bottom, center, right and left nodes to the pane
         bPane.setTop(new TextField("Top"));
@@ -152,7 +141,7 @@ public class DietGUI extends Application {
         Scene scene = new Scene(bPane);
 
         //Setting title to the Stage
-        primaryStage.setTitle("BorderPane Example");
+        primaryStage.setTitle("Personal Dietary Application");
 
         //Adding scene to the stage
         primaryStage.setScene(scene);
