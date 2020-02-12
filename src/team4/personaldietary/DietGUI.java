@@ -22,6 +22,9 @@ import javafx.stage.Stage;
 import javafx.event.EventHandler;
 
 public class DietGUI extends Application {
+
+    private boolean inOutDining;
+
     @Override
     public void start(Stage primaryStage) {
         // BorderPane object instantiates the layout for the window.
@@ -86,6 +89,14 @@ public class DietGUI extends Application {
                     }
                 }
             });
+            nameField.clear();
+            timeField.clear();
+            servingField.clear();
+            mealField.clear();
+            groupField.clear();
+            typeField.clear();
+            retailerField.clear();
+
         }));
 
         // Sets event for removal of dining object from listview on button click.
@@ -131,7 +142,7 @@ public class DietGUI extends Application {
         gridPane.add(button1, 0, 7);
 
         //Setting the top, bottom, center, right and left nodes to the pane
-        bPane.setTop(new TextField("Top"));
+        bPane.setTop(new Text("Personal Dietary Manager Application"));
         bPane.setBottom(checkHBox);
         bPane.setLeft(gridPane);
         bPane.setRight(button3);
