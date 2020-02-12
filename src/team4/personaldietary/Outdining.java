@@ -6,8 +6,8 @@ public class Outdining extends Dining {
     private String meal;
     private String group;
 
-    public Outdining(String retailer, String time, String meal, String group, boolean isEaten) {
-        super(time, isEaten);
+    public Outdining(String retailer, String time, String meal, String group) {
+        super(time);
         this.retailer = retailer;
         this.meal = meal;
         this.group = group;
