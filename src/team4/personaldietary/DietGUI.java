@@ -64,10 +64,9 @@ public class DietGUI extends Application {
         Button button2 = new Button("In/Out Switch");
         Button button3 = new Button("Remove Button");
 
-        // Sets an event to add dining object to listview on button click.
-        // *NOTE* Also add a clear textfields and look into simplifying it by not having
-        // *NOTE* a arraylist collection added to listview and just have listview.
-        // *NOTE* currently only displays boolean in listview. fix this.
+        // Sets an event to add dining object to listview<dining> on button click.
+        // Adds a dining object to the obserableList diningList. This diningList is then
+        // set to a cell in the listview and the text is set accordingly.
         button1.setOnAction((event -> {
             Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
                     servingField.getText());
