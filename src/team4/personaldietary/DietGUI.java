@@ -39,22 +39,7 @@ public class DietGUI extends Application {
 
         ListView<Dining> listViewDining = new ListView<>(diningList);
 
-//        listViewDining.setEditable(true);
-//
-//        listViewDining.setCellFactory(param -> new ListCell<Dining>() {
-//            @Override
-//            protected void updateItem(Dining item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty || item == null || item.getDining() == null) {
-//                    setText(null);
-//                }
-//                else {
-//                    setText(item.getDining());
-//                }
-//            }
-//        });
-
+        listViewDining.setEditable(true);
 
         Text text1 = new Text("Name");
         Text text2 = new Text("Meal");
@@ -85,7 +70,22 @@ public class DietGUI extends Application {
             Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
                     servingField.getText(), true);
             diningList.add(diningItem);
-            listViewDining.getItems().add((Dining) diningList);
+            //listViewDining.getItems().add((Dining) diningList);
+            listViewDining.setCellFactory(param -> new ListCell<Dining>() {
+                @Override
+                // i think this works because listviewdinig is made of dininglists, so
+                //the dining item from dininglist is the argument here.
+                protected void updateItem(Dining item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null || item.getDining() == null) {
+                        setText(null);
+                    }
+                    else {
+                        setText(item.getDining());
+                    }
+                }
+            });
         }));
 
         // Sets event for removal of dining object from listview on button click.
