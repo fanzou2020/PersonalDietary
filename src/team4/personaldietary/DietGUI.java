@@ -31,14 +31,10 @@ public class DietGUI extends Application {
         // Listview can list items, used in the center pane.
         // The grid pane sets up input boxes and buttons on left pane.
         BorderPane bPane = new BorderPane();
-        //ListView listV = new ListView();
         GridPane gridPane = new GridPane();
 
-        //dining object list to add children to and update the displaying string adequately.
+        //dining object list to add subclass objects to and update the displaying string adequately.
         ObservableList<Dining> diningList = FXCollections.observableArrayList();
-//        diningList.add(new Indining("Bread", "12:00PM", "One Slice", "homemade", true));
-//        diningList.add(new Indining("Cheese", "3:00pm", "10 grams", "bought", true));
-//        diningList.add(new Outdining("A&W", "5:00pm", "dinner", "meat", true));
 
         ListView<Dining> listViewDining = new ListView<>(diningList);
 
@@ -64,14 +60,13 @@ public class DietGUI extends Application {
         Button button2 = new Button("In/Out Switch");
         Button button3 = new Button("Remove Button");
 
-        // Sets an event to add dining object to listview<dining> on button click.
-        // Adds a dining object to the obserableList diningList. This diningList is then
-        // set to a cell in the listview and the text is set accordingly.
+        // Sets an event to add dining object to listView<Dining> object on button click.
+        // Adds a dining object to the observableList diningList. This diningList is then
+        // set to a cell in the listView and the text is set accordingly.
         button1.setOnAction((event -> {
             Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
                     servingField.getText());
             diningList.add(diningItem);
-            //listViewDining.getItems().add((Dining) diningList);
             listViewDining.setCellFactory(param -> new ListCell<Dining>() {
                 @Override
                 // i think this works because listviewdinig is made of dininglists, so
@@ -87,6 +82,7 @@ public class DietGUI extends Application {
                     }
                 }
             });
+            //clear() method called from textfield objects to remove any string text from input fields.
             nameField.clear();
             timeField.clear();
             servingField.clear();
@@ -97,7 +93,7 @@ public class DietGUI extends Application {
 
         }));
 
-        // Sets event for removal of dining object from listview on button click.
+        // Sets event for removal of dining object from listView on button click.
         button3.setOnAction((event -> {
             final int selectedID = listViewDining.getSelectionModel().getSelectedIndex();
 
@@ -117,11 +113,6 @@ public class DietGUI extends Application {
         hBox.setPrefSize(64, 64);
         hBox.setLayoutX(10);
         hBox.setLayoutY(7);
-
-//        listV.getItems().add("Food 1");
-//        listV.getItems().add("Food 2");
-//        listV.getItems().add("Food 3");
-//        listV.getItems().add("Food 4");
 
         gridPane.add(text1, 0, 0);
         gridPane.add(nameField, 1, 0);
