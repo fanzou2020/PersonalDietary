@@ -3,15 +3,11 @@ package team4.personaldietary;
 public class Outdining extends Dining {
 
     private String retailer;
-    private String meal;
-    private String group;
+ 
 
-    public Outdining(String retailer, String time, String meal, String group) {
-        super(time);
+    public Outdining(String name, String meal, String serving, String group, String time, String retailer) {
+        super(name, meal, serving, group, time);
         this.retailer = retailer;
-        this.meal = meal;
-        this.group = group;
-
     }
 
     public String getRetailer() {
@@ -22,20 +18,8 @@ public class Outdining extends Dining {
         this.retailer = retailer;
     }
 
-    public String getMeal() {
-        return meal;
-    }
-
-    public void setMeal(String meal) {
-        this.meal = meal;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
+     public String toString(){
+        return super.toString() + " " + this.retailer;
     }
 
     public String getDining() {

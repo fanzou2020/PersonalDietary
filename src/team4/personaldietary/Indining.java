@@ -2,32 +2,14 @@ package team4.personaldietary;
 
 public class Indining extends Dining {
 
-    private String name;
-    private String serving;
+   
     private String type;
 
-    public Indining(String name, String time, String serving, String type) {
-        super(time);
-        this.name = name;
-        this.serving = serving;
+    public Indining(String name, String meal, String serving, String group, String time, String type) {
+        super(name, meal, serving, group, time);
         this.type = type;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getServing() {
-        return serving;
-    }
-
-    public void setServing(String serving) {
-        this.serving = serving;
-    }
 
     public String getType() {
         return type;
@@ -37,8 +19,11 @@ public class Indining extends Dining {
         this.type = type;
     }
 
-    public String getDining() {
-        return name;
+    public String toString(){
+        return super.toString() + " " + this.type;
     }
+//    public String getDining() {
+//        return name;
+//    }
 
 }
