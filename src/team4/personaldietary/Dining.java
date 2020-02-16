@@ -16,11 +16,16 @@ public class Dining {
         this.time = time;
     }
 
+    public String getDining() {
+        return "";
+    }
+
+    public String getRetailer() {
+        return "";
+    }
+
     public String toString() {
         return "" +time;
     }
 
-    public String getDining() {
-        return "";
-    }
 }
