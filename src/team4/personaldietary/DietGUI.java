@@ -135,7 +135,7 @@ public class DietGUI extends Application {
         buttonMilk = new Button("Milk & Alternatives");
         buttonMeat = new Button("Meat & Alternatives");
 
-        //Hbox for add and remove button
+        //Hbox for add and other button
         HBox hBox = new HBox(20, button1, button2);
         HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
 
@@ -200,10 +200,6 @@ public class DietGUI extends Application {
         });
 
         dining.getChildren().addAll(background, trigger);
-
-        hBox.setPrefSize(64, 64);
-        hBox.setLayoutX(10);
-        hBox.setLayoutY(7);
 
         // Sets an event to add dining object to listView<Dining> object on button click.
         // Adds a dining object to the observableList diningList. This diningList is then
@@ -282,7 +278,7 @@ public class DietGUI extends Application {
         gridPane.add(retailerField, 1, 6);
         gridPane.add(dining, 0, 7);
         gridPane.add(inOut, 1, 7);
-        gridPane.add(button1, 0, 7);
+        gridPane.add(button1, 1, 10);
 
         //Setting the top, bottom, center, right and left nodes to the pane
         bPane.setTop(new Text("Personal Dietary Manager Application"));
