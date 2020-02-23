@@ -52,6 +52,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
+import java.util.HashMap;
 
 public class DietGUI extends Application {
 
@@ -60,7 +61,7 @@ public class DietGUI extends Application {
     Button buttonMilk;
     Button buttonMeat;
     private BooleanProperty inOutDining = new SimpleBooleanProperty(true);
-//    private boolean inOutDining2;
+    private HashMap<String, Integer> capitalCities = new HashMap<String, Integer>();
 
     //Below are the instances to support toggle switches
     private TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(.25));
@@ -207,7 +208,7 @@ public class DietGUI extends Application {
         button1.setOnAction((event -> {
             if(inOutDining.get()) {
                 Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
-                        servingField.getText());
+                        typeField.getText(), foodGroup.getValue());
                 diningList.add(diningItem);
                 listViewDining.setCellFactory(param -> new ListCell<Dining>() {
                     @Override
@@ -216,10 +217,10 @@ public class DietGUI extends Application {
                     protected void updateItem(Dining item, boolean empty) {
                         super.updateItem(item, empty);
 
-                        if (empty || item == null || item.getDining() == null) {
+                        if (empty || item == null || item.getName() == null) {
                             setText(null);
                         } else {
-                            setText(item.getDining());
+                            setText(item.getName());
                         }
                     }
                 });
@@ -234,7 +235,8 @@ public class DietGUI extends Application {
                 retailerField.clear();
             }
             else {
-                Dining diningItem = new Outdining(retailerField.getText(), timeField.getText(), meal.getValue(), foodGroup.getValue());
+                Dining diningItem = new Outdining(nameField.getText(), retailerField.getText(), timeField.getText(),
+                        meal.getValue(), foodGroup.getValue());
                 diningList.add(diningItem);
                 listViewDining.setCellFactory(param -> new ListCell<Dining>() {
                     @Override
@@ -243,10 +245,10 @@ public class DietGUI extends Application {
                     protected void updateItem(Dining item, boolean empty) {
                         super.updateItem(item, empty);
 
-                        if (empty || item == null || item.getDining() == null) {
+                        if (empty || item == null || item.getName() == null) {
                             setText(null);
                         } else {
-                            setText(item.getDining());
+                            setText(item.getName());
                         }
                     }
                 });
@@ -301,9 +303,9 @@ public class DietGUI extends Application {
 
     }
 
-    public void foodGroupModify(String foodGroup){
+    public void foodGroupModify(String foodGroup) {
 
-        switch(foodGroup){
+        switch(foodGroup) {
 
             case "Vegetables & Fruits": buttonVeg.setStyle("-fx-background-color: green; "); break;
             case "Grain": buttonGrain.setStyle("-fx-background-color: green; "); break;
@@ -312,6 +314,18 @@ public class DietGUI extends Application {
 
         }
 
+    }
+
+    public void foodGroupRemove(String foodGroup) {
+
+        switch(foodGroup) {
+
+            case "Vegetables & Fruits": buttonVeg.setStyle("-fx-background-color: white; "); break;
+            case "Grain": buttonGrain.setStyle("-fx-background-color: white; "); break;
+            case "Milk & Alternatives": buttonMilk.setStyle("-fx-background-color: white; "); break;
+            case "Meat & Alternatives": buttonMeat.setStyle("-fx-background-color: white; "); break;
+
+        }
     }
 
     public static void main(String args[]){

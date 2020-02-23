@@ -4,13 +4,11 @@ public class Outdining extends Dining {
 
     private String retailer;
     private String meal;
-    private String group;
 
-    public Outdining(String retailer, String time, String meal, String group) {
-        super(time);
+    public Outdining(String name, String retailer, String time, String meal, String group) {
+        super(time, group, name);
         this.retailer = retailer;
         this.meal = meal;
-        this.group = group;
 
     }
 
@@ -30,15 +28,4 @@ public class Outdining extends Dining {
         this.meal = meal;
     }
 
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getDining() {
-        return retailer;
-    }
 }
