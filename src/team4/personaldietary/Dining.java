@@ -1,11 +1,27 @@
 package team4.personaldietary;
 
-public class Dining {
+public abstract class Dining {
 
+    private String name;
     private String time;
+    private Group group;
+    private Serving serving;
+    private String meal;
 
-    public Dining(String time) {
+    public Dining(String name, String time, Group group, Serving serving, String meal) {
+        this.name = name;
         this.time = time;
+        this.group = group;
+        this.serving = serving;
+        this.meal = meal;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTime() {
@@ -16,16 +32,27 @@ public class Dining {
         this.time = time;
     }
 
-    public String getDining() {
-        return "";
+    public Group getGroup() {
+        return group;
     }
 
-    public String getRetailer() {
-        return "";
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
-    public String toString() {
-        return "" +time;
+    public Serving getServing() {
+        return serving;
     }
 
+    public void setServing(Serving serving) {
+        this.serving = serving;
+    }
+
+    public String getMeal() {
+        return meal;
+    }
+
+    public void setMeal(String meal) {
+        this.meal = meal;
+    }
 }

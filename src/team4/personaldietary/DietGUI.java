@@ -20,38 +20,20 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.application.Application;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.event.EventHandler;
 
 public class DietGUI extends Application {
 
@@ -206,7 +188,7 @@ public class DietGUI extends Application {
         // set to a cell in the listView and the text is set accordingly.
         button1.setOnAction((event -> {
             if(inOutDining.get()) {
-                Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
+                Dining diningItem = new Outdining(nameField.getText(), timeField.getText(), servingField.getText(),
                         servingField.getText());
                 diningList.add(diningItem);
                 listViewDining.setCellFactory(param -> new ListCell<Dining>() {
