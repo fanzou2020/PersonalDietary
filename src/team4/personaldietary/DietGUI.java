@@ -185,12 +185,15 @@ public class DietGUI extends Application {
                 retailerField.clear();
                 retailerField.setDisable(true);
                 typeField.setDisable(false);
+                servingField.setDisable(false);
 
             } else {
                 //Outdining
                 typeField.clear();
                 typeField.setDisable(true);
                 retailerField.setDisable(false);
+                servingField.clear();
+                servingField.setDisable(true);
             }
         });
 
