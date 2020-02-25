@@ -1,40 +1,62 @@
-package team4.personaldietary;
+package team4.personaldietary.GUI;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.event.*;
+import team4.personaldietary.bean.*;
+import team4.personaldietary.business.*;
 
-import java.util.ArrayList;
-import java.util.Observable;
+public class FxmlController {
+    @FXML
+    private BorderPane bPane;
 
-public class FXGui extends Application {
-    private BorderPane bPane = new BorderPane();
-    private ObservableList<String> diningList = FXCollections.observableArrayList();
-    private ListView<String> listView = new ListView<>(diningList);
+    private ObservableList<Dining> diningList = FXCollections.observableArrayList();
+    private ListView<Dining> listView = new ListView<>(diningList);
+    private DiningDAO diningDAO = new DiningDAOImpl();
+    private int[] numItemsInFoodGroup = {0, 0, 0, 0};
 
-    /*
-    Initialize the grid pane on the left part of boarder pane.
-     */
+    //Initializing buttons for food group
+    Button buttonVeg = new Button("Vegetables and Fruits");
+    Button buttonGrain = new Button("Grain Products");
+    Button buttonMilk = new Button("Milk and Alternatives");
+    Button buttonMeat = new Button("Meat and Alternatives");
+
+    @FXML
+    private void initialize() {
+        initialLeftPart();
+        initialRightPart();
+        initialBottomPart();
+        initialCenterPart();
+    }
+
+    // Initialize the ListView in the center of boarder pane
+    private void initialCenterPart() {
+        bPane.setCenter(listView);
+    }
+
+    // Initialize the Left part of boarder pane
     private void initialLeftPart() {
         BooleanProperty inOutDining = new SimpleBooleanProperty(true);
         GridPane gridPane = new GridPane();
@@ -65,12 +87,12 @@ public class FXGui extends Application {
         // Since default indining/outdining toggle is indining, default gray out retailer field.
         retailerField.setDisable(true);
 
-        Button button1 = new Button("Add Item");
+        Button addItemButton = new Button("Add Item");
 
         //Combo box for food group
         ComboBox<String> foodGroup = new ComboBox<>();
         foodGroup.setPromptText("What group does it belong?");
-        foodGroup.getItems().addAll("Vegetables & Fruits", "Grain", "Milk & Alternatives", "Meat & Alternatives");
+        foodGroup.getItems().addAll("Vegetables and Fruits", "Grain Products", "Milk and Alternatives", "Meat and Alternatives");
 
 
         //*********************************** Set toggle switch ***************************************************
@@ -135,6 +157,44 @@ public class FXGui extends Application {
         //***************************************** End of setting toggle switch ***********************************
 
 
+
+        //********************** Event handle for add food item ************************
+        // Event handler for add item
+        EventHandler<ActionEvent> addEventHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Dining foodItem;
+                // if it is indining food item
+                if (inOutDining.get()) {
+                    foodItem = new Indining(nameField.getText(), timeField.getText(),
+                            stringToGroup(foodGroup.getValue()), servingField.getText(),
+                            mealField.getText(), typeField.getText());
+                }
+                // else, add outdining food item
+                else {
+                    foodItem = new Outdining(nameField.getText(), timeField.getText(),
+                            stringToGroup(foodGroup.getValue()), servingField.getText(),
+                            mealField.getText(), retailerField.getText());
+                }
+
+                // call add food item function of the business layer
+                diningDAO.addDiningItem(diningList, foodItem);
+                markFoodGroupAdd(foodItem.getGroup());
+
+                // clear the content in left panel after click the add button.
+                nameField.clear(); timeField.clear(); servingField.clear(); mealField.clear(); retailerField.clear();
+                typeField.clear(); foodGroup.getSelectionModel().clearSelection();
+            }
+        };
+        addItemButton.setOnAction(addEventHandler);
+//        addItemButton.addEventFilter(ActionEvent.ANY, eventHandler);
+        // **************************** End of event handle for add food item ******************
+
+
+
+
+
+
         // add item to gridPane
         gridPane.add(text1, 0, 0);
         gridPane.add(nameField, 1, 0);
@@ -152,24 +212,13 @@ public class FXGui extends Application {
         gridPane.add(retailerField, 1, 6);
         gridPane.add(dining, 0, 7);
         gridPane.add(inOut, 1, 7);
-        gridPane.add(button1, 1, 10);
+        gridPane.add(addItemButton, 1, 10);
 
         // Setting the boarder pane
         bPane.setLeft(gridPane);
     }
 
-    /*
-    Initialize the ListView in the center of boarder pane
-     */
-    private void initialCenterPart() {
-        diningList.add("Item 1");
-        diningList.add("Item 2");
-        bPane.setCenter(listView);
-    }
-
-    /*
-    Initialize the Right part of boarder pane
-     */
+    // Initialize the Right part of boarder pane
     private void initialRightPart() {
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -183,18 +232,24 @@ public class FXGui extends Application {
         Button removeButton = new Button("Remove Item");
 
         gridPane.add(removeButton, 0, 0);
+
+        removeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Dining foodItem = listView.getSelectionModel().getSelectedItem();
+
+                diningDAO.removeDiningItem(diningList, foodItem);
+
+                markFoodGroupRemove(foodItem.getGroup());
+
+            }
+        });
+
         bPane.setRight(gridPane);
     }
 
-    /*
-    Initialize the Bottom part of boarder pane
-     */
+    // Initialize the Bottom part of boarder pane
     private void initialBottomPart() {
-        //Initializing buttons for food group
-        Button buttonVeg = new Button("Vegetables & Fruit");
-        Button buttonGrain = new Button("Grain Products");
-        Button buttonMilk = new Button("Milk & Alternatives");
-        Button buttonMeat = new Button("Meat & Alternatives");
         HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
 
         //Customize HBox
@@ -205,45 +260,49 @@ public class FXGui extends Application {
         bPane.setBottom(bottomMenu);
     }
 
-
-//    public static void updateView(ArrayList<String> arrayList) {
-//        diningList.removeAll();
-//        diningList = FXCollections.observableArrayList(arrayList);
-//    }
-
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        // The grid pane sets up input boxes and buttons on left pane.
-        initialLeftPart();
-
-        // Listview can list items, used in the center pane.
-
-        initialCenterPart();
-
-        // Button on the right part of boarder pane
-        initialRightPart();
-
-        // Categories buttons menu on the bottom part of boarder pane
-        initialBottomPart();
-
-
-        // Creating a scene object
-        Scene scene = new Scene(bPane, 1000, 600);
-
-        // Setting title to the Stage
-        primaryStage.setTitle("Personal Dietary Application");
-
-        // Adding scene to the stage
-        primaryStage.setScene(scene);
-
-        // Displaying the contents of the stage
-        primaryStage.show();
-
+    private Group stringToGroup(String s) {
+        if (s.equals("Vegetables and Fruits")) return Group.vegetable_and_fruit;
+        else if (s.equals("Grain Products")) return Group.grain_products;
+        else if (s.equals("Milk and Alternatives")) return Group.milk_and_alternatives;
+        else if (s.equals("Meat and Alternatives")) return Group.meat_and_alternatives;
+        else return null;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void markFoodGroupAdd(Group group) {
+        if (group == Group.vegetable_and_fruit) {
+            numItemsInFoodGroup[0]++;
+            if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
+        }
+        else if (group == Group.grain_products) {
+            numItemsInFoodGroup[1]++;
+            if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
+        }
+        else if (group == Group.milk_and_alternatives) {
+            numItemsInFoodGroup[2]++;
+            if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
+        }
+        else {
+            numItemsInFoodGroup[3]++;
+            if (numItemsInFoodGroup[3] > 0) buttonMeat.setStyle("-fx-background-color: green");
+        }
     }
 
+    private void markFoodGroupRemove(Group group) {
+        if (group == Group.vegetable_and_fruit) {
+            numItemsInFoodGroup[0]--;
+            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle("-fx-background-color: grey");
+        }
+        else if (group == Group.grain_products) {
+            numItemsInFoodGroup[1]--;
+            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle("-fx-background-color: grey");
+        }
+        else if (group == Group.milk_and_alternatives) {
+            numItemsInFoodGroup[2]--;
+            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle("-fx-background-color: grey");
+        }
+        else {
+            numItemsInFoodGroup[3]--;
+            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle("-fx-background-color: grey");
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package team4.personaldietary;
+package team4.personaldietary.bean;
 
 import java.util.Objects;
 
@@ -6,8 +6,8 @@ public class Indining extends Dining {
 
     private String type;
 
-    public Indining(String name, String time, Group group, Serving serving,
-        String meal, String type) {
+    public Indining(String name, String time, Group group, String serving,
+                    String meal, String type) {
         super(name, time, group, serving, meal);
         this.type = type;
     }
@@ -18,6 +18,11 @@ public class Indining extends Dining {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "indining name = " + super.getName();
     }
 
     @Override

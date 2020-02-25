@@ -1,4 +1,4 @@
-package team4.personaldietary;
+package team4.personaldietary.bean;
 
 public enum Group {
     vegetable_and_fruit,

@@ -1,23 +1,28 @@
-package team4.personaldietary;
+package team4.personaldietary.bean;
 
 import java.util.Objects;
 
 public class Outdining extends Dining {
 
-    private String type;
+    private String retailer;
 
-    public Outdining(String name, String time, Group group, Serving serving,
-                     String meal, String type) {
+    public Outdining(String name, String time, Group group, String serving,
+                     String meal, String retailer) {
         super(name, time, group, serving, meal);
-        this.type = type;
+        this.retailer = retailer;
     }
 
-    public String getType() {
-        return type;
+    public String getRetailer() {
+        return retailer;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRetailer(String retailer) {
+        this.retailer = retailer;
+    }
+
+    @Override
+    public String toString() {
+        return "outdining name = " + super.getName();
     }
 
     @Override
@@ -30,7 +35,7 @@ public class Outdining extends Dining {
                 (outdining.getGroup() == super.getGroup()) &&
                 (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
-                (outdining.getType().equals(type));
+                (outdining.getRetailer().equals(retailer));
 
     }
 
@@ -40,6 +45,6 @@ public class Outdining extends Dining {
     public int hashCode() {
         String i = "Outdining";
         return Objects.hash(i, super.getName(), super.getTime(), super.getGroup(),
-                super.getServing(), super.getMeal(), type);
+                super.getServing(), super.getMeal(), retailer);
     }
 }

@@ -1,14 +1,14 @@
-package team4.personaldietary;
+package team4.personaldietary.bean;
 
 public abstract class Dining {
 
     private String name;
     private String time;
     private Group group;
-    private Serving serving;
+    private String serving;
     private String meal;
 
-    public Dining(String name, String time, Group group, Serving serving, String meal) {
+    public Dining(String name, String time, Group group, String serving, String meal) {
         this.name = name;
         this.time = time;
         this.group = group;
@@ -40,11 +40,11 @@ public abstract class Dining {
         this.group = group;
     }
 
-    public Serving getServing() {
+    public String getServing() {
         return serving;
     }
 
-    public void setServing(Serving serving) {
+    public void setServing(String serving) {
         this.serving = serving;
     }
 
