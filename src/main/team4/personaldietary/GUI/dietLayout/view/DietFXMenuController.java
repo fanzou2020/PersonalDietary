@@ -1,57 +1,103 @@
-package team4.personaldietary;
-
-/* Some code modified and adapted from:
- * https://www.tutorialspoint.com/javafx/layout_borderpane.htm
- * https://www.tutorialspoint.com/javafx/layout_gridpane.htm
- * http://tutorials.jenkov.com/javafx/index.html
- * https://gist.github.com/jewelsea/5559262
- */
+package main.team4.personaldietary.GUI.dietLayout.view;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.scene.control.*;
+import main.team4.personaldietary.bean.DiningBean;
+import main.team4.personaldietary.bean.IndiningBean;
+import main.team4.personaldietary.bean.OutdiningBean;
+import main.team4.personaldietary.business.DietCalculate;
+import main.team4.personaldietary.persistence.DiningDAO;
+
 import java.util.HashMap;
 
-public class DietGUI extends Application {
+public class DietFXMenuController {
 
-    Button buttonVeg;
-    Button buttonGrain;
-    Button buttonMilk;
-    Button buttonMeat;
-    private BooleanProperty inOutDining = new SimpleBooleanProperty(true);
-    private HashMap<String, Integer> groupHash = new HashMap<String, Integer>();
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private Button bt_add;
+    @FXML
+    private Button bt_remove;
+    @FXML
+    private Button bt_veg;
+    @FXML
+    private Button bt_grain;
+    @FXML
+    private Button bt_milk;
+    @FXML
+    private Button bt_meat;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField servingField;
+    @FXML
+    private TextField timeField;
+    @FXML
+    private TextField typeField;
+    @FXML
+    private TextField retailerField;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label mealLabel;
+    @FXML
+    private Label servingLabel;
+    @FXML
+    private Label groupLabel;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label typeLabel;
+    @FXML
+    private Label retailerLabel;
+
+    private DiningBean diningBean;
+    private DiningDAO diningDAO;
+    private DietCalculate dietCalculate;
+    private BooleanProperty inOutDining;
+    private HashMap<String, Integer> groupHash;
 
     //Below are the instances to support toggle switches
-    private TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(.25));
-    private FillTransition fillAnimation = new FillTransition(Duration.seconds(.25));
-    private ParallelTransition animation = new ParallelTransition(translateAnimation, fillAnimation);
+    private TranslateTransition translateAnimation;
+    private FillTransition fillAnimation;
+    private ParallelTransition animation;
 
-    @Override
-    public void start(Stage primaryStage) {
+    public DietFXMenuController(){
+        super();
+        diningBean = new DiningBean();
+        dietCalculate = new DietCalculate();
+        groupHash = new HashMap<String, Integer>();
+        inOutDining = new SimpleBooleanProperty(true);
+    }
+
+    @FXML
+    private void initialize(){
+        translateAnimation = new TranslateTransition(Duration.seconds(.25));
+        fillAnimation = new FillTransition(Duration.seconds(.25));
+        animation = new ParallelTransition(translateAnimation, fillAnimation);
+
         // Initialize food group hash map to keep track of food items belonging to food groups
         groupHash.put("Vegetables & Fruit", 0);
         groupHash.put("Grain Products", 0);
@@ -61,8 +107,8 @@ public class DietGUI extends Application {
         // BorderPane object instantiates the layout for the window.
         // Listview can list items, used in the center pane.
         // The grid pane sets up input boxes and buttons on left pane.
-        BorderPane bPane = new BorderPane();
-        GridPane gridPane = new GridPane();
+        //bPane = new BorderPane();
+        //gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         //Vertical padding for cell
         gridPane.setVgap(2);
@@ -71,30 +117,25 @@ public class DietGUI extends Application {
         //Choice box for meal
         gridPane.setAlignment(Pos.TOP_CENTER);
         //dining object list to add subclass objects to and update the displaying string adequately.
-        ObservableList<Dining> diningList = FXCollections.observableArrayList();
+        ObservableList<DiningBean> diningList = FXCollections.observableArrayList();
 
-        ListView<Dining> listViewDining = new ListView<>(diningList);
+        ListView<DiningBean> listViewDining = new ListView<>(diningList);
 
         listViewDining.setEditable(true);
 
-        Text text1 = new Text("Name");
-        Text text2 = new Text("Meal");
-        Text text3 = new Text("Serving");
-        Text text4 = new Text("Group");
-        Text text5 = new Text("Time");
-        Text text6 = new Text("Type");
-        Text text7 = new Text("Retailer");
+        nameLabel = new Label("Name");
+        mealLabel = new Label("Meal");
+        servingLabel = new Label("Serving");
+        groupLabel = new Label("Group");
+        timeLabel = new Label("Time");
+        typeLabel = new Label("Type");
+        retailerLabel = new Label("Retailer");
 
-        TextField nameField = new TextField();
-        TextField servingField = new TextField();
-        TextField timeField = new TextField();
-        TextField typeField = new TextField();
-        TextField retailerField = new TextField();
         //Since default indining/outdining toggle is indining, so retailerField default will be grayed out.
         retailerField.setDisable(true);
 
-        Button button1 = new Button("Add Button");
-        Button button3 = new Button("Remove Button");
+        bt_add = new Button("Add Button");
+        bt_remove = new Button("Remove Button");
 
         //Combo box (drop down) for meal
         ComboBox<String> meal = new ComboBox<>();
@@ -107,14 +148,14 @@ public class DietGUI extends Application {
         foodGroup.getItems().addAll("Vegetables & Fruit", "Grain Products", "Milk & Alternatives", "Meat & Alternatives");
 
         //Initializing buttons for food group
-        buttonVeg = new Button("Vegetables & Fruit");
-        buttonGrain = new Button("Grain Products");
-        buttonMilk = new Button("Milk & Alternatives");
-        buttonMeat = new Button("Meat & Alternatives");
+        bt_veg = new Button("Vegetables & Fruit");
+        bt_grain = new Button("Grain Products");
+        bt_milk = new Button("Milk & Alternatives");
+        bt_meat = new Button("Meat & Alternatives");
 
         //Hbox for add and other button
-        HBox hBox = new HBox(20, button1);
-        HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
+        HBox hBox = new HBox(20, bt_add);
+        HBox bottomMenu = new HBox(bt_veg, bt_grain, bt_milk, bt_meat);
 
         //Customize HBox
         hBox.setPrefSize(64, 64);
@@ -184,20 +225,20 @@ public class DietGUI extends Application {
         // Sets an event to add dining object to listView<Dining> object on button click.
         // Adds a dining object to the observableList diningList. This diningList is then
         // set to a cell in the listView and the text is set accordingly.
-        button1.setOnAction((event -> {
+        bt_add.setOnAction((event -> {
             if(inOutDining.get()) {
-                Dining diningItem = new Indining(nameField.getText(), timeField.getText(), servingField.getText(),
+                DiningBean diningItem = new IndiningBean(nameField.getText(), timeField.getText(), servingField.getText(),
                         typeField.getText(), foodGroup.getValue());
                 diningList.add(diningItem);
 
                 // Increments respective integer value for food group hash map, indicating food group is eaten
                 foodGroupHashAdd(foodGroup.getValue());
 
-                listViewDining.setCellFactory(param -> new ListCell<Dining>() {
+                listViewDining.setCellFactory(param -> new ListCell<DiningBean>() {
                     @Override
                     // i think this works because listviewdinig is made of dininglists, so
                     //the dining item from dininglist is the argument here.
-                    protected void updateItem(Dining item, boolean empty) {
+                    protected void updateItem(DiningBean item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (empty || item == null || item.getName() == null) {
@@ -217,18 +258,18 @@ public class DietGUI extends Application {
                 retailerField.clear();
             }
             else {
-                Dining diningItem = new Outdining(nameField.getText(), retailerField.getText(), timeField.getText(),
+                DiningBean diningItem = new OutdiningBean(nameField.getText(), retailerField.getText(), timeField.getText(),
                         meal.getValue(), foodGroup.getValue());
                 diningList.add(diningItem);
 
                 // Increments respective integer value for food group hash map, indicating food group is eaten
                 foodGroupHashAdd(foodGroup.getValue());
 
-                listViewDining.setCellFactory(param -> new ListCell<Dining>() {
+                listViewDining.setCellFactory(param -> new ListCell<DiningBean>() {
                     @Override
                     // i think this works because listviewdinig is made of dininglists, so
                     //the dining item from dininglist is the argument here.
-                    protected void updateItem(Dining item, boolean empty) {
+                    protected void updateItem(DiningBean item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (empty || item == null || item.getName() == null) {
@@ -249,56 +290,46 @@ public class DietGUI extends Application {
         }));
 
         // Sets event for removal of dining object from listView on button click.
-        button3.setOnAction((event -> {
+        bt_remove.setOnAction((event -> {
             final int selectedID = listViewDining.getSelectionModel().getSelectedIndex();
-            Dining foodObj = listViewDining.getSelectionModel().getSelectedItem();
+            DiningBean foodObj = listViewDining.getSelectionModel().getSelectedItem();
 
             listViewDining.getItems().remove(selectedID);
 
             // Obtains food group of selected object, decrements hash map value, and removes color of button if required
             foodGroupHashRemove(foodObj.getGroup());
             if(groupHash.get(foodObj.getGroup())<=0) {
-               foodGroupRemove(foodObj.getGroup());
+                foodGroupRemove(foodObj.getGroup());
             }
-
         }));
 
-        gridPane.add(text1, 0, 0);
+        gridPane.add(nameLabel, 0, 0);
         gridPane.add(nameField, 1, 0);
-        gridPane.add(text2, 0, 1);
+        gridPane.add(mealLabel, 0, 1);
         gridPane.add(meal, 1, 1);
-        gridPane.add(text3, 0, 2);
+        gridPane.add(servingLabel, 0, 2);
         gridPane.add(servingField, 1, 2);
-        gridPane.add(text4, 0, 3);
+        gridPane.add(groupLabel, 0, 3);
         gridPane.add(foodGroup, 1, 3);
-        gridPane.add(text5, 0, 4);
+        gridPane.add(timeLabel, 0, 4);
         gridPane.add(timeField, 1, 4);
-        gridPane.add(text6, 0, 5);
+        gridPane.add(typeLabel, 0, 5);
         gridPane.add(typeField, 1, 5);
-        gridPane.add(text7, 0, 6);
+        gridPane.add(retailerLabel, 0, 6);
         gridPane.add(retailerField, 1, 6);
         gridPane.add(dining, 0, 7);
         gridPane.add(inOut, 1, 7);
-        gridPane.add(button1, 1, 10);
+        gridPane.add(bt_add, 1, 10);
 
         //Setting the top, bottom, center, right and left nodes to the pane
         bPane.setTop(new Text("Personal Dietary Manager Application"));
         bPane.setBottom(bottomMenu);
         bPane.setLeft(gridPane);
-        bPane.setRight(button3);
+        bPane.setRight(bt_remove);
         bPane.setCenter(listViewDining);
 
         //Creating a scene object
-        Scene scene = new Scene(bPane);
-
-        //Setting title to the Stage
-        primaryStage.setTitle("Personal Dietary Application");
-
-        //Adding scene to the stage
-        primaryStage.setScene(scene);
-
-        //Displaying the contents of the stage
-        primaryStage.show();
+        //Scene scene = new Scene(bPane);
 
     }
 
@@ -320,29 +351,23 @@ public class DietGUI extends Application {
 
         switch(foodGroup) {
 
-            case "Vegetables & Fruit": buttonVeg.setStyle("-fx-background-color: green; "); break;
-            case "Grain Products": buttonGrain.setStyle("-fx-background-color: green; "); break;
-            case "Milk & Alternatives": buttonMilk.setStyle("-fx-background-color: green; "); break;
-            case "Meat & Alternatives": buttonMeat.setStyle("-fx-background-color: green; "); break;
+            case "Vegetables & Fruit": bt_veg.setStyle("-fx-background-color: green; "); break;
+            case "Grain Products": bt_grain.setStyle("-fx-background-color: green; "); break;
+            case "Milk & Alternatives": bt_milk.setStyle("-fx-background-color: green; "); break;
+            case "Meat & Alternatives": bt_meat.setStyle("-fx-background-color: green; "); break;
 
         }
-
     }
 
     public void foodGroupRemove(String foodGroup) {
 
         switch(foodGroup) {
 
-            case "Vegetables & Fruit": buttonVeg.setStyle("-fx-background-color: none; "); break;
-            case "Grain Products": buttonGrain.setStyle("-fx-background-color: none; "); break;
-            case "Milk & Alternatives": buttonMilk.setStyle("-fx-background-color: none; "); break;
-            case "Meat & Alternatives": buttonMeat.setStyle("-fx-background-color: none; "); break;
-
+            case "Vegetables & Fruit": bt_veg.setStyle("-fx-background-color: none; "); break;
+            case "Grain Products": bt_grain.setStyle("-fx-background-color: none; "); break;
+            case "Milk & Alternatives": bt_milk.setStyle("-fx-background-color: none; "); break;
+            case "Meat & Alternatives": bt_meat.setStyle("-fx-background-color: none; "); break;
         }
     }
 
-    public static void main(String args[]) {
-        launch(args);
-
-    }
 }
