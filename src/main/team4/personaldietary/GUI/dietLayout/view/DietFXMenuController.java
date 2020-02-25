@@ -107,8 +107,8 @@ public class DietFXMenuController {
         // BorderPane object instantiates the layout for the window.
         // Listview can list items, used in the center pane.
         // The grid pane sets up input boxes and buttons on left pane.
-        //bPane = new BorderPane();
-        //gridPane = new GridPane();
+        bPane = new BorderPane();
+        gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         //Vertical padding for cell
         gridPane.setVgap(2);
