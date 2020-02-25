@@ -179,7 +179,7 @@ public class FxmlController {
                                 mealField.getText(), typeField.getText());
                     }
                     // else, add outdining food item
-                    else if(validateInput(retailerField)){
+                    else if(!inOutDining.get() && validateInput(retailerField)){
                         foodItem = new Outdining(nameField.getText(), timeField.getText(),
                                 stringToGroup(foodGroup.getValue()), servingField.getText(),
                                 mealField.getText(), retailerField.getText());
@@ -197,11 +197,6 @@ public class FxmlController {
         addItemButton.setOnAction(addEventHandler);
 //        addItemButton.addEventFilter(ActionEvent.ANY, eventHandler);
         // **************************** End of event handle for add food item ******************
-
-
-
-
-
 
         // add item to gridPane
         gridPane.add(nameText, 0, 0);
@@ -270,11 +265,17 @@ public class FxmlController {
     private void refreshItems(){
         // clear the content in left panel after click the add button.
         nameField.clear();
+        nameField.setPromptText("");
         timeField.clear();
+        timeField.setPromptText("");
         servingField.clear();
+        servingField.setPromptText("");
         mealField.clear();
+        mealField.setPromptText("");
         retailerField.clear();
+        retailerField.setPromptText("");
         typeField.clear();
+        typeField.setPromptText("");
         foodGroup.getSelectionModel().clearSelection();
         foodGroup.setPromptText("What group does it belong?");
         foodGroup.setStyle("-fx-background-color: LIGHTGRAY");
@@ -329,7 +330,7 @@ public class FxmlController {
     }
 
     private boolean validateInput(TextField textField){
-        if(textField.getText() == null ||textField.getText().isEmpty()){
+        if(textField.getText() == null || textField.getText().isEmpty()){
             textField.setPromptText("Invalid input");
             textField.getParent().requestFocus();
             return false;
