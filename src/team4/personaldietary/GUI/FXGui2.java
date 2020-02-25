@@ -13,6 +13,7 @@ public class FXGui2 extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("content.fxml"));
         BorderPane root = loader.load();
         Scene scene = new Scene(root, 1000, 600);
+        primaryStage.setTitle("Personal Dietary");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
