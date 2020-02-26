@@ -29,6 +29,7 @@ import team4.personaldietary.business.*;
 
 public class FxmlController {
     @FXML private BorderPane bPane;
+
     // For left part
     private TextField nameField = new TextField();
     private TextField timeField = new TextField();
@@ -43,9 +44,15 @@ public class FxmlController {
     private TextField sugarField = new TextField();
     private ComboBox<String> foodGroup;
 
+    // items for right part
+    private ObservableList<String> currServingList = FXCollections.observableArrayList();
+    private ObservableList<String> consumedServingList = FXCollections.observableArrayList();
+    private ListView<String> currServingListView = new ListView<>(currServingList);
+    private ListView<String> consumedServingListView = new ListView<>(consumedServingList);
+
+    // items for center part
     private ObservableList<TableItem> diningList = FXCollections.observableArrayList(); // ObservableList related to TableView.
     private TableView<TableItem> table = new TableView<>(diningList); // TableView in the center of bPane.
-    private DiningDAOImpl diningDAO = new DiningDAOImpl(diningList);  // instance of business layer control
     private int[] numItemsInFoodGroup = {0, 0, 0, 0}; // number of items for each food group
     private boolean hideConsumed = false;  // whether to hide the consumed food item.
 
@@ -54,6 +61,9 @@ public class FxmlController {
     Button buttonGrain = new Button("Grain Products");
     Button buttonMilk = new Button("Milk and Alternatives");
     Button buttonMeat = new Button("Meat and Alternatives");
+
+    // Business layer controller
+    private DiningDAOImpl diningDAO = new DiningDAOImpl(diningList, currServingList, consumedServingList);
 
     @FXML
     private void initialize() {
@@ -254,8 +264,9 @@ public class FxmlController {
                 if(foodItem != null) { // call add food item function of the business layer
                     diningDAO.addDiningItem(foodItem);
                     markFoodGroupAdd(foodItem.getGroup());
-
-                   refreshItems();
+                    diningDAO.updateCurrServing();
+                    diningDAO.updateConsumedServing();
+                    refreshItems();
                 }
             }
         };
@@ -320,6 +331,8 @@ public class FxmlController {
                     TableItem selectedItem = table.getSelectionModel().getSelectedItem();
                     diningDAO.removeDiningItem(selectedItem);
                     markFoodGroupRemove(selectedItem.getDiningItem().getGroup());
+                    diningDAO.updateCurrServing();
+                    diningDAO.updateConsumedServing();
                 }
             }
         });
@@ -334,17 +347,36 @@ public class FxmlController {
                 if (hideConsumed) {
                     diningDAO.unHideConsumed();
                     hideConsumed = false;
+                    diningDAO.updateCurrServing();
+                    diningDAO.updateConsumedServing();
                 }
 
                 // hide consumed is false, click this button to hide
                 else {
                     diningDAO.hideConsumed();
                     hideConsumed = true;
+                    diningDAO.updateCurrServing();
+                    diningDAO.updateConsumedServing();
                 }
             }
         });
         // *********** end of Hide/Unhide consumed food *****************************************
 
+        currServingList.add("Total Serving of Displayed Items");
+        currServingList.add("Calories :    ");
+        currServingList.add("Fat :         ");
+        currServingList.add("Sodium :      ");
+        currServingList.add("Sugar :       ");
+
+        gridPane.add(currServingListView, 0, 3);
+
+        consumedServingList.add("Total Serving of Consumed Items");
+        consumedServingList.add("Calories :    ");
+        consumedServingList.add("Fat :         ");
+        consumedServingList.add("Sodium :      ");
+        consumedServingList.add("Sugar :       ");
+
+        gridPane.add(consumedServingListView, 0, 5);
 
         bPane.setRight(gridPane);
     }

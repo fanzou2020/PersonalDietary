@@ -58,12 +58,14 @@ public class TableItem {
                 // if mark checkbox as selected, call function to mark a food item as consumed
                 if (checkBox.selectedProperty().get()) {
                     diningDAO.markConsumed(TableItem.this);
+                    diningDAO.updateConsumedServing();
                     System.out.println("mark checkbox as True");
                 }
 
                 // if mark checkbox as unselected, call function to mark a food item as not consumed
                 if (!checkBox.selectedProperty().get()) {
                     diningDAO.markUnConsumed(TableItem.this);
+                    diningDAO.updateConsumedServing();
                     System.out.println("mark checkbox as False");
                 }
             }

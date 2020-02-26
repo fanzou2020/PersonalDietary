@@ -1,8 +1,11 @@
 package team4.personaldietary.business;
 
+import javafx.collections.ObservableList;
 import team4.personaldietary.GUI.TableItem;
 import team4.personaldietary.bean.Dining;
+import team4.personaldietary.bean.Serving;
 
+import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,8 +14,13 @@ public class DiningDAOImpl {
     private Collection<TableItem> observableCollection; // this is the items shown on the screen
     private ArrayList<TableItem> tableItemArrayList; // this contains all the tableItems related to database
 
-    public DiningDAOImpl(Collection<TableItem> observableCollection) {
+    private Collection<String> currServingList, consumedServingList;
+
+    public DiningDAOImpl(Collection<TableItem> observableCollection,
+                         Collection<String> currServingList, Collection<String> consumedServingList) {
         this.observableCollection = observableCollection;
+        this.currServingList = currServingList;
+        this.consumedServingList = consumedServingList;
         this.diningArrayList = new ArrayList<>();
         this.tableItemArrayList = new ArrayList<>();
     }
@@ -71,5 +79,39 @@ public class DiningDAOImpl {
                 observableCollection.add(item);
         }
         return true;
+    }
+
+
+    public boolean updateCurrServing() {
+        double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
+        for (TableItem item : observableCollection) {
+            totalCalories += item.getCalories();
+            totalFat += item.getFat();
+            totalSodium += item.getSodium();
+            totalSugar += item.getSugar();
+        }
+        ((ObservableList<String>) currServingList).set(1, "Calories :    " + totalCalories);
+        ((ObservableList<String>) currServingList).set(2, "Fat :              " + totalFat);
+        ((ObservableList<String>) currServingList).set(3, "Sodium :      " + totalSodium);
+        ((ObservableList<String>) currServingList).set(4, "Sugar :         " + totalSugar);
+        return true;
+    }
+
+    public boolean updateConsumedServing() {
+        double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
+        for (TableItem item : tableItemArrayList) {
+            if (item.isConsumed()) {
+                totalCalories += item.getCalories();
+                totalFat += item.getFat();
+                totalSodium += item.getSodium();
+                totalSugar += item.getSugar();
+            }
+        }
+        ((ObservableList<String>) consumedServingList).set(1, "Calories :    " + totalCalories);
+        ((ObservableList<String>) consumedServingList).set(2, "Fat :              " + totalFat);
+        ((ObservableList<String>) consumedServingList).set(3, "Sodium :      " + totalSodium);
+        ((ObservableList<String>) consumedServingList).set(4, "Sugar :         " + totalSugar);
+        return true;
+
     }
 }
