@@ -6,7 +6,7 @@ public class Outdining extends Dining {
 
     private String retailer;
 
-    public Outdining(String name, String time, Group group, String serving,
+    public Outdining(String name, String time, Group group, Serving serving,
                      String meal, String retailer) {
         super(name, time, group, serving, meal);
         this.retailer = retailer;
@@ -22,7 +22,7 @@ public class Outdining extends Dining {
 
     @Override
     public String toString() {
-        return "outdining name = " + super.getName();
+        return "outdining name = " + super.getName() + " consume = " + super.isConsumed();
     }
 
     @Override
@@ -30,7 +30,8 @@ public class Outdining extends Dining {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Outdining outdining = (Outdining) o;
-        return (outdining.getName().equals(super.getName())) &&
+        return (outdining.isConsumed() == super.isConsumed()) &&
+                (outdining.getName().equals(super.getName())) &&
                 (outdining.getTime().equals(super.getTime())) &&
                 (outdining.getGroup() == super.getGroup()) &&
                 (outdining.getServing().equals(super.getServing())) &&
@@ -44,7 +45,7 @@ public class Outdining extends Dining {
     @Override
     public int hashCode() {
         String i = "Outdining";
-        return Objects.hash(i, super.getName(), super.getTime(), super.getGroup(),
+        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getGroup(),
                 super.getServing(), super.getMeal(), retailer);
     }
 }

@@ -5,15 +5,17 @@ public abstract class Dining {
     private String name;
     private String time;
     private Group group;
-    private String serving;
+    private Serving serving;
     private String meal;
+    private boolean consumed;
 
-    public Dining(String name, String time, Group group, String serving, String meal) {
+    public Dining(String name, String time, Group group, Serving serving, String meal) {
         this.name = name;
         this.time = time;
         this.group = group;
         this.serving = serving;
         this.meal = meal;
+        this.consumed = false;
     }
 
     public String getName() {
@@ -40,11 +42,11 @@ public abstract class Dining {
         this.group = group;
     }
 
-    public String getServing() {
+    public Serving getServing() {
         return serving;
     }
 
-    public void setServing(String serving) {
+    public void setServing(Serving serving) {
         this.serving = serving;
     }
 
@@ -54,5 +56,13 @@ public abstract class Dining {
 
     public void setMeal(String meal) {
         this.meal = meal;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
     }
 }

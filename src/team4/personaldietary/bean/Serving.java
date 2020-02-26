@@ -73,5 +73,16 @@ public class Serving {
     public int hashCode() {
         return Objects.hash(amount, calories, fat, sodium, sugar);
     }
+
+    @Override
+    public String toString() {
+        return "Serving{" +
+                "amount='" + amount + '\'' +
+                ", calories=" + calories +
+                ", fat=" + fat +
+                ", sodium=" + sodium +
+                ", sugar=" + sugar +
+                '}';
+    }
 }
 

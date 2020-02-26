@@ -12,7 +12,7 @@ public class FXGui2 extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("content.fxml"));
         BorderPane root = loader.load();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1800, 1000);
         primaryStage.setTitle("Personal Dietary");
         primaryStage.setScene(scene);
         primaryStage.show();
