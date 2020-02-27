@@ -411,6 +411,7 @@ public class FxmlController {
         // clear the content in left panel after click the add button.
         nameField.clear();
         nameField.setPromptText("");
+        datePicker.getEditor().clear();
         timeField.clear();
         timeField.setPromptText("");
         mealField.clear();
