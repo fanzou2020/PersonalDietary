@@ -66,7 +66,7 @@ public class FxmlController {
     Button buttonMeat = new Button("Meat and Alternatives");
 
     // Business layer controller
-    private DiningDAOImpl diningDAO = new DiningDAOImpl(diningList, currServingList, consumedServingList);
+    private DiningDAO diningDAO = new DiningDAOImpl(diningList, currServingList, consumedServingList);
 
     @FXML
     private void initialize() {
@@ -343,6 +343,7 @@ public class FxmlController {
             public void handle(ActionEvent actionEvent) {
                 if(table.getItems().size()>0) {
                     TableItem selectedItem = table.getSelectionModel().getSelectedItem();
+                    if(selectedItem == null ) return;
                     diningDAO.removeDiningItem(selectedItem);
                     markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
                     diningDAO.updateCurrServing();

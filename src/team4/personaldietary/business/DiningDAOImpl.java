@@ -9,18 +9,18 @@ import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DiningDAOImpl {
+public class DiningDAOImpl implements DiningDAO {
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
     private Collection<TableItem> observableCollection; // this is the items shown on the screen
     private ArrayList<TableItem> tableItemArrayList; // this contains all the tableItems related to database
 
-    private Collection<String> currServingList, consumedServingList;
+    private ObservableList<String> currServingList, consumedServingList;
 
     public DiningDAOImpl(Collection<TableItem> observableCollection,
                          Collection<String> currServingList, Collection<String> consumedServingList) {
         this.observableCollection = observableCollection;
-        this.currServingList = currServingList;
-        this.consumedServingList = consumedServingList;
+        this.currServingList = (ObservableList<String>) currServingList;
+        this.consumedServingList = (ObservableList<String>) consumedServingList;
         this.diningArrayList = new ArrayList<>();
         this.tableItemArrayList = new ArrayList<>();
     }
@@ -90,10 +90,10 @@ public class DiningDAOImpl {
             totalSodium += item.getSodium();
             totalSugar += item.getSugar();
         }
-        ((ObservableList<String>) currServingList).set(1, "Calories :    " + totalCalories);
-        ((ObservableList<String>) currServingList).set(2, "Fat :              " + totalFat);
-        ((ObservableList<String>) currServingList).set(3, "Sodium :      " + totalSodium);
-        ((ObservableList<String>) currServingList).set(4, "Sugar :         " + totalSugar);
+        currServingList.set(1, "Calories :    " + totalCalories);
+        currServingList.set(2, "Fat :              " + totalFat);
+        currServingList.set(3, "Sodium :      " + totalSodium);
+        currServingList.set(4, "Sugar :         " + totalSugar);
         return true;
     }
 
@@ -107,10 +107,10 @@ public class DiningDAOImpl {
                 totalSugar += item.getSugar();
             }
         }
-        ((ObservableList<String>) consumedServingList).set(1, "Calories :    " + totalCalories);
-        ((ObservableList<String>) consumedServingList).set(2, "Fat :              " + totalFat);
-        ((ObservableList<String>) consumedServingList).set(3, "Sodium :      " + totalSodium);
-        ((ObservableList<String>) consumedServingList).set(4, "Sugar :         " + totalSugar);
+        consumedServingList.set(1, "Calories :    " + totalCalories);
+        consumedServingList.set(2, "Fat :              " + totalFat);
+        consumedServingList.set(3, "Sodium :      " + totalSodium);
+        consumedServingList.set(4, "Sugar :         " + totalSugar);
         return true;
 
     }
