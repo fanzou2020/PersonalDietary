@@ -1,14 +1,15 @@
 package team4.personaldietary.bean;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Outdining extends Dining {
 
     private String retailer;
 
-    public Outdining(String name, String time, Group group, Serving serving,
+    public Outdining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
                      String meal, String retailer) {
-        super(name, time, group, serving, meal);
+        super(name, time, foodGroup, serving, meal);
         this.retailer = retailer;
     }
 
@@ -33,7 +34,7 @@ public class Outdining extends Dining {
         return (outdining.isConsumed() == super.isConsumed()) &&
                 (outdining.getName().equals(super.getName())) &&
                 (outdining.getTime().equals(super.getTime())) &&
-                (outdining.getGroup() == super.getGroup()) &&
+                (outdining.getFoodGroup() == super.getFoodGroup()) &&
                 (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
                 (outdining.getRetailer().equals(retailer));
@@ -45,7 +46,7 @@ public class Outdining extends Dining {
     @Override
     public int hashCode() {
         String i = "Outdining";
-        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getGroup(),
+        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getFoodGroup(),
                 super.getServing(), super.getMeal(), retailer);
     }
 }

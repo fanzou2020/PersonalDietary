@@ -1,14 +1,15 @@
 package team4.personaldietary.bean;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Indining extends Dining {
 
     private String type;
 
-    public Indining(String name, String time, Group group, Serving serving,
+    public Indining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
                     String meal, String type) {
-        super(name, time, group, serving, meal);
+        super(name, time, foodGroup, serving, meal);
         this.type = type;
     }
 
@@ -34,7 +35,7 @@ public class Indining extends Dining {
         return (indining.isConsumed() == super.isConsumed()) &&
                 (indining.getName().equals(super.getName())) &&
                 (indining.getTime().equals(super.getTime())) &&
-                (indining.getGroup() == super.getGroup()) &&
+                (indining.getFoodGroup() == super.getFoodGroup()) &&
                 (indining.getServing().equals(super.getServing())) &&
                 (indining.getMeal().equals(super.getMeal())) &&
                 (indining.getType().equals(type));
@@ -46,7 +47,7 @@ public class Indining extends Dining {
     @Override
     public int hashCode() {
         String i = "Indining";
-        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getGroup(),
+        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getFoodGroup(),
                 super.getServing(), super.getMeal(), type);
     }
 }

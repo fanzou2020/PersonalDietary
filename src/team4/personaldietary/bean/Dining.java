@@ -1,18 +1,20 @@
 package team4.personaldietary.bean;
 
+import java.time.LocalDateTime;
+
 public abstract class Dining {
 
     private String name;
-    private String time;
-    private Group group;
+    private LocalDateTime time;
+    private FoodGroup foodGroup;
     private Serving serving;
     private String meal;
     private boolean consumed;
 
-    public Dining(String name, String time, Group group, Serving serving, String meal) {
+    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, String meal) {
         this.name = name;
         this.time = time;
-        this.group = group;
+        this.foodGroup = foodGroup;
         this.serving = serving;
         this.meal = meal;
         this.consumed = false;
@@ -26,20 +28,20 @@ public abstract class Dining {
         this.name = name;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    public Group getGroup() {
-        return group;
+    public FoodGroup getFoodGroup() {
+        return foodGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setFoodGroup(FoodGroup foodGroup) {
+        this.foodGroup = foodGroup;
     }
 
     public Serving getServing() {

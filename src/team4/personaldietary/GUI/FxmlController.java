@@ -1,6 +1,5 @@
 package team4.personaldietary.GUI;
 
-import com.sun.tools.javac.comp.Check;
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -27,13 +26,17 @@ import javafx.event.*;
 import team4.personaldietary.bean.*;
 import team4.personaldietary.business.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class FxmlController {
     @FXML private BorderPane bPane;
 
     // For left part
     private TextField nameField = new TextField();
+    private DatePicker datePicker = new DatePicker();
     private TextField timeField = new TextField();
-    private TextField servingField = new TextField();
     private TextField mealField = new TextField();
     private TextField typeField = new TextField();
     private TextField retailerField = new TextField();
@@ -144,6 +147,7 @@ public class FxmlController {
 
         // here, it is better create a string array, then foreach loop generate text object
         Text nameText = new Text("Name");
+        Text dateText = new Text("Date");
         Text timeText = new Text("Time");
         Text groupText = new Text("Group");
         Text servingText = new Text("Serving");
@@ -244,7 +248,11 @@ public class FxmlController {
                             Double.parseDouble(sodiumField.getText()),
                             Double.parseDouble(sugarField.getText())
                     );
-                    foodItem = new Indining(nameField.getText(), timeField.getText(),
+                    LocalDateTime dateTime = LocalDateTime.of(
+                            datePicker.getValue(),
+                            LocalTime.parse(timeField.getText())
+                    );
+                    foodItem = new Indining(nameField.getText(), dateTime,
                             stringToGroup(foodGroup.getValue()), servingItem,
                             mealField.getText(), typeField.getText());
                 }
@@ -256,14 +264,18 @@ public class FxmlController {
                             Double.parseDouble(sodiumField.getText()),
                             Double.parseDouble(sugarField.getText())
                     );
-                    foodItem = new Outdining(nameField.getText(), timeField.getText(),
+                    LocalDateTime dateTime = LocalDateTime.of(
+                            datePicker.getValue(),
+                            LocalTime.parse(timeField.getText())
+                    );
+                    foodItem = new Outdining(nameField.getText(), dateTime,
                             stringToGroup(foodGroup.getValue()), servingItem,
                             mealField.getText(), retailerField.getText());
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
                     diningDAO.addDiningItem(foodItem);
-                    markFoodGroupAdd(foodItem.getGroup());
+                    markFoodGroupAdd(foodItem.getFoodGroup());
                     diningDAO.updateCurrServing();
                     diningDAO.updateConsumedServing();
                     refreshItems();
@@ -277,30 +289,32 @@ public class FxmlController {
         // add item to gridPane
         gridPane.add(nameText, 0, 0);
         gridPane.add(nameField, 1, 0);
-        gridPane.add(timeText, 0, 1);
-        gridPane.add(timeField, 1, 1);
-        gridPane.add(groupText, 0, 2);
-        gridPane.add(foodGroup, 1, 2);
-        gridPane.add(mealText, 0, 3);
-        gridPane.add(mealField, 1, 3);
-        gridPane.add(typeText, 0, 4);
-        gridPane.add(typeField, 1, 4);
-        gridPane.add(retailerText, 0, 5);
-        gridPane.add(retailerField, 1, 5);
-        gridPane.add(servingText, 0, 7);
-        gridPane.add(amountText, 0, 8);
-        gridPane.add(amountField, 1, 8);
-        gridPane.add(caloriesText, 0,9);
-        gridPane.add(caloriesField, 1,9);
-        gridPane.add(fatText, 0,10);
-        gridPane.add(fatField, 1, 10);
-        gridPane.add(sodiumText, 0, 11);
-        gridPane.add(sodiumField, 1, 11);
-        gridPane.add(sugarText, 0, 12);
-        gridPane.add(sugarField, 1, 12);
-        gridPane.add(dining, 0, 13);
-        gridPane.add(inOut, 1, 13);
-        gridPane.add(addItemButton, 1, 15);
+        gridPane.add(dateText, 0, 1);
+        gridPane.add(datePicker, 1,1);
+        gridPane.add(timeText, 0, 2);
+        gridPane.add(timeField, 1, 2);
+        gridPane.add(groupText, 0, 3);
+        gridPane.add(foodGroup, 1, 3);
+        gridPane.add(mealText, 0, 4);
+        gridPane.add(mealField, 1, 4);
+        gridPane.add(typeText, 0, 5);
+        gridPane.add(typeField, 1, 5);
+        gridPane.add(retailerText, 0, 6);
+        gridPane.add(retailerField, 1, 6);
+        gridPane.add(servingText, 0, 8);
+        gridPane.add(amountText, 0, 9);
+        gridPane.add(amountField, 1, 9);
+        gridPane.add(caloriesText, 0,10);
+        gridPane.add(caloriesField, 1,10);
+        gridPane.add(fatText, 0,11);
+        gridPane.add(fatField, 1, 11);
+        gridPane.add(sodiumText, 0, 12);
+        gridPane.add(sodiumField, 1, 12);
+        gridPane.add(sugarText, 0, 13);
+        gridPane.add(sugarField, 1, 13);
+        gridPane.add(dining, 0, 14);
+        gridPane.add(inOut, 1, 14);
+        gridPane.add(addItemButton, 1, 16);
 
         // Setting the boarder pane
         bPane.setLeft(gridPane);
@@ -330,7 +344,7 @@ public class FxmlController {
                 if(table.getItems().size()>0) {
                     TableItem selectedItem = table.getSelectionModel().getSelectedItem();
                     diningDAO.removeDiningItem(selectedItem);
-                    markFoodGroupRemove(selectedItem.getDiningItem().getGroup());
+                    markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
                     diningDAO.updateCurrServing();
                     diningDAO.updateConsumedServing();
                 }
@@ -415,26 +429,26 @@ public class FxmlController {
         sodiumField.clear();
     }
 
-    private Group stringToGroup(String s) {
+    private FoodGroup stringToGroup(String s) {
         switch (s){
-            case "Grain Products": return Group.grain_products;
-            case "Milk and Alternatives": return Group.milk_and_alternatives;
-            case "Meat and Alternatives": return Group.meat_and_alternatives;
-            case "Vegetables and Fruits": return Group.vegetable_and_fruit;
+            case "Grain Products": return FoodGroup.grain_products;
+            case "Milk and Alternatives": return FoodGroup.milk_and_alternatives;
+            case "Meat and Alternatives": return FoodGroup.meat_and_alternatives;
+            case "Vegetables and Fruits": return FoodGroup.vegetable_and_fruit;
             default: return null;
         }
     }
 
-    private void markFoodGroupAdd(Group group) {
-        if (group == Group.vegetable_and_fruit) {
+    private void markFoodGroupAdd(FoodGroup foodGroup) {
+        if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]++;
             if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
         }
-        else if (group == Group.grain_products) {
+        else if (foodGroup == FoodGroup.grain_products) {
             numItemsInFoodGroup[1]++;
             if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
         }
-        else if (group == Group.milk_and_alternatives) {
+        else if (foodGroup == FoodGroup.milk_and_alternatives) {
             numItemsInFoodGroup[2]++;
             if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
         }
@@ -444,16 +458,16 @@ public class FxmlController {
         }
     }
 
-    private void markFoodGroupRemove(Group group) {
-        if (group == Group.vegetable_and_fruit) {
+    private void markFoodGroupRemove(FoodGroup foodGroup) {
+        if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]--;
             if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle("-fx-background-color: grey");
         }
-        else if (group == Group.grain_products) {
+        else if (foodGroup == FoodGroup.grain_products) {
             numItemsInFoodGroup[1]--;
             if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle("-fx-background-color: grey");
         }
-        else if (group == Group.milk_and_alternatives) {
+        else if (foodGroup == FoodGroup.milk_and_alternatives) {
             numItemsInFoodGroup[2]--;
             if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle("-fx-background-color: grey");
         }
@@ -476,6 +490,15 @@ public class FxmlController {
         if(comboBox.getValue() == null ){
             comboBox.setStyle("-fx-background-color: red");
             comboBox.getParent().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateInput(DatePicker datePicker) {
+        if (datePicker.getValue() == null) {
+            datePicker.setPromptText("Choose a date");
+            datePicker.getParent().requestFocus();
             return false;
         }
         return true;
@@ -511,12 +534,23 @@ public class FxmlController {
         return b;
     }
 
+    private boolean validateInputTime() {
+        boolean b = validateInput(timeField) && validateInput(datePicker);
+        try { LocalTime.parse(timeField.getText()); } catch (Exception e) {
+            timeField.clear();
+            timeField.setPromptText("Input time format: HH:mm");
+            timeField.getParent().requestFocus();
+            return false;
+        }
+        return b;
+    }
+
     private boolean validateInputIndining() {
-        return validateInput(nameField) && validateInput(timeField) && validateInput(foodGroup) &&
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
                 validateInput(mealField) && validateInput(typeField) && validateInputServing();
     }
     private boolean validateInputOutdining() {
-        return validateInput(nameField) && validateInput(timeField) && validateInput(foodGroup) &&
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
                 validateInput(mealField) && validateInput(retailerField) && validateInputServing();
     }
 }

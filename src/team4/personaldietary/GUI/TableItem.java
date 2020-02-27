@@ -4,10 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import team4.personaldietary.bean.Dining;
-import team4.personaldietary.bean.Group;
 import team4.personaldietary.bean.Indining;
 import team4.personaldietary.bean.Outdining;
 import team4.personaldietary.business.DiningDAOImpl;
+
+import java.time.LocalDateTime;
 
 public class TableItem {
     private Dining diningItem;
@@ -15,7 +16,7 @@ public class TableItem {
     private boolean consumed;
     private String name;
     private String inOut;
-    private String time;
+    private LocalDateTime time;
     private String group;
     private String meal;
     private String type;
@@ -32,7 +33,7 @@ public class TableItem {
         consumed = diningItem.isConsumed();
         name = diningItem.getName();
         time = diningItem.getTime();
-        group = diningItem.getGroup().toString();
+        group = diningItem.getFoodGroup().toString();
         meal = diningItem.getMeal();
         amount = diningItem.getServing().getAmount();
         calories = diningItem.getServing().getCalories();
@@ -112,11 +113,11 @@ public class TableItem {
         this.inOut = inOut;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
