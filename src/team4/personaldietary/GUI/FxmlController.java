@@ -28,7 +28,6 @@ import team4.personaldietary.business.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class FxmlController {
     @FXML private BorderPane bPane;
@@ -54,19 +53,19 @@ public class FxmlController {
     private ListView<String> consumedServingListView = new ListView<>(consumedServingList);
 
     // items for center part
-    private ObservableList<TableItem> diningList = FXCollections.observableArrayList(); // ObservableList related to TableView.
-    private TableView<TableItem> table = new TableView<>(diningList); // TableView in the center of bPane.
+    private ObservableList<DiningTableRow> diningList = FXCollections.observableArrayList(); // ObservableList related to TableView.
+    private TableView<DiningTableRow> table = new TableView<>(diningList); // TableView in the center of bPane.
     private int[] numItemsInFoodGroup = {0, 0, 0, 0}; // number of items for each food group
     private boolean hideConsumed = false;  // whether to hide the consumed food item.
 
     //Initializing buttons for food group
-    Button buttonVeg = new Button("Vegetables and Fruits");
-    Button buttonGrain = new Button("Grain Products");
-    Button buttonMilk = new Button("Milk and Alternatives");
-    Button buttonMeat = new Button("Meat and Alternatives");
+    private Button buttonVeg = new Button("Vegetables and Fruits");
+    private Button buttonGrain = new Button("Grain Products");
+    private Button buttonMilk = new Button("Milk and Alternatives");
+    private Button buttonMeat = new Button("Meat and Alternatives");
 
     // Business layer controller
-    private DiningDAO diningDAO = new DiningDAOImpl(diningList, currServingList, consumedServingList);
+    private DiningManagerImp diningManagerImp = new DiningManagerImp(diningList, currServingList, consumedServingList);
 
     @FXML
     private void initialize() {
@@ -78,55 +77,55 @@ public class FxmlController {
 
     // Initialize the ListView in the center of boarder pane
     private void initialCenterPart() {
-        TableColumn<TableItem, CheckBox> selectCol = new TableColumn<>("Consumed");
+        TableColumn<DiningTableRow, CheckBox> selectCol = new TableColumn<>("Consumed");
         selectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         table.getColumns().add(selectCol);
 
-        TableColumn<TableItem,String> nameCol = new TableColumn<>("Name");
+        TableColumn<DiningTableRow,String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         table.getColumns().add(nameCol);
 
-        TableColumn<TableItem, String> inOutCol = new TableColumn<>("In/Out");
+        TableColumn<DiningTableRow, String> inOutCol = new TableColumn<>("In/Out");
         inOutCol.setCellValueFactory(new PropertyValueFactory<>("inOut"));
         table.getColumns().add(inOutCol);
 
-        TableColumn<TableItem, String> timeCol = new TableColumn<>("Time");
+        TableColumn<DiningTableRow, String> timeCol = new TableColumn<>("Time");
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
         table.getColumns().add(timeCol);
 
-        TableColumn<TableItem, String> groupCol = new TableColumn<>("Group");
+        TableColumn<DiningTableRow, String> groupCol = new TableColumn<>("Group");
         groupCol.setCellValueFactory(new PropertyValueFactory<>("group"));
         table.getColumns().add(groupCol);
 
-        TableColumn<TableItem, String> amountCol = new TableColumn<>("Amount");
+        TableColumn<DiningTableRow, String> amountCol = new TableColumn<>("Amount");
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         table.getColumns().add(amountCol);
 
-        TableColumn<TableItem, Double> caloriesCol = new TableColumn<>("Calories");
+        TableColumn<DiningTableRow, Double> caloriesCol = new TableColumn<>("Calories");
         caloriesCol.setCellValueFactory(new PropertyValueFactory<>("calories"));
         table.getColumns().add(caloriesCol);
 
-        TableColumn<TableItem, Double> fatCol = new TableColumn<>("Fat");
+        TableColumn<DiningTableRow, Double> fatCol = new TableColumn<>("Fat");
         fatCol.setCellValueFactory(new PropertyValueFactory<>("fat"));
         table.getColumns().add(fatCol);
 
-        TableColumn<TableItem, Double> sodiumCol = new TableColumn<>("Sodium");
+        TableColumn<DiningTableRow, Double> sodiumCol = new TableColumn<>("Sodium");
         sodiumCol.setCellValueFactory(new PropertyValueFactory<>("sodium"));
         table.getColumns().add(sodiumCol);
 
-        TableColumn<TableItem, Double> sugarCol = new TableColumn<>("Sugar");
+        TableColumn<DiningTableRow, Double> sugarCol = new TableColumn<>("Sugar");
         sugarCol.setCellValueFactory(new PropertyValueFactory<>("sugar"));
         table.getColumns().add(sugarCol);
 
-        TableColumn<TableItem, String> mealCol = new TableColumn<>("Meal");
+        TableColumn<DiningTableRow, String> mealCol = new TableColumn<>("Meal");
         mealCol.setCellValueFactory(new PropertyValueFactory<>("meal"));
         table.getColumns().add(mealCol);
 
-        TableColumn<TableItem, String> typeCol = new TableColumn<>("Type");
+        TableColumn<DiningTableRow, String> typeCol = new TableColumn<>("Type");
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         table.getColumns().add(typeCol);
 
-        TableColumn<TableItem, String> retailerCol= new TableColumn<>("Retailer");
+        TableColumn<DiningTableRow, String> retailerCol= new TableColumn<>("Retailer");
         retailerCol.setCellValueFactory(new PropertyValueFactory<>("retailer"));
         table.getColumns().add(retailerCol);
 
@@ -274,19 +273,18 @@ public class FxmlController {
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
-                    diningDAO.addDiningItem(foodItem);
+                    diningManagerImp.addDiningItem(foodItem);
                     markFoodGroupAdd(foodItem.getFoodGroup());
-                    diningDAO.updateCurrServing();
-                    diningDAO.updateConsumedServing();
+                    diningManagerImp.updateCurrServing();
+                    diningManagerImp.updateConsumedServing();
                     refreshItems();
                 }
             }
         };
         addItemButton.setOnAction(addEventHandler);
-//        addItemButton.addEventFilter(ActionEvent.ANY, eventHandler);
         // **************************** End of event handle for add food item ******************
 
-        // add item to gridPane
+        // add items to gridPane
         gridPane.add(nameText, 0, 0);
         gridPane.add(nameField, 1, 0);
         gridPane.add(dateText, 0, 1);
@@ -342,12 +340,12 @@ public class FxmlController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(table.getItems().size()>0) {
-                    TableItem selectedItem = table.getSelectionModel().getSelectedItem();
+                    DiningTableRow selectedItem = table.getSelectionModel().getSelectedItem();
                     if(selectedItem == null ) return;
-                    diningDAO.removeDiningItem(selectedItem);
+                    diningManagerImp.removeDiningItem(selectedItem.getDiningItem());
                     markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
-                    diningDAO.updateCurrServing();
-                    diningDAO.updateConsumedServing();
+                    diningManagerImp.updateCurrServing();
+                    diningManagerImp.updateConsumedServing();
                 }
             }
         });
@@ -360,23 +358,22 @@ public class FxmlController {
             public void handle(ActionEvent actionEvent) {
                 // hide consumed is true, click this button to unhide
                 if (hideConsumed) {
-                    diningDAO.unHideConsumed();
+                    diningManagerImp.unHideConsumed();
                     hideConsumed = false;
-                    diningDAO.updateCurrServing();
-                    diningDAO.updateConsumedServing();
                 }
 
                 // hide consumed is false, click this button to hide
                 else {
-                    diningDAO.hideConsumed();
+                    diningManagerImp.hideConsumed();
                     hideConsumed = true;
-                    diningDAO.updateCurrServing();
-                    diningDAO.updateConsumedServing();
                 }
+                diningManagerImp.updateCurrServing();
+                diningManagerImp.updateConsumedServing();
             }
         });
         // *********** end of Hide/Unhide consumed food *****************************************
 
+        // Initialize current serving list and consumed serving list.
         currServingList.add("Total Serving of Displayed Items");
         currServingList.add("Calories :    ");
         currServingList.add("Fat :         ");

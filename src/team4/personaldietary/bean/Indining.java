@@ -23,8 +23,7 @@ public class Indining extends Dining {
 
     @Override
     public String toString() {
-        return "indining name = " + super.getName() + " consume = " + super.isConsumed() +
-                "calories = " + super.getServing().getCalories();
+        return "indining name = " + super.getName() + " consume = " + super.isConsumed();
     }
 
     @Override

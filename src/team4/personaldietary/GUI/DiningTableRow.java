@@ -6,11 +6,17 @@ import javafx.scene.control.CheckBox;
 import team4.personaldietary.bean.Dining;
 import team4.personaldietary.bean.Indining;
 import team4.personaldietary.bean.Outdining;
-import team4.personaldietary.business.DiningDAOImpl;
+import team4.personaldietary.business.DiningManagerImp;
 
 import java.time.LocalDateTime;
 
-public class TableItem {
+/**
+ * This class displays as a row in the TableView.
+ * Wrapper class for Dining class, add a checkbox to mark a food item as consumed or not consumed.
+ * Also, to keep consistent display of Inding and Outdining, both of them have type and retailer.
+ * If an item is Inding, retailer is empty string, if an item is outdining, type is empty string.
+*/
+public class DiningTableRow {
     private Dining diningItem;
     private CheckBox checkBox;
     private boolean consumed;
@@ -27,7 +33,7 @@ public class TableItem {
     private double sodium;
     private double sugar;
 
-    public TableItem(Dining diningItem, DiningDAOImpl diningDAO) {
+    public DiningTableRow(Dining diningItem, DiningManagerImp diningDAO) {
         this.diningItem = diningItem;
         this.checkBox = new CheckBox();
         consumed = diningItem.isConsumed();
@@ -58,14 +64,14 @@ public class TableItem {
             public void handle(ActionEvent actionEvent) {
                 // if mark checkbox as selected, call function to mark a food item as consumed
                 if (checkBox.selectedProperty().get()) {
-                    diningDAO.markConsumed(TableItem.this);
+                    diningDAO.markConsumed(DiningTableRow.this.getDiningItem());
                     diningDAO.updateConsumedServing();
                     System.out.println("mark checkbox as True");
                 }
 
                 // if mark checkbox as unselected, call function to mark a food item as not consumed
                 if (!checkBox.selectedProperty().get()) {
-                    diningDAO.markUnConsumed(TableItem.this);
+                    diningDAO.markUnConsumed(DiningTableRow.this.getDiningItem());
                     diningDAO.updateConsumedServing();
                     System.out.println("mark checkbox as False");
                 }

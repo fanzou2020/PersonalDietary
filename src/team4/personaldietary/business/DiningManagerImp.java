@@ -1,90 +1,88 @@
 package team4.personaldietary.business;
 
 import javafx.collections.ObservableList;
-import team4.personaldietary.GUI.TableItem;
+import team4.personaldietary.GUI.DiningTableRow;
 import team4.personaldietary.bean.Dining;
-import team4.personaldietary.bean.Serving;
 
-import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DiningDAOImpl implements DiningDAO {
+public class DiningManagerImp {
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
-    private Collection<TableItem> observableCollection; // this is the items shown on the screen
-    private ArrayList<TableItem> tableItemArrayList; // this contains all the tableItems related to database
 
-    private ObservableList<String> currServingList, consumedServingList;
+    private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
+    private Collection<DiningTableRow> observableCollection; // this is the items shown on the screen
+    private ObservableList<String> currServingList, consumedServingList; // ListView for serving
 
-    public DiningDAOImpl(Collection<TableItem> observableCollection,
-                         Collection<String> currServingList, Collection<String> consumedServingList) {
+    public DiningManagerImp(Collection<DiningTableRow> observableCollection,
+                            Collection<String> currServingList, Collection<String> consumedServingList) {
         this.observableCollection = observableCollection;
         this.currServingList = (ObservableList<String>) currServingList;
         this.consumedServingList = (ObservableList<String>) consumedServingList;
         this.diningArrayList = new ArrayList<>();
-        this.tableItemArrayList = new ArrayList<>();
+        this.diningTableRowArrayList = new ArrayList<>();
     }
-
-//    public DiningDAOImpl(ArrayList<Dining> diningArrayList) {
-//        this.diningArrayList = diningArrayList;
-//    }
 
 
     public boolean addDiningItem(Dining diningItem) {
-        TableItem newItem = new TableItem(diningItem, this);
+        DiningTableRow newItem = new DiningTableRow(diningItem, this);
         observableCollection.add(newItem);     // control the GUI
-        tableItemArrayList.add(newItem);
+        diningTableRowArrayList.add(newItem);
         diningArrayList.add(diningItem);   // control the data model.
         System.out.println(diningArrayList);
         return true;
     }
 
-    public boolean removeDiningItem(TableItem tableItem) {
-        if (!observableCollection.isEmpty()) observableCollection.remove(tableItem);  // control the GUI
-        if (!tableItemArrayList.isEmpty()) tableItemArrayList.remove(tableItem);
-        if (!diningArrayList.isEmpty()) diningArrayList.remove(tableItem.getDiningItem());   // control the data model
+    public boolean removeDiningItem(Dining diningItem) {
+        if (!observableCollection.isEmpty())
+            observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
+        if (!diningTableRowArrayList.isEmpty())
+            diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
+        if (!diningArrayList.isEmpty())
+            diningArrayList.remove(diningItem);   // control the data model
         System.out.println(diningArrayList);
         return true;
     }
 
-    public boolean markConsumed(TableItem tableItem) {
-        // mark consumed in tableItem, that is in the GUI part
-        tableItem.setConsumed(true);
+    public boolean markConsumed(Dining diningItem) {
         // mark consumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(tableItem.getDiningItem());
+        int indexOfItem = diningArrayList.indexOf(diningItem);
         diningArrayList.get(indexOfItem).setConsumed(true);
+        // mark consumed in DiningTableRowArrayList
+        for (DiningTableRow d : diningTableRowArrayList)
+            if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
         System.out.println(diningArrayList);
         return true;
     }
 
-    public boolean markUnConsumed(TableItem tableItem) {
-        // mark unconsumed in tableItem, that is in the GUI part
-        tableItem.setConsumed(false);
+    public boolean markUnConsumed(Dining diningItem) {
         // mark unconsumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(tableItem.getDiningItem());
+        int indexOfItem = diningArrayList.indexOf(diningItem);
         diningArrayList.get(indexOfItem).setConsumed(false);
+        // mark unconsumed in DiningTableRowArrayList
+        for (DiningTableRow d : diningTableRowArrayList)
+            if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
         System.out.println(diningArrayList);
         return true;
     }
 
     public boolean hideConsumed() {
         //if item in observableCollection is consumed, remove it .
-        observableCollection.removeIf(TableItem::isConsumed);
+        observableCollection.removeIf(DiningTableRow::isConsumed);
         return true;
     }
 
     public boolean unHideConsumed() {
-        for (TableItem item : tableItemArrayList) {
+        for (DiningTableRow item : diningTableRowArrayList) {
             if (!observableCollection.contains(item))
                 observableCollection.add(item);
         }
         return true;
     }
 
-
     public boolean updateCurrServing() {
         double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
-        for (TableItem item : observableCollection) {
+        for (DiningTableRow item : observableCollection) {
             totalCalories += item.getCalories();
             totalFat += item.getFat();
             totalSodium += item.getSodium();
@@ -99,7 +97,7 @@ public class DiningDAOImpl implements DiningDAO {
 
     public boolean updateConsumedServing() {
         double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
-        for (TableItem item : tableItemArrayList) {
+        for (DiningTableRow item : diningTableRowArrayList) {
             if (item.isConsumed()) {
                 totalCalories += item.getCalories();
                 totalFat += item.getFat();
@@ -112,6 +110,5 @@ public class DiningDAOImpl implements DiningDAO {
         consumedServingList.set(3, "Sodium :      " + totalSodium);
         consumedServingList.set(4, "Sugar :         " + totalSugar);
         return true;
-
     }
 }
