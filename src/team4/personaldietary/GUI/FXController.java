@@ -28,7 +28,14 @@ import javafx.event.*;
 import team4.personaldietary.bean.*;
 import team4.personaldietary.business.*;
 
-public class FxmlController {
+/**
+ * The <tt>FxmlController</tt> class
+ *
+ * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
+ * @version 28/02/2020
+ */
+public class FXController {
+
     @FXML
     private BorderPane bPane;
     TextField nameField;
@@ -41,7 +48,7 @@ public class FxmlController {
     ComboBox<String> foodGroup;
     private ObservableList<Dining> diningList = FXCollections.observableArrayList();
     private ListView<Dining> listView = new ListView<>(diningList);
-    private DiningDAO diningDAO = new DiningDAOImpl();
+    private DiningManager diningManager = new DiningManager();
     private int[] numItemsInFoodGroup = {0, 0, 0, 0};
 
     //Initializing buttons for food group
@@ -50,6 +57,9 @@ public class FxmlController {
     Button buttonMilk = new Button("Milk and Alternatives");
     Button buttonMeat = new Button("Meat and Alternatives");
 
+    /**
+     * Initialize FX widgets
+     */
     @FXML
     private void initialize() {
         initialLeftPart();
@@ -58,12 +68,16 @@ public class FxmlController {
         initialCenterPart();
     }
 
-    // Initialize the ListView in the center of boarder pane
+    /**
+     * Initialize the ListView in the center of boarder pane
+     */
     private void initialCenterPart() {
         bPane.setCenter(listView);
     }
 
-    // Initialize the Left part of boarder pane
+    /**
+     * Initialize the Left part of boarder pane
+     */
     private void initialLeftPart() {
         BooleanProperty inOutDining = new SimpleBooleanProperty(true);
         GridPane gridPane = new GridPane();
@@ -164,7 +178,6 @@ public class FxmlController {
         //***************************************** End of setting toggle switch ***********************************
 
 
-
         //********************** Event handle for add food item ************************
         // Event handler for add item
         EventHandler<ActionEvent> addEventHandler = new EventHandler<ActionEvent>() {
@@ -175,22 +188,22 @@ public class FxmlController {
                     // if it is indining food item
                     if (inOutDining.get() && validateInput(typeField)) {
                         foodItem = new Indining(nameField.getText(), timeField.getText(),
-                                stringToGroup(foodGroup.getValue()), servingField.getText(),
+                                stringToFoodGroup(foodGroup.getValue()), servingField.getText(),
                                 mealField.getText(), typeField.getText());
                     }
                     // else, add outdining food item
                     else if(!inOutDining.get() && validateInput(retailerField)){
                         foodItem = new Outdining(nameField.getText(), timeField.getText(),
-                                stringToGroup(foodGroup.getValue()), servingField.getText(),
+                                stringToFoodGroup(foodGroup.getValue()), servingField.getText(),
                                 mealField.getText(), retailerField.getText());
                     }
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
-                    diningDAO.addDiningItem(diningList, foodItem);
-                    markFoodGroupAdd(foodItem.getGroup());
+                    diningManager.addDiningItem(diningList, foodItem);
+                    markFoodGroupAdd(foodItem.getFoodGroup());
 
-                   refreshItems();
+                   refresh();
                 }
             }
         };
@@ -221,7 +234,9 @@ public class FxmlController {
         bPane.setLeft(gridPane);
     }
 
-    // Initialize the Right part of boarder pane
+    /**
+     * Initialize the Right part of boarder pane
+     */
     private void initialRightPart() {
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -241,8 +256,9 @@ public class FxmlController {
             public void handle(ActionEvent actionEvent) {
                 if(listView.getItems().size()>0) {
                     Dining foodItem = listView.getSelectionModel().getSelectedItem();
-                    diningDAO.removeDiningItem(diningList, foodItem);
-                    markFoodGroupRemove(foodItem.getGroup());
+                    if(foodItem == null)  return;
+                    diningManager.removeDiningItem(diningList, foodItem);
+                    markFoodGroupRemove(foodItem.getFoodGroup());
                 }
             }
         });
@@ -250,7 +266,9 @@ public class FxmlController {
         bPane.setRight(gridPane);
     }
 
-    // Initialize the Bottom part of boarder pane
+    /**
+     * Initialize the Bottom part of boarder pane
+     */
     private void initialBottomPart() {
         HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
 
@@ -262,7 +280,10 @@ public class FxmlController {
         bPane.setBottom(bottomMenu);
     }
 
-    private void refreshItems(){
+    /**
+     * Refresh all the widgets
+     */
+    private void refresh(){
         // clear the content in left panel after click the add button.
         nameField.clear();
         nameField.setPromptText("");
@@ -281,26 +302,35 @@ public class FxmlController {
         foodGroup.setStyle("-fx-background-color: LIGHTGRAY");
     }
 
-    private Group stringToGroup(String s) {
+    /**
+     * Convert string to FoodGroup
+     * @param s
+     * @return
+     */
+    private FoodGroup stringToFoodGroup(String s) {
         switch (s){
-            case "Grain Products": return Group.grain_products;
-            case "Milk and Alternatives": return Group.milk_and_alternatives;
-            case "Meat and Alternatives": return Group.meat_and_alternatives;
-            case "Vegetables and Fruits": return Group.vegetable_and_fruit;
+            case "Grain Products": return FoodGroup.grain_products;
+            case "Milk and Alternatives": return FoodGroup.milk_and_alternatives;
+            case "Meat and Alternatives": return FoodGroup.meat_and_alternatives;
+            case "Vegetables and Fruits": return FoodGroup.vegetable_and_fruit;
             default: return null;
         }
     }
 
-    private void markFoodGroupAdd(Group group) {
-        if (group == Group.vegetable_and_fruit) {
+    /**
+     * Mark food group add
+     * @param foodGroup
+     */
+    private void markFoodGroupAdd(FoodGroup foodGroup) {
+        if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]++;
             if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
         }
-        else if (group == Group.grain_products) {
+        else if (foodGroup == FoodGroup.grain_products) {
             numItemsInFoodGroup[1]++;
             if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
         }
-        else if (group == Group.milk_and_alternatives) {
+        else if (foodGroup == FoodGroup.milk_and_alternatives) {
             numItemsInFoodGroup[2]++;
             if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
         }
@@ -310,16 +340,20 @@ public class FxmlController {
         }
     }
 
-    private void markFoodGroupRemove(Group group) {
-        if (group == Group.vegetable_and_fruit) {
+    /**
+     * mark food group remove
+     * @param foodGroup
+     */
+    private void markFoodGroupRemove(FoodGroup foodGroup) {
+        if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]--;
             if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle("-fx-background-color: grey");
         }
-        else if (group == Group.grain_products) {
+        else if (foodGroup == FoodGroup.grain_products) {
             numItemsInFoodGroup[1]--;
             if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle("-fx-background-color: grey");
         }
-        else if (group == Group.milk_and_alternatives) {
+        else if (foodGroup == FoodGroup.milk_and_alternatives) {
             numItemsInFoodGroup[2]--;
             if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle("-fx-background-color: grey");
         }
@@ -329,6 +363,11 @@ public class FxmlController {
         }
     }
 
+    /**
+     * Validate user input
+     * @param textField
+     * @return
+     */
     private boolean validateInput(TextField textField){
         if(textField.getText() == null || textField.getText().isEmpty()){
             textField.setPromptText("Invalid input");
@@ -338,6 +377,11 @@ public class FxmlController {
         return true;
     }
 
+    /**
+     * Validate user input
+     * @param comboBox
+     * @return
+     */
     private boolean validateInput(ComboBox<String> comboBox){
         if(comboBox.getValue() == null ){
             comboBox.setStyle("-fx-background-color: red");
