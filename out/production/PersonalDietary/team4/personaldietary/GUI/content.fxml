@@ -9,5 +9,5 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.Pane?>
-<BorderPane fx:id="bPane" xmlns:fx="http://javafx.com/fxml" fx:controller="team4.personaldietary.GUI.FxmlController">
+<BorderPane fx:id="bPane" xmlns:fx="http://javafx.com/fxml" fx:controller="team4.personaldietary.GUI.FXController">
 </BorderPane>
