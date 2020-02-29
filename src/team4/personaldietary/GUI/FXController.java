@@ -29,7 +29,7 @@ import team4.personaldietary.business.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class FxmlController {
+public class FXController {
     @FXML private BorderPane bPane;
 
     // For left part
