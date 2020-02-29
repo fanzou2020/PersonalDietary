@@ -48,7 +48,7 @@ public class FXController {
     ComboBox<String> foodGroup;
     private ObservableList<Dining> diningList = FXCollections.observableArrayList();
     private ListView<Dining> listView = new ListView<>(diningList);
-    private DiningManager diningManager = new DiningManager();
+    private DiningManager diningManager = new DiningManager(diningList);
     private int[] numItemsInFoodGroup = {0, 0, 0, 0};
 
     //Initializing buttons for food group
@@ -200,7 +200,7 @@ public class FXController {
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
-                    diningManager.addDiningItem(diningList, foodItem);
+                    diningManager.addDiningItem(foodItem);
                     markFoodGroupAdd(foodItem.getFoodGroup());
 
                     refresh();
@@ -257,7 +257,7 @@ public class FXController {
                 if(listView.getItems().size()>0) {
                     Dining foodItem = listView.getSelectionModel().getSelectedItem();
                     if(foodItem == null)  return;
-                    diningManager.removeDiningItem(diningList, foodItem);
+                    diningManager.removeDiningItem(foodItem);
                     markFoodGroupRemove(foodItem.getFoodGroup());
                 }
             }
