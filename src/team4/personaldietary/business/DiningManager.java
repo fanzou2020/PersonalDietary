@@ -13,35 +13,35 @@ import java.util.Collection;
  */
 public class DiningManager  {
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
+    private Collection<Dining> diningCollection;
 
     /**
      * Constructor
      */
-    public DiningManager(){
+    public DiningManager(Collection<Dining> diningCollection){
         this.diningArrayList = new ArrayList<>();
+        this.diningCollection = diningCollection;
     }
 
     /**
      * Add Dining Item
-     * @param diningCollection
      * @param diningItem
      * @return
      */
-    public boolean addDiningItem(Collection<Dining> diningCollection, Dining diningItem) {
+    public boolean addDiningItem(Dining diningItem) {
         diningCollection.add(diningItem);  // control the GUI
-        this.diningArrayList.add(diningItem);   // control the data model.
+        diningArrayList.add(diningItem);   // control the data model.
         return true;
     }
 
     /**
      * Remove Dining Item
-     * @param diningCollection
      * @param diningItem
      * @return
      */
-    public boolean removeDiningItem(Collection<Dining> diningCollection, Dining diningItem) {
+    public boolean removeDiningItem(Dining diningItem) {
         diningCollection.remove(diningItem);  // control the GUI
-        this.diningArrayList.remove(diningItem);   // control the data model
+        diningArrayList.remove(diningItem);   // control the data model
         return true;
     }
 }
