@@ -203,7 +203,7 @@ public class FXController {
                     diningManager.addDiningItem(diningList, foodItem);
                     markFoodGroupAdd(foodItem.getFoodGroup());
 
-                   refresh();
+                    refresh();
                 }
             }
         };
@@ -299,7 +299,7 @@ public class FXController {
         typeField.setPromptText("");
         foodGroup.getSelectionModel().clearSelection();
         foodGroup.setPromptText("What group does it belong?");
-        foodGroup.setStyle("-fx-background-color: LIGHTGRAY");
+        foodGroup.setStyle(null);
     }
 
     /**
@@ -347,19 +347,19 @@ public class FXController {
     private void markFoodGroupRemove(FoodGroup foodGroup) {
         if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]--;
-            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle("-fx-background-color: grey");
+            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle(null);
         }
         else if (foodGroup == FoodGroup.grain_products) {
             numItemsInFoodGroup[1]--;
-            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle("-fx-background-color: grey");
+            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle(null);
         }
         else if (foodGroup == FoodGroup.milk_and_alternatives) {
             numItemsInFoodGroup[2]--;
-            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle("-fx-background-color: grey");
+            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle(null);
         }
         else {
             numItemsInFoodGroup[3]--;
-            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle("-fx-background-color: grey");
+            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle(null);
         }
     }
 
