@@ -12,6 +12,7 @@ import java.util.Collection;
  * @version 28/02/2020
  */
 public class DiningManager  {
+
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
     private Collection<Dining> diningCollection;
 
@@ -43,5 +44,9 @@ public class DiningManager  {
         diningCollection.remove(diningItem);  // control the GUI
         diningArrayList.remove(diningItem);   // control the data model
         return true;
+    }
+
+    public ArrayList<Dining> getDiningArrayList() {
+        return diningArrayList;
     }
 }
