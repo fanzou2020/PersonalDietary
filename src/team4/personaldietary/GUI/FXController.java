@@ -29,6 +29,12 @@ import team4.personaldietary.business.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * The <tt>FXController</tt> class
+ *
+ * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
+ * @version 11/3/2020
+ */
 public class FXController {
     @FXML private BorderPane bPane;
 
@@ -65,8 +71,11 @@ public class FXController {
     private Button buttonMeat = new Button("Meat and Alternatives");
 
     // Business layer controller
-    private DiningManagerImp diningManagerImp = new DiningManagerImp(diningList, currServingList, consumedServingList);
+    private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
 
+    /**
+     * initialize widgets
+     */
     @FXML
     private void initialize() {
         initialLeftPart();
@@ -75,7 +84,9 @@ public class FXController {
         initialCenterPart();
     }
 
-    // Initialize the ListView in the center of boarder pane
+    /**
+     * Initialize the ListView in the center of boarder pane
+     */
     private void initialCenterPart() {
         TableColumn<DiningTableRow, CheckBox> selectCol = new TableColumn<>("Consumed");
         selectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
@@ -132,7 +143,9 @@ public class FXController {
         bPane.setCenter(table);
     }
 
-    // Initialize the Left part of boarder pane
+    /**
+     * Initialize the Left part of boarder pane
+     */
     private void initialLeftPart() {
         BooleanProperty inOutDining = new SimpleBooleanProperty(true);
         GridPane gridPane = new GridPane();
@@ -273,10 +286,10 @@ public class FXController {
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
-                    diningManagerImp.addDiningItem(foodItem);
+                    diningManager.addDiningItem(foodItem);
                     markFoodGroupAdd(foodItem.getFoodGroup());
-                    diningManagerImp.updateCurrServing();
-                    diningManagerImp.updateConsumedServing();
+                    diningManager.updateCurrServing();
+                    diningManager.updateConsumedServing();
                     refreshItems();
                 }
             }
@@ -318,7 +331,9 @@ public class FXController {
         bPane.setLeft(gridPane);
     }
 
-    // Initialize the Right part of boarder pane
+    /**
+     * Initialize the Right part of boarder pane
+     */
     private void initialRightPart() {
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -342,10 +357,10 @@ public class FXController {
                 if(table.getItems().size()>0) {
                     DiningTableRow selectedItem = table.getSelectionModel().getSelectedItem();
                     if(selectedItem == null ) return;
-                    diningManagerImp.removeDiningItem(selectedItem.getDiningItem());
+                    diningManager.removeDiningItem(selectedItem.getDiningItem());
                     markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
-                    diningManagerImp.updateCurrServing();
-                    diningManagerImp.updateConsumedServing();
+                    diningManager.updateCurrServing();
+                    diningManager.updateConsumedServing();
                 }
             }
         });
@@ -358,17 +373,17 @@ public class FXController {
             public void handle(ActionEvent actionEvent) {
                 // hide consumed is true, click this button to unhide
                 if (hideConsumed) {
-                    diningManagerImp.unHideConsumed();
+                    diningManager.unHideConsumed();
                     hideConsumed = false;
                 }
 
                 // hide consumed is false, click this button to hide
                 else {
-                    diningManagerImp.hideConsumed();
+                    diningManager.hideConsumed();
                     hideConsumed = true;
                 }
-                diningManagerImp.updateCurrServing();
-                diningManagerImp.updateConsumedServing();
+                diningManager.updateCurrServing();
+                diningManager.updateConsumedServing();
             }
         });
         // *********** end of Hide/Unhide consumed food *****************************************
@@ -393,7 +408,9 @@ public class FXController {
         bPane.setRight(gridPane);
     }
 
-    // Initialize the Bottom part of boarder pane
+    /**
+     * Initialize the Bottom part of boarder pane
+     */
     private void initialBottomPart() {
         HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
 
@@ -405,6 +422,9 @@ public class FXController {
         bPane.setBottom(bottomMenu);
     }
 
+    /**
+     * refresh items
+     */
     private void refreshItems(){
         // clear the content in left panel after click the add button.
         nameField.clear();
@@ -428,6 +448,10 @@ public class FXController {
         sodiumField.clear();
     }
 
+    /**
+     * @param s
+     * @return
+     */
     private FoodGroup stringToGroup(String s) {
         switch (s){
             case "Grain Products": return FoodGroup.grain_products;
@@ -438,6 +462,9 @@ public class FXController {
         }
     }
 
+    /**
+     * @param foodGroup
+     */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
         if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]++;
@@ -457,6 +484,9 @@ public class FXController {
         }
     }
 
+    /**
+     * @param foodGroup
+     */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
         if (foodGroup == FoodGroup.vegetable_and_fruit) {
             numItemsInFoodGroup[0]--;
@@ -476,6 +506,11 @@ public class FXController {
         }
     }
 
+    /**
+     * validate input
+     * @param textField
+     * @return
+     */
     private boolean validateInput(TextField textField){
         if(textField.getText() == null || textField.getText().isEmpty()){
             textField.setPromptText("Invalid input");
@@ -485,6 +520,11 @@ public class FXController {
         return true;
     }
 
+    /**
+     * validate input
+     * @param comboBox
+     * @return
+     */
     private boolean validateInput(ComboBox<String> comboBox){
         if(comboBox.getValue() == null ){
             comboBox.setStyle("-fx-background-color: red");
@@ -494,6 +534,11 @@ public class FXController {
         return true;
     }
 
+    /**
+     * validate input
+     * @param datePicker
+     * @return
+     */
     private boolean validateInput(DatePicker datePicker) {
         if (datePicker.getValue() == null) {
             datePicker.setPromptText("Choose a date");
@@ -503,6 +548,10 @@ public class FXController {
         return true;
     }
 
+    /**
+     * validate input serving
+     * @return
+     */
     private boolean validateInputServing() {
         boolean b = validateInput(amountField) && validateInput(caloriesField) && validateInput(fatField)
                 && validateInput(sodiumField) && validateInput(sugarField);
@@ -544,10 +593,19 @@ public class FXController {
         return b;
     }
 
+    /**
+     * validate input indining
+     * @return
+     */
     private boolean validateInputIndining() {
         return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
                 validateInput(mealField) && validateInput(typeField) && validateInputServing();
     }
+
+    /**
+     * validate input outdining
+     * @return
+     */
     private boolean validateInputOutdining() {
         return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
                 validateInput(mealField) && validateInput(retailerField) && validateInputServing();

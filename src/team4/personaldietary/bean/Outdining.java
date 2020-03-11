@@ -13,6 +13,9 @@ public class Outdining extends Dining {
 
     private String retailer;
 
+    public  Outdining(){
+        this("",LocalDateTime.now(),FoodGroup.grain_products,new Serving(),"","");
+    }
     /**
      * Constructor extends Dining class
      * @param name
@@ -25,7 +28,7 @@ public class Outdining extends Dining {
     public Outdining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
                      String meal, String retailer) {
         super(name, time, foodGroup, serving, meal);
-        this.retailer = retailer;
+        setRetailer(retailer);
     }
 
     /**

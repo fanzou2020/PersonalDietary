@@ -13,6 +13,9 @@ public class Indining extends Dining {
 
     private String type;
 
+    public  Indining(){
+        this("",LocalDateTime.now(),FoodGroup.grain_products,new Serving(),"","");
+    }
     /**
      * Constructor extends Dining class
      * @param name
@@ -25,7 +28,7 @@ public class Indining extends Dining {
     public Indining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
                     String meal, String type) {
         super(name, time, foodGroup, serving, meal);
-        this.type = type;
+        setType(type);
     }
 
     /**

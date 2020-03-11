@@ -1,14 +1,9 @@
 package team4.personaldietary.persistence;
-import team4.personaldietary.bean.Dining;
-
+/**
+ * The <tt>DiningDAO</tt> interface
+ *
+ * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
+ * @version 11/3/2020
+ */
 public interface DiningDAO {
-
-    boolean addDiningItem(Dining diningItem);
-
-    boolean removeDiningItem(Dining diningItem);
-
-    boolean markConsumed(Dining diningItem);
-
-    boolean markUnConsumed(Dining diningItem);
-
 }

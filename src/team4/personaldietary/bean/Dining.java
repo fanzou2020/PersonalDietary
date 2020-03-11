@@ -17,12 +17,12 @@ public abstract class Dining {
     private boolean consumed;
 
     public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, String meal) {
-        this.name = name;
-        this.time = time;
-        this.foodGroup = foodGroup;
-        this.serving = serving;
-        this.meal = meal;
-        this.consumed = false;
+        setName(name);
+        setTime(time);
+        setFoodGroup(foodGroup);
+        setServing(serving);
+        setMeal(meal);
+        setConsumed(false);
     }
 
     /**
