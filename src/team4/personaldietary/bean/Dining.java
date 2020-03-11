@@ -1,33 +1,28 @@
 package team4.personaldietary.bean;
+import java.time.LocalDateTime;
 
 /**
  * The <tt>Dining</tt> bean class
  *
  * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
- * @version 28/02/2020
+ * @version 11/3/2020
  */
-public class Dining {
+public abstract class Dining {
 
     private String name;
-    private String time;
+    private LocalDateTime time;
     private FoodGroup foodGroup;
-    private String serving;
+    private Serving serving;
     private String meal;
+    private boolean consumed;
 
-    /**
-     * Constructor
-     * @param name
-     * @param time
-     * @param foodGroup
-     * @param serving
-     * @param meal
-     */
-    public Dining(String name, String time, FoodGroup foodGroup, String serving, String meal) {
+    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, String meal) {
         this.name = name;
         this.time = time;
         this.foodGroup = foodGroup;
         this.serving = serving;
         this.meal = meal;
+        this.consumed = false;
     }
 
     /**
@@ -45,48 +40,27 @@ public class Dining {
         this.name = name;
     }
 
-    /**
-     * @return a string of time
-     */
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    /**
-     * set time
-     * @param time
-     */
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    /**
-     * @return a FoodGroup object
-     */
     public FoodGroup getFoodGroup() {
         return foodGroup;
     }
 
-    /**
-     * set FoodGroup
-     * @param foodGroup
-     */
     public void setFoodGroup(FoodGroup foodGroup) {
         this.foodGroup = foodGroup;
     }
 
-    /**
-     * @return a string of serving
-     */
-    public String getServing() {
+    public Serving getServing() {
         return serving;
     }
 
-    /**
-     * set serving
-     * @param serving
-     */
-    public void setServing(String serving) {
+    public void setServing(Serving serving) {
         this.serving = serving;
     }
 
@@ -103,5 +77,13 @@ public class Dining {
      */
     public void setMeal(String meal) {
         this.meal = meal;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
     }
 }

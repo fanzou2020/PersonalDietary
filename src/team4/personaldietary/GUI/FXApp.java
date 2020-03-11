@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  * The <tt>FXApp</tt> class
  *
  * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
- * @version 28/02/2020
+ * @version 11/3/2020
  */
 public class FXApp extends Application {
     /**
@@ -21,7 +21,7 @@ public class FXApp extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("content.fxml"));
         BorderPane root = loader.load();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1800, 1000);
         primaryStage.setTitle("Personal Dietary Manager");
         primaryStage.setScene(scene);
         primaryStage.show();
