@@ -26,6 +26,9 @@ class DiningManagerTest {
 
     @Test
     void DiningManager() {
+        DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
+
+        assertEquals(testObservableCollection, manager.get);
     }
 
     @Test
@@ -36,7 +39,7 @@ class DiningManagerTest {
     }
 
     @Test
-    void addDiningItem() {
+    void addDiningItemDataModel() {
 
         DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
 
@@ -46,15 +49,17 @@ class DiningManagerTest {
         Dining a = new Indining("1", time, group, serving, "1", "1");
         Dining b = new Outdining("1", time, group, serving, "1", "1");
 
-        manager.addDiningItem(null);
-        manager.addDiningItem(a);
+        manager.addDiningItemDataModel(a);
+        manager.addDiningItemDataModel(b);
 
         assertEquals(manager.getDiningArrayList().get(0), a, "testing addDiningItem()");
         assertEquals(manager.getDiningArrayList().get(1), b, "testing addDiningItem()");
     }
 
     @Test
-    void removeDiningItem() {
+    void removeDiningItemDataModel() {
+
+        DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
 
         LocalDateTime time = LocalDateTime.now();
         FoodGroup group = FoodGroup.grain_products;
@@ -62,11 +67,15 @@ class DiningManagerTest {
         Dining a = new Indining("1", time, group, serving, "1", "1");
         Dining b = new Outdining("1", time, group, serving, "1", "1");
 
-        testDiningArrayList.add(a);
-        testDiningArrayList.add(b);
-
-        //.re
-
+        assertEquals(0, manager.getDiningArrayList().size(), "testing remove dining item");
+        manager.addDiningItemDataModel(a);
+        manager.addDiningItemDataModel(b);
+        assertEquals(2, manager.getDiningArrayList().size(), "testing remove dining item");
+        manager.removeDiningItemDataModel(a);
+        manager.removeDiningItemDataModel(b);
+        assertEquals(0, manager.getDiningArrayList().size(), "testing remove dining item");
+        manager.removeDiningItemDataModel(a);
+        assertEquals(0, manager.getDiningArrayList().size(), "testing remove dining item");
     }
 
     @Test

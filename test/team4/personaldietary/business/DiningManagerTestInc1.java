@@ -49,6 +49,7 @@ class DiningManagerTestInc1 {
 
     @org.junit.jupiter.api.Test
     void removeDiningItem() {
+
         diningManager.addDiningItem(diningItem1);
         diningManager.removeDiningItem(diningItem1);
 

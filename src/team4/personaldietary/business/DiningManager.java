@@ -9,7 +9,6 @@ import java.util.Collection;
 
 public class DiningManager {
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
-
     private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
     private Collection<DiningTableRow> observableCollection; // this is the items shown on the screen
     private ObservableList<String> currServingList, consumedServingList; // ListView for serving
@@ -22,9 +21,19 @@ public class DiningManager {
         this.diningArrayList = new ArrayList<>();
         this.diningTableRowArrayList = new ArrayList<>();
     }
-
     public ArrayList<Dining> getDiningArrayList() {
         return diningArrayList;
+    }
+    public Collection<DiningTableRow> getObservableCollection() {
+        return observableCollection;
+    }
+
+    public ObservableList<String> getCurrServingList() {
+        return currServingList;
+    }
+
+    public ObservableList<String> getConsumedServingList() {
+        return consumedServingList;
     }
 
     public boolean addDiningItem(Dining diningItem) {
@@ -37,7 +46,6 @@ public class DiningManager {
 
     public boolean addDiningItemDataModel(Dining diningItem) {
         diningArrayList.add(diningItem);   // control the data model.
-        System.out.println(diningArrayList);
         return true;
     }
 
@@ -47,7 +55,6 @@ public class DiningManager {
         if (!diningTableRowArrayList.isEmpty())
             diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
         removeDiningItemDataModel(diningItem);
-        System.out.println(diningArrayList);
         return true;
     }
 
