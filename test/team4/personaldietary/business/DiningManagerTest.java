@@ -1,38 +1,57 @@
 package team4.personaldietary.business;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.junit.jupiter.api.BeforeEach;
+import team4.personaldietary.GUI.DiningTableRow;
 import team4.personaldietary.bean.Dining;
+import team4.personaldietary.bean.Indining;
+import team4.personaldietary.bean.Outdining;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 class DiningManagerTest {
 
     ArrayList<Dining> expected = new ArrayList<>();
-    Collection<team4.personaldietary.bean.Dining> diningCollection = new ArrayList<Dining>();
-    private DiningManager manager = new DiningManager(diningCollection);
+    private ObservableList<String> currServingList;
+    private ObservableList<String> consumedServingList;
+
+    private ObservableList<DiningTableRow> diningList;
+
+    private DiningManager diningManager;
 
 
     Dining diningItem1;
     Dining diningItem2;
     Dining diningItem3;
 
+    @BeforeEach
+    void setUp() {
+        diningItem1 = new Indining();
+        diningItem2 = new Outdining();
+        diningItem3 = new Indining();
+        diningList = FXCollections.observableArrayList();
+        consumedServingList = FXCollections.observableArrayList();
+        currServingList = FXCollections.observableArrayList();
+        diningManager = new DiningManager(diningList, currServingList, consumedServingList);
+    }
+
     @org.junit.jupiter.api.Test
     void addDiningItem() {
 
-        manager.addDiningItem(diningItem1);
-        manager.addDiningItem(diningItem2);
-        manager.addDiningItem(diningItem3);
+        diningManager.addDiningItem(diningItem1);
+        diningManager.addDiningItem(diningItem2);
+        diningManager.addDiningItem(diningItem3);
 
-        assertEquals(3, manager.getDiningArrayList().size());
+        assertEquals(3, diningManager.getDiningArrayList().size());
     }
 
     @org.junit.jupiter.api.Test
     void removeDiningItem() {
-        manager.addDiningItem(diningItem1);
-        manager.removeDiningItem(diningItem1);
+        diningManager.addDiningItem(diningItem1);
+        diningManager.removeDiningItem(diningItem1);
 
-        assertEquals(0, manager.getDiningArrayList().size());
+        assertEquals(0, diningManager.getDiningArrayList().size());
     }
 }

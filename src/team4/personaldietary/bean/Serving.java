@@ -1,7 +1,12 @@
 package team4.personaldietary.bean;
 
 import java.util.Objects;
-
+/**
+ * The <tt>Serving</tt> bean class
+ *
+ * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
+ * @version 11/3/2020
+ */
 public class Serving {
     private String amount;
     private double calories;
@@ -9,6 +14,14 @@ public class Serving {
     private double sodium;
     private double sugar;
 
+    public Serving(){}
+    /**
+     * @param amount
+     * @param calories
+     * @param fat
+     * @param sodium
+     * @param sugar
+     */
     public Serving(String amount, double calories, double fat, double sodium, double sugar) {
         this.amount = amount;
         this.calories = calories;
@@ -17,46 +30,85 @@ public class Serving {
         this.sugar = sugar;
     }
 
+    /**
+     * @return a string of amount
+     */
     public String getAmount() {
         return amount;
     }
 
+    /**
+     * set amount
+     * @param amount
+     */
     public void setAmount(String amount) {
         this.amount = amount;
     }
 
+    /**
+     * @return calories value
+     */
     public double getCalories() {
         return calories;
     }
 
+    /**
+     * set calories
+     * @param calories
+     */
     public void setCalories(double calories) {
         this.calories = calories;
     }
 
+    /**
+     * @return fat value
+     */
     public double getFat() {
         return fat;
     }
 
+    /**
+     * set fat
+     * @param fat
+     */
     public void setFat(double fat) {
         this.fat = fat;
     }
 
+    /**
+     * @return sodium
+     */
     public double getSodium() {
         return sodium;
     }
 
+    /**
+     * set sodium
+     * @param sodium
+     */
     public void setSodium(double sodium) {
         this.sodium = sodium;
     }
 
+    /**
+     * @return sugar
+     */
     public double getSugar() {
         return sugar;
     }
 
+    /**
+     * set sugar
+     * @param sugar
+     */
     public void setSugar(double sugar) {
         this.sugar = sugar;
     }
 
+    /**
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,11 +121,17 @@ public class Serving {
                 Objects.equals(amount, serving.amount);
     }
 
+    /**
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(amount, calories, fat, sodium, sugar);
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         return "Serving{" +
