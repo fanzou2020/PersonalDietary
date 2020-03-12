@@ -28,7 +28,9 @@ class DiningManagerTest {
     void DiningManager() {
         DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
 
-        assertEquals(testObservableCollection, manager.get);
+        assertEquals(testObservableCollection, manager.getObservableCollection(), "Testing constructor");
+        assertEquals(testCurrServingList, manager.getCurrServingList(), "Testing constructor");
+        assertEquals(testConsumedServingList, manager.getConsumedServingList(), "Testing constructor");
     }
 
     @Test
@@ -79,26 +81,32 @@ class DiningManagerTest {
     }
 
     @Test
-    void markConsumed() {
+    void markConsumedDataModel() {
+        DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
+
+        LocalDateTime time = LocalDateTime.now();
+        FoodGroup group = FoodGroup.grain_products;
+        Serving serving = new Serving("a", 1.0, 1.0, 1.0, 1.0);
+        Dining a = new Indining("1", time, group, serving, "1", "1");
+        manager.addDiningItemDataModel(a);
+        assertEquals(false, manager.getDiningArrayList().get(0).isConsumed(), "Testing markConsumedDataModel()");
+        manager.markConsumed(a);
+        assertEquals(true, manager.getDiningArrayList().get(0).isConsumed(), "Testing markConsumedDataModel()");
     }
 
     @Test
     void markUnConsumed() {
-    }
+        DiningManager manager = new DiningManager(testObservableCollection, testCurrServingList, testConsumedServingList);
 
-    @Test
-    void hideConsumed() {
-    }
-
-    @Test
-    void unHideConsumed() {
-    }
-
-    @Test
-    void updateCurrServing() {
-    }
-
-    @Test
-    void updateConsumedServing() {
+        LocalDateTime time = LocalDateTime.now();
+        FoodGroup group = FoodGroup.grain_products;
+        Serving serving = new Serving("a", 1.0, 1.0, 1.0, 1.0);
+        Dining a = new Indining("1", time, group, serving, "1", "1");
+        manager.addDiningItemDataModel(a);
+        assertEquals(false, manager.getDiningArrayList().get(0).isConsumed(), "Testing markConsumedDataModel()");
+        manager.markConsumed(a);
+        assertEquals(true, manager.getDiningArrayList().get(0).isConsumed(), "Testing markConsumedDataModel()");
+        manager.markUnConsumed(a);
+        assertEquals(false, manager.getDiningArrayList().get(0).isConsumed(), "Testing markConsumedDataModel()");
     }
 }
