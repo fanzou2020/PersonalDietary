@@ -7,25 +7,13 @@ import team4.personaldietary.bean.Dining;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * The <tt>DiningManager</tt> class
- *
- * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
- * @version 11/3/2020
- */
 public class DiningManager {
-
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
 
     private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
     private Collection<DiningTableRow> observableCollection; // this is the items shown on the screen
     private ObservableList<String> currServingList, consumedServingList; // ListView for serving
 
-    /**
-     * @param observableCollection
-     * @param currServingList
-     * @param consumedServingList
-     */
     public DiningManager(Collection<DiningTableRow> observableCollection,
                          Collection<String> currServingList, Collection<String> consumedServingList) {
         this.observableCollection = observableCollection;
@@ -35,88 +23,78 @@ public class DiningManager {
         this.diningTableRowArrayList = new ArrayList<>();
     }
 
-    /**
-     * @return list of dining
-     */
     public ArrayList<Dining> getDiningArrayList() {
         return diningArrayList;
     }
 
-    /**
-     * Add Dining Item
-     * @param diningItem
-     * @return
-     */
     public boolean addDiningItem(Dining diningItem) {
         DiningTableRow newItem = new DiningTableRow(diningItem, this);
         observableCollection.add(newItem);     // control the GUI
         diningTableRowArrayList.add(newItem);
+        addDiningItemDataModel(diningItem);
+        return true;
+    }
+
+    public boolean addDiningItemDataModel(Dining diningItem) {
         diningArrayList.add(diningItem);   // control the data model.
         System.out.println(diningArrayList);
         return true;
     }
-    /**
-     * Remove Dining Item
-     * @param diningItem
-     * @return
-     */
+
     public boolean removeDiningItem(Dining diningItem) {
         if (!observableCollection.isEmpty())
             observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
         if (!diningTableRowArrayList.isEmpty())
             diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
-        if (!diningArrayList.isEmpty())
-            diningArrayList.remove(diningItem);   // control the data model
+        removeDiningItemDataModel(diningItem);
         System.out.println(diningArrayList);
         return true;
     }
 
-    /**
-     * mark consumed
-     * @param diningItem
-     * @return
-     */
+    public boolean removeDiningItemDataModel(Dining diningItem) {
+        if (!diningArrayList.isEmpty())
+            diningArrayList.remove(diningItem);   // control the data model
+        return true;
+    }
+
     public boolean markConsumed(Dining diningItem) {
-        // mark consumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(true);
         // mark consumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
             if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
         System.out.println(diningArrayList);
+        markConsumedDataModel(diningItem);
         return true;
     }
 
-    /**
-     * mark unconsumed
-     * @param diningItem
-     * @return
-     */
-    public boolean markUnConsumed(Dining diningItem) {
-        // mark unconsumed in arraylist, in data model.
+    public boolean markConsumedDataModel(Dining diningItem) {
+        // mark consumed in arraylist, in data model.
         int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(false);
+        diningArrayList.get(indexOfItem).setConsumed(true);
+        return true;
+    }
+
+    public boolean markUnConsumed(Dining diningItem) {
         // mark unconsumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
             if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
         System.out.println(diningArrayList);
+        markUnConsumedDataModel(diningItem);
         return true;
     }
 
-    /**
-     * hide consumed
-     * @return
-     */
+    public boolean markUnConsumedDataModel(Dining diningItem) {
+        // mark unconsumed in arraylist, in data model.
+        int indexOfItem = diningArrayList.indexOf(diningItem);
+        diningArrayList.get(indexOfItem).setConsumed(false);
+        return false;
+    }
+
     public boolean hideConsumed() {
         //if item in observableCollection is consumed, remove it .
         observableCollection.removeIf(DiningTableRow::isConsumed);
         return true;
     }
 
-    /**
-     * show consumed
-     * @return
-     */
     public boolean unHideConsumed() {
         for (DiningTableRow item : diningTableRowArrayList) {
             if (!observableCollection.contains(item))
@@ -125,10 +103,6 @@ public class DiningManager {
         return true;
     }
 
-    /**
-     * update current serving
-     * @return
-     */
     public boolean updateCurrServing() {
         double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
         for (DiningTableRow item : observableCollection) {
@@ -144,10 +118,6 @@ public class DiningManager {
         return true;
     }
 
-    /**
-     * update consumed serving
-     * @return
-     */
     public boolean updateConsumedServing() {
         double totalCalories = 0, totalFat = 0, totalSodium = 0, totalSugar = 0;
         for (DiningTableRow item : diningTableRowArrayList) {

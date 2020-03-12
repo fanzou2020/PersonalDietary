@@ -2,56 +2,31 @@ package team4.personaldietary.business;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import team4.personaldietary.GUI.DiningTableRow;
-import team4.personaldietary.bean.Dining;
+import team4.personaldietary.bean.FoodGroup;
 import team4.personaldietary.bean.Indining;
-import team4.personaldietary.bean.Outdining;
+import team4.personaldietary.bean.Serving;
 
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 class DiningManagerTest {
 
-    ArrayList<Dining> expected = new ArrayList<>();
-    private ObservableList<String> currServingList;
-    private ObservableList<String> consumedServingList;
-
-    private ObservableList<DiningTableRow> diningList;
-
-    private DiningManager diningManager;
-
-
-    Dining diningItem1;
-    Dining diningItem2;
-    Dining diningItem3;
-
-    @BeforeEach
-    void setUp() {
-        diningItem1 = new Indining();
-        diningItem2 = new Outdining();
-        diningItem3 = new Indining();
-        diningList = FXCollections.observableArrayList();
-        consumedServingList = FXCollections.observableArrayList();
-        currServingList = FXCollections.observableArrayList();
-        diningManager = new DiningManager(diningList, currServingList, consumedServingList);
-    }
-
-    @org.junit.jupiter.api.Test
+    @Test
     void addDiningItem() {
+        ObservableList<DiningTableRow> observableCollection = FXCollections.observableArrayList();
+        ObservableList<String> currServingList = FXCollections.observableArrayList();
+        ObservableList<String> consumedServingList = FXCollections.observableArrayList();
 
-        diningManager.addDiningItem(diningItem1);
-        diningManager.addDiningItem(diningItem2);
-        diningManager.addDiningItem(diningItem3);
-
-        assertEquals(3, diningManager.getDiningArrayList().size());
-    }
-
-    @org.junit.jupiter.api.Test
-    void removeDiningItem() {
-        diningManager.addDiningItem(diningItem1);
-        diningManager.removeDiningItem(diningItem1);
-
-        assertEquals(0, diningManager.getDiningArrayList().size());
+        DiningManager diningManager = new DiningManager(observableCollection, currServingList, consumedServingList);
+        LocalDateTime time = LocalDateTime.now();
+        FoodGroup group = FoodGroup.grain_products;
+        Serving serving = new Serving("a", 1.0, 1.0, 1.0, 1.0);
+        Indining item = new Indining("name1", time, group, serving, "meal1", "type1");
+        diningManager.addDiningItemDataModel(item);
+        assertEquals(diningManager.getDiningArrayList().size(), 1, "test add");
     }
 }
