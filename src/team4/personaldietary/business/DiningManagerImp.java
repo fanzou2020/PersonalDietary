@@ -23,11 +23,19 @@ public class DiningManagerImp {
         this.diningTableRowArrayList = new ArrayList<>();
     }
 
+    public ArrayList<Dining> getDiningArrayList() {
+        return diningArrayList;
+    }
 
     public boolean addDiningItem(Dining diningItem) {
         DiningTableRow newItem = new DiningTableRow(diningItem, this);
         observableCollection.add(newItem);     // control the GUI
         diningTableRowArrayList.add(newItem);
+        addDiningItemDataModel(diningItem);
+        return true;
+    }
+
+    public boolean addDiningItemDataModel(Dining diningItem) {
         diningArrayList.add(diningItem);   // control the data model.
         System.out.println(diningArrayList);
         return true;
@@ -38,32 +46,47 @@ public class DiningManagerImp {
             observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
         if (!diningTableRowArrayList.isEmpty())
             diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
+        removeDiningItemDataModel(diningItem);
+        System.out.println(diningArrayList);
+        return true;
+    }
+
+    public boolean removeDiningItemDataModel(Dining diningItem) {
         if (!diningArrayList.isEmpty())
             diningArrayList.remove(diningItem);   // control the data model
-        System.out.println(diningArrayList);
         return true;
     }
 
     public boolean markConsumed(Dining diningItem) {
-        // mark consumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(true);
         // mark consumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
             if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
         System.out.println(diningArrayList);
+        markConsumedDataModel(diningItem);
+        return true;
+    }
+
+    public boolean markConsumedDataModel(Dining diningItem) {
+        // mark consumed in arraylist, in data model.
+        int indexOfItem = diningArrayList.indexOf(diningItem);
+        diningArrayList.get(indexOfItem).setConsumed(true);
         return true;
     }
 
     public boolean markUnConsumed(Dining diningItem) {
-        // mark unconsumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(false);
         // mark unconsumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
             if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
         System.out.println(diningArrayList);
+        markUnConsumedDataModel(diningItem);
         return true;
+    }
+
+    public boolean markUnConsumedDataModel(Dining diningItem) {
+        // mark unconsumed in arraylist, in data model.
+        int indexOfItem = diningArrayList.indexOf(diningItem);
+        diningArrayList.get(indexOfItem).setConsumed(false);
+        return false;
     }
 
     public boolean hideConsumed() {
