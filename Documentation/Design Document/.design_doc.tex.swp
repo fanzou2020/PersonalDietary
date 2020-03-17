@@ -83,10 +83,14 @@ In order to provide proper design documentation for the Personal Dietary Applica
 \end{tabular}
 
 \section{References}
-https://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg
+https://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg \\
+http://users.encs.concordia.ca/~paquet/wiki/images/e/ee/Phase2final.pdf
 \section{Overview}
+The rest of the document is composed of two main sections. First, there is a section dedication to Architectural Design. Lastly, the largest section, consists of Software Interface Design. In the portion concerning the software architecture the three smaller sections are related to the reasoning for choosing the architecture, a diagram illustrating how the architecture behaves abstractly, and the final section details how software files will operate together on the computer. \\
+The interface section will provide documentation regarding the system, modules, and dynamic interfaces for the software project.
 \chapter{Architectural Design}
 \section{Rationale}
+
 \section{Software Architecture Diagram}
 \section{System Topology}
 \chapter{Software Interface Design}
