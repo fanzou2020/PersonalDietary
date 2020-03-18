@@ -5,7 +5,7 @@
 \usepackage{listings}
 \usepackage{underscore}
 \usepackage[bookmarks=true]{hyperref}
-\usepackage[section]{placeins}
+\usepackage{placeins}
 \hypersetup{
     bookmarks=false,    % show bookmarks bar?
     pdftitle={Software Requirement Specification},    % title
@@ -152,14 +152,66 @@ User will interact with the computer using the user interface. We tried to make 
 
 \section{Dynamic Models of System Interface}
 The system interfaces that establish the interaction between user and computer are described below:
-\clearpage
-\subsection{Add Food Item Scenario}
 
-	\begin{figure}[h]
+\clearpage
+
+\subsection{Landing page}
+Below is the first screen user will see when they will launch the application. Here is the description of every options available to user:
+
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=15cm]{pictures/raw.png}
-	\caption{Adding a food item scenario}
+	\caption{Landing page}
+\end{figure}
+\FloatBarrier
+\begin{enumerate}
+	\item Add a food item: User can input the food details to have it added.
+	\item Display the added food: It's a list of all food added by user
+	\item Remove a food item: It's a button to remove a food item from added list.
+	\item Hide/unhide Consumed food: This button gives the user ability to hide/unhide consumed food.
+	\item Total serving: It will show the total serving of all the items in the added food list.
+	\item Serving of consumed item: This will only show the total serving of consumed item(s).
+	\item Food group: Based on the food item(s) added and consumed these 4 button will indicate which group they belong to.
+\end{enumerate}
+	
+\subsection{Add Food Item Scenario}
+
+Below gives the ability to an user to add a food item by inserting the details of the food:
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=5cm]{pictures/add-food-item.png}
+	\caption{Add a food item}
+\end{figure}
+
+\FloatBarrier
+
+\begin{enumerate}
+	\item Name: User will insert the name of the food.
+	\item Date: User will select the date from the calendar on the right side of the text box.
+	\item Time: User will insert the time of the food consumed. Time the is in 24h formate.
+	\item Food Group: User will select the respective food group from the drop down menu.
+	\item Meal: User will insert the meal they consumed the food at.
+	\item Type: This field is for user to indicate whether the food was bought, homemade. If the food was consumed at out dining then this field will get greyed out.
+	\item Retailer: This is to identify the name of the retailer if the food was consumed from out dining. If in dining is selected using the toggle switch at the bottom then this field will be greyed out.
+	\item Amount: The amount of food consumed by the user.
+	\item Calories: The amount of calories presented in the consumed food.
+	\item Fat: The amount of fat presented in the consumed food.
+	\item Sodium: The amount of Sodium presented in the consumed food.
+	\item Sugar: The amount of Sugar presented in the consumed food.
+	\item Toggle Switch (In dining/Out Dining): This toggle switch will allow the user to choose whether the food was consumed inside of outside.
+	\item Add Item: After Filling out all the details of the food user will press the Add Item button to add the food item.
+	\item Validation: If user does not fill out all the fields then the placeholder will show up to indicate which field needs to be filled out and what to put inside that field
+	\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=5cm]{pictures/err-add-item.png}
+	\caption{Validation of input}
 	\end{figure}
+
+\FloatBarrier
+\end{enumerate}
+
+
 
 
 \subsection{Remove Food Item Scenario}
