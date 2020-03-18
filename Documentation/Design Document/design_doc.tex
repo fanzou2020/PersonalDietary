@@ -1,9 +1,11 @@
 \documentclass{scrreprt}
 \usepackage{graphicx}
+\usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{underscore}
 \usepackage[bookmarks=true]{hyperref}
+\usepackage[section]{placeins}
 \hypersetup{
     bookmarks=false,    % show bookmarks bar?
     pdftitle={Software Requirement Specification},    % title
@@ -36,7 +38,7 @@
      \LARGE{Version \myversion \\}
     \vspace{2cm}
     by Craig Boucher \\
-    Tanveer \\
+    Md Tanveer Alamgir \\
     Fan \\
     Osman \\
     Xin
@@ -135,7 +137,37 @@ The software specifications outlined in the project instructions specifically ma
 \section{System Topology}
 \chapter{Software Interface Design}
 \section{System Interface Diagrams}
+
+Our personal dietary application has only system level interface. The application does not employ any software or hardware interfaces. GUI is the system level interface. GUI allows the user to interact with the application. Using GUI user will be able to add a food item, mark it as eaten or not eaten, hide an added item, remove an item and the update of the dietary.
+
 \subsection{User Interface}
+
+User will interact with the computer using the user interface. We tried to make it as user friendly as possible by placing the components with an order of their importance and utilizing the full screen mode. Below are the few points we took into consideration for user interface:
+
+\begin{itemize}
+	\item User Friendly: Making it user friendly by putting important components according to user's view point.
+	\item Easy to find information: Since the application is all about their dietary, so it was important to make it easy to calculate and display their consumed and need to consumed items. We make it as handy as possible.
+	\item Guiding user: Guiding user by displaying different colour if they miss out something while inputting a food item.
+\end{itemize}
+
+\section{Dynamic Models of System Interface}
+The system interfaces that establish the interaction between user and computer are described below:
+\clearpage
+\subsection{Add Food Item Scenario}
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{pictures/raw.png}
+	\caption{Adding a food item scenario}
+	\end{figure}
+
+
+\subsection{Remove Food Item Scenario}
+\subsection{Set Food Item as Consumed Scenario}
+\subsection{Set Food Item as Unconsumed Scenario}
+\subsection{Hide Consumed Diet Scenario}
+\subsection{Unhide Consumed Diet Scenario}
+
 \section{Module Interface Diagrams}
 \begin{center}
 \begin{tikzpicture}[scale=0.2]
@@ -163,12 +195,6 @@ The software specifications outlined in the project instructions specifically ma
 \subsubsection{DiningTableRow}
 \subsection{Model Interface}
 \subsection{Controller Interface}
-\section{Dynamic Models of System Interface}
-\subsection{Add Food Item Scenario}
-\subsection{Remove Food Item Scenario}
-\subsection{Set Food Item as Consumed Scenario}
-\subsection{Set Food Item as Unconsumed Scenario}
-\subsection{Hide Consumed Diet Scenario}
-\subsection{Unhide Consumed Diet Scenario}
+
 % add other chapters and sections to suit
 \end{document}
