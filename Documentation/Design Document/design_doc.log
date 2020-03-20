@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  18 MAR 2020 05:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 MAR 2020 03:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -584,40 +584,61 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 (/usr/local/texlive/2019/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 )
+(/usr/local/texlive/2019/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2018/10/06 v3.3-154 Customizing captions (AR)
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen159
+\captionmargin@=\dimen160
+\captionwidth=\dimen161
+\caption@tempdima=\dimen162
+\caption@indent=\dimen163
+\caption@parindent=\dimen164
+\caption@hangindent=\dimen165
+)
+Package caption Info: KOMA-Script document class.
+\c@caption@flags=\count129
+\c@ContinuedFloat=\count130
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+)
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 21.
+(hyperref)                setting the option has no effect on input line 22.
 
-Package hyperref Info: Option `colorlinks' set `true' on input line 21.
-No file design_doc.aux.
+Package hyperref Info: Option `colorlinks' set `true' on input line 22.
+(./design_doc.aux)
 \openout1 = `design_doc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+
 (/usr/local/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count129
-\scratchdimen=\dimen159
+\scratchcounter=\count131
+\scratchdimen=\dimen166
 \scratchbox=\box42
-\nofMPsegments=\count130
-\nofMParguments=\count131
+\nofMPsegments=\count132
+\nofMParguments=\count133
 \everyMPshowfont=\toks30
-\MPscratchCnt=\count132
-\MPscratchDim=\dimen160
-\MPnumerator=\count133
-\makeMPintoPDFobject=\count134
+\MPscratchCnt=\count134
+\MPscratchDim=\dimen167
+\MPnumerator=\count135
+\makeMPintoPDFobject=\count136
 \everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2019/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -637,9 +658,9 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-\c@lstlisting=\count135
+\c@lstlisting=\count137
 \AtBeginShipoutBox=\box43
-Package hyperref Info: Link coloring ON on input line 25.
+Package hyperref Info: Link coloring ON on input line 26.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -647,11 +668,13 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/local/texlive/2019/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count136
+\c@section@level=\count138
 )
-LaTeX Info: Redefining \ref on input line 25.
-LaTeX Info: Redefining \pageref on input line 25.
-LaTeX Info: Redefining \nameref on input line 25.
+LaTeX Info: Redefining \ref on input line 26.
+LaTeX Info: Redefining \pageref on input line 26.
+LaTeX Info: Redefining \nameref on input line 26.
+
+(./design_doc.out) (./design_doc.out)
 \@outlinefile=\write4
 \openout4 = `design_doc.out'.
 
@@ -661,7 +684,7 @@ Class scrreprt Info: loading recommended package `bookmark'.
 (scrreprt)           You can avoid loading `bookmark' with KOMA-Script option
 (scrreprt)           `bookmarkpackage=false' before \begin{document} and
 (scrreprt)           you can avoid this message with `\usepackage{bookmark}'
-(scrreprt)           before \begin{document} on input line 25.
+(scrreprt)           before \begin{document} on input line 26.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/oberdiek/bookmark.sty
 Package: bookmark 2016/05/17 v1.26 PDF bookmarks (HO)
@@ -671,14 +694,24 @@ File: bkm-pdftex.def 2016/05/17 v1.26 bookmark driver for pdfTeX (HO)
 Package auxhook Info: \AddLineBeginMainAux comes a little late,
 (auxhook)             because the main .aux file is already opened on input lin
 e 164.
-\BKM@id=\count137
+\BKM@id=\count139
 ))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
 [1
 
 
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2]
+[2] (./design_doc.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 2.
+)
 \tf@toc=\write5
 \openout5 = `design_doc.toc'.
 
@@ -702,18 +735,12 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              deprecated \float@addtolist interface .
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 51--53
+Underfull \hbox (badness 10000) in paragraph at lines 52--54
 
  []
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 59.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 59.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 59.
 
-Overfull \hbox (28.32361pt too wide) in paragraph at lines 59--72
+Overfull \hbox (28.32361pt too wide) in paragraph at lines 60--73
 [] 
  []
 
@@ -722,102 +749,144 @@ Overfull \hbox (28.32361pt too wide) in paragraph at lines 59--72
 ] [5]
 chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 98--99
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 100--101
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--103
+Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
  []
 
 [6
 
 ]
-<MVC-Process.png, id=47, 501.875pt x 552.0625pt>
+<MVC-Process.png, id=93, 501.875pt x 552.0625pt>
 File: MVC-Process.png Graphic file (type png)
 <use MVC-Process.png>
-Package pdftex.def Info: MVC-Process.png  used on input line 136.
+Package pdftex.def Info: MVC-Process.png  used on input line 137.
 (pdftex.def)             Requested size: 232.80276pt x 256.0748pt.
  [7 <./MVC-Process.png>]
 chapter 3.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 148.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 149.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 148.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 149.
  [8
 
 ]
-<pictures/raw.png, id=66, 3854.4pt x 2168.1pt>
+<pictures/raw.png, id=106, 3854.4pt x 2168.1pt>
 File: pictures/raw.png Graphic file (type png)
 <use pictures/raw.png>
-Package pdftex.def Info: pictures/raw.png  used on input line 163.
+Package pdftex.def Info: pictures/raw.png  used on input line 164.
 (pdftex.def)             Requested size: 426.79134pt x 240.04662pt.
 
-Overfull \hbox (8.53578pt too wide) in paragraph at lines 163--164
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 164--165
  [][] 
  []
 
-<pictures/add-food-item.png, id=67, 529.98pt x 959.585pt>
+<pictures/add-food-item.png, id=107, 3605.47pt x 937.5025pt>
 File: pictures/add-food-item.png Graphic file (type png)
 <use pictures/add-food-item.png>
-Package pdftex.def Info: pictures/add-food-item.png  used on input line 183.
-(pdftex.def)             Requested size: 142.26378pt x 257.58328pt.
+Package pdftex.def Info: pictures/add-food-item.png  used on input line 184.
+(pdftex.def)             Requested size: 426.79134pt x 110.9648pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 184--185
+ [][] 
+ []
+
 [9
 
- <./pictures/raw.png>] [10 <./pictures/add-food-item.png>]
-<pictures/err-add-item.png, id=98, 523.9575pt x 877.2775pt>
+ <./pictures/raw.png>]
+<pictures/err-add-item.png, id=120, 523.9575pt x 877.2775pt>
 File: pictures/err-add-item.png Graphic file (type png)
 <use pictures/err-add-item.png>
-Package pdftex.def Info: pictures/err-add-item.png  used on input line 207.
+Package pdftex.def Info: pictures/err-add-item.png  used on input line 209.
 (pdftex.def)             Requested size: 142.26378pt x 238.19331pt.
- [11 <./pictures/err-add-item.png>] [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 252.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 252.
+ [10 <./pictures/add-food-item.png>] [11 <./pictures/err-add-item.png>]
+<pictures/consumed.png, id=147, 3071.475pt x 1489.565pt>
+File: pictures/consumed.png Graphic file (type png)
+<use pictures/consumed.png>
+Package pdftex.def Info: pictures/consumed.png  used on input line 222.
+(pdftex.def)             Requested size: 426.79134pt x 206.96938pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 222--223
+ [][] 
+ []
+
+<pictures/remove-food.png, id=148, 3071.475pt x 668.4975pt>
+File: pictures/remove-food.png Graphic file (type png)
+<use pictures/remove-food.png>
+Package pdftex.def Info: pictures/remove-food.png  used on input line 238.
+(pdftex.def)             Requested size: 426.79134pt x 92.88518pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 238--239
+ [][] 
+ []
+
+[12 <./pictures/consumed.png> <./pictures/remove-food.png>]
+<pictures/hide.png, id=155, 3079.505pt x 198.7425pt>
+File: pictures/hide.png Graphic file (type png)
+<use pictures/hide.png>
+Package pdftex.def Info: pictures/hide.png  used on input line 255.
+(pdftex.def)             Requested size: 426.79134pt x 27.54172pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 255--256
+ [][] 
+ []
+
+[13 <./pictures/hide.png>]
+<pictures/food-group.png, id=164, 3601.455pt x 1907.125pt>
+File: pictures/food-group.png Graphic file (type png)
+<use pictures/food-group.png>
+Package pdftex.def Info: pictures/food-group.png  used on input line 273.
+(pdftex.def)             Requested size: 426.79134pt x 225.99329pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 273--274
+ [][] 
+ []
+
+[14 <./pictures/food-group.png>] [15] [16]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 346.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 346.
  (./design_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 252.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 252.
-
-
-Package rerunfilecheck Warning: File `design_doc.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `design_doc.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 252.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 346.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 346.
+Package rerunfilecheck Info: File `design_doc.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 346.
  ) 
 Here is how much of TeX's memory you used:
- 19139 strings out of 492616
- 364677 string characters out of 6129482
- 550369 words of memory out of 5000000
- 22717 multiletter control sequences out of 15000+600000
+ 20218 strings out of 492616
+ 384571 string characters out of 6129482
+ 565567 words of memory out of 5000000
+ 23767 multiletter control sequences out of 15000+600000
  9388 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,7n,68p,9110b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><
-/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on design_doc.pdf (12 pages, 619899 bytes).
+</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
+usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on design_doc.pdf (16 pages, 1939750 bytes).
 PDF statistics:
- 242 PDF objects out of 1000 (max. 8388607)
- 215 compressed objects within 3 object streams
- 69 named destinations out of 1000 (max. 500000)
- 249 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 308 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
+ 80 named destinations out of 1000 (max. 500000)
+ 277 words of extra memory for PDF output out of 10000 (max. 10000000)
 

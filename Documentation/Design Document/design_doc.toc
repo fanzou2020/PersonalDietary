@@ -16,15 +16,16 @@
 \contentsline {section}{\numberline {3.2}Dynamic Models of System Interface}{8}{section.3.2}% 
 \contentsline {subsection}{\numberline {3.2.1}Landing page}{9}{subsection.3.2.1}% 
 \contentsline {subsection}{\numberline {3.2.2}Add Food Item Scenario}{9}{subsection.3.2.2}% 
-\contentsline {subsection}{\numberline {3.2.3}Remove Food Item Scenario}{12}{subsection.3.2.3}% 
-\contentsline {subsection}{\numberline {3.2.4}Set Food Item as Consumed Scenario}{12}{subsection.3.2.4}% 
-\contentsline {subsection}{\numberline {3.2.5}Set Food Item as Unconsumed Scenario}{12}{subsection.3.2.5}% 
-\contentsline {subsection}{\numberline {3.2.6}Hide Consumed Diet Scenario}{12}{subsection.3.2.6}% 
-\contentsline {subsection}{\numberline {3.2.7}Unhide Consumed Diet Scenario}{12}{subsection.3.2.7}% 
-\contentsline {section}{\numberline {3.3}Module Interface Diagrams}{12}{section.3.3}% 
-\contentsline {subsection}{\numberline {3.3.1}View Interface}{12}{subsection.3.3.1}% 
-\contentsline {subsubsection}{\nonumberline FXApp}{12}{section*.2}% 
-\contentsline {subsubsection}{\nonumberline FXController}{12}{section*.3}% 
-\contentsline {subsubsection}{\nonumberline DiningTableRow}{12}{section*.4}% 
-\contentsline {subsection}{\numberline {3.3.2}Model Interface}{12}{subsection.3.3.2}% 
-\contentsline {subsection}{\numberline {3.3.3}Controller Interface}{12}{subsection.3.3.3}% 
+\contentsline {subsection}{\numberline {3.2.3}Set Food Item as Consumed Scenario}{12}{subsection.3.2.3}% 
+\contentsline {subsection}{\numberline {3.2.4}Set Food Item as Unconsumed Scenario}{12}{subsection.3.2.4}% 
+\contentsline {subsection}{\numberline {3.2.5}Remove Food Item Scenario}{12}{subsection.3.2.5}% 
+\contentsline {subsection}{\numberline {3.2.6}Hide Consumed Diet Scenario}{13}{subsection.3.2.6}% 
+\contentsline {subsection}{\numberline {3.2.7}Unhide Consumed Diet Scenario}{13}{subsection.3.2.7}% 
+\contentsline {subsection}{\numberline {3.2.8}Marking food Group}{14}{subsection.3.2.8}% 
+\contentsline {section}{\numberline {3.3}Module Interface Diagrams}{14}{section.3.3}% 
+\contentsline {subsection}{\numberline {3.3.1}View Interface}{15}{subsection.3.3.1}% 
+\contentsline {subsubsection}{\nonumberline FXApp}{15}{section*.9}% 
+\contentsline {subsubsection}{\nonumberline FXController}{15}{section*.10}% 
+\contentsline {subsubsection}{\nonumberline DiningTableRow}{16}{section*.11}% 
+\contentsline {subsection}{\numberline {3.3.2}Model Interface}{16}{subsection.3.3.2}% 
+\contentsline {subsection}{\numberline {3.3.3}Controller Interface}{16}{subsection.3.3.3}% 
