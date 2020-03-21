@@ -40,9 +40,9 @@
     \vspace{2cm}
     by Craig Boucher \\
     Md Tanveer Alamgir \\
-    Fan \\
-    Osman \\
-    Xin
+    Fan Zou\\
+    Osman Momoh \\
+    Xin Ma
     \vspace{2cm}
     \rule{\linewidth}{5pt}
     \vspace{\stretch{1}}
@@ -102,7 +102,8 @@ The View is where the (graphical) user interface rests. The information stored i
 
 The objective of the Model is to store all of the necessary information and data that the application requires to operate successfully. All of the data is stored in local memory. Every food item and all of the details of each item is stored in the Model module. There is a list of every food item added by the user that is stored in the Model, and whenever a change is made (adding or removing food items), the View will graphically respond to these changes. \\
 
-\begin{center}
+\begin{figure}[ht]
+\centering
 \begin{tikzpicture}[scale=0.2]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (39.5,-15.1) circle (3);
@@ -129,13 +130,31 @@ The objective of the Model is to store all of the necessary information and data
 \fill [black] (39.5,-18.1) -- (39,-18.9) -- (40,-18.9);
 \draw (40,-24.85) node [right] {$Updates$};
 \end{tikzpicture}
-\end{center}
+\caption{}
+\end{figure}
 
 The software specifications outlined in the project instructions specifically mandated the MVC architecture. The purpose of this architecture is to provide a relevant abstraction of how desktop, mobile, or web applications operate when requiring constant use by a user. The abstraction allows three distinct modules to operate independently of each other and be capable of being updated separately. Different developers can be assigned to develop for the various modules with minimal cooperation required between them as the core functionality of each module remains the same across updates.
 
 \section{Software Architecture Diagram}
+
+An abstract depiction of the MVC architecture is illustrated in the below figure. The User actor will use the controller to manipulate the model. In turn, the model provides updates to the View that the user is observing.
+
+\begin{figure}[ht]
+\centering
 \includegraphics[height=9cm]{MVC-Process.png}
+\caption{Source for image found under section 1.4}
+\end{figure}
+
+The graphical user interface (GUI) that the user witnesses and interacts with is contained in the View module. The user can keep track of the dietary items they add to the application with the provided graphical display window. The user also has the option to remove these dietary items. The noted food groups that have been consumed are also indicated here. \\
+
+The model is the core module of the system. Every piece of data input by the user is stored in the model under local memory. When the appropriate changes are made to the data contained in the model the View is updated as needed. The application relies on the model to relay accurate data to the user through the View. \\
+
+The controller contains all of the necessary logic to provide additional data to the model and modify any existing data as required. The user will use their I/O peripherals (mouse, keyboard) to input data into text fields or click the various button options available to interact with the controller. 
+
 \section{System Topology}
+
+The personal dietary application is developed with the Java programming language. Therefore, the executable .jar file will be runnable on a variety of hardware. Online communication is not required to run the application. In the current iteration, only local memory is used to store the user data. There are plans to implement a local database as well.
+
 \chapter{Software Interface Design}
 \section{System Interface Diagrams}
 
@@ -291,13 +310,13 @@ To mark a food group user does not need to do anything explicitly. During the ad
 \draw (39.5,-37.1) node {$Controller$};
 \draw [black] (36.72,-35.98) -- (16.48,-27.82);
 \fill [black] (16.48,-27.82) -- (17.04,-28.58) -- (17.41,-27.66);
-\draw (18.95,-32.54) node [below] {$Interface\mbox{ }3.2.2$};
+\draw (18.95,-32.54) node [below] {$Interface\mbox{ }3.3.2$};
 \draw [black] (16.44,-25.47) -- (36.76,-16.33);
 \fill [black] (36.76,-16.33) -- (35.83,-16.2) -- (36.24,-17.11);
-\draw (18.78,-20.32) node [above] {$Interface\mbox{ }3.2.1$};
+\draw (18.78,-20.32) node [above] {$Interface\mbox{ }3.3.1$};
 \draw [black] (39.5,-34.1) -- (39.5,-18.1);
 \fill [black] (39.5,-18.1) -- (39,-18.9) -- (40,-18.9);
-\draw (40,-26.1) node [right] {$Interface\mbox{ }3.2.3$};
+\draw (40,-26.1) node [right] {$Interface\mbox{ }3.3.3$};
 \end{tikzpicture}
 \end{center}
 
