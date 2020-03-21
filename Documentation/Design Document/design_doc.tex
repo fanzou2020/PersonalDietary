@@ -1,4 +1,5 @@
 \documentclass{scrreprt}
+\setcounter{secnumdepth}{5}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
@@ -359,7 +360,72 @@ In this class we initialized the Left, Right, Center and Bottom part of the bord
 
 \subsubsection{DiningTableRow}
 \subsection{Model Interface}
+The Model portion of the MVC (Model View Controller) design architecture. Every class in this module will be instanced as an object to store the necessary data for the application. Below are the detailed specifications of the classes.
+
+\subsubsection{Dining}
+The parent class to both Indining and Outdining. The main object type that is used to store data for user food items.
+\begin{itemize}
+\item Dining(): Constructor for the Dining class.
+\item getName(): Accessor method for name variable.
+\item setName(): Mutator method for name variable.
+\item getFoodGroup(): Accessor method for foodGroup variable.
+\item setFoodGroup(): Mutator method for foodGroup variable.
+\item getServing(): Accessor method for serving variable.
+\item setServing(): Mutator method for serving variable.
+\item getMeal): Accessor method for meal variable.
+\item setMeal(): Mutator method for meal variable.
+\item isConsumed(): Accessor method for consumed variable.
+\item setConsumed(): Mutator method for consumed variable.
+\end{itemize}
+
+\subsubsection{Indining}
+Subclass of the Dining class.
+
+\begin{itemize}
+\item Indining(): Constructor of the Indining class.
+\item getType(): Accessor of the type variable.
+\item setType(): Mutator of the type variable.
+\item toString(): Returns String object containing information for the name and consumed variables.
+\item equals(): Method that determines if the passed argument object is equal to the calling object.
+\item hashCode(): Method to create and return a hash code for Indining object.
+\end{itemize}
+
+\subsubsection{Outdining}
+Subclass of the Dining class.
+
+\begin{itemize}
+\item Outdining(): Constructor for the Outdining class
+\item getRetailer(): Accessor for the retailer variable.
+\item setRetailer(): Mutator for the retailer variable.
+ \item toString(): Returns String object containing information for the name and consumed variables.
+ \item equals(): Method that determines if the passed argument object is equal to the calling object.
+ \item hashCode(): Method to create and return a hash code for Outdining object.
+\end{itemize}
+
+\subsubsection{Serving}
+Class that records the data related to nutritional content of food items.
+\begin{itemize}
+\item Serving(): Constructor for the Serving class.
+\item getAmount(): Accessor for the amount variable.
+\item setAmount(): Mutator for the amount variable.
+\item getCalories(): Accessor for the calories variable.
+\item setCalories(): Mutator for the calories variable.
+\item getFat(): Accessor for the fat variable.
+\item setFat(): Mutator for the fat variable.
+\item getSodium(): Accessor for the sodium variable.
+\item setSodium(): Mutator for the sodium variable.
+\item getSugar(): Accessor for the sugar variable.
+\item setSugar(): Mutator for the sugar variable.
+ \item equals(): Method that determines if the passed argument object is equal to the calling object.
+  \item hashCode(): Method to create and return a hash code for Serving object.
+  \item toString(): Method that returns all of the stored data for each variable of the Serving class as a String object.
+\end{itemize}
+
 \subsection{Controller Interface}
+
+\chapter{Internal Module Design}
+
+%Descriptions of classes, variables, methods here followed by class diagram
 
 % add other chapters and sections to suit
 \end{document}
