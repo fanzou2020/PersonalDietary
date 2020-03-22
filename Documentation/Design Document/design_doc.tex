@@ -354,11 +354,22 @@ In this class we initialized the Left, Right, Center and Bottom part of the bord
 	\item initialBottomPart(): We used HBox of JavaFx to organize the four buttons that updates food group.
 	\item refreshItems(): Once user add a food item by clicking the "Add Item" button this method clears out all the fields in for form on the left side of the GUI.
 	\item stringToGroup(): Return the type of FoodGroup by the name of the food group selected by user.
-	\item markFoodGroupAdd(): There are four different counters for one for each Food Group to keep track how many food items belong to an individual group. This method increases that counter for an individual food group and sets the background colour green 				once a food has been added for a particular food group.
+	\item markFoodGroupAdd(): There are four different counters, one for each Food Group to keep track how many food items belong to an individual group. This method increases that counter for an individual food group and sets the background colour green 				once a food has been added for a particular food group.
 	\item markFoodGroupRemove(): It decreases the counter for a food group and sets the colour grey if there is no food listed in the display table.
+	\item validateInput(TextField): Checks if the text fields are null or empty. If so then return false, else return true.
+	\item validateInput(ComboBox): If user did not select one food group from the drop down then it return false. Else it returns true.
+	\item validateInput(DatePicker): If no date is selected then this method will return false. Else it will return true.
+	\item validateInputServing(): Checks and validates the input for serving (Calories, Fat, Sodium and Sugar). It uses the validateInput(TextField) to make sure the fields are not null or empty. If not then it cast the value for each field from string to double.
+	\item validateInputTime(): It uses the validateInput(TextField) to make sure the field is not null or empty. Then it parse the time into LocalTime format. If the input is not valid the method will display the placeholder to give the hind of the format to use to input time.
+	\item validateInputIndining(): Using validateInput it checks all the field except retailer as it will not be useable for in dining. Returns true if all the fields have valid input else false.
+	\item validateInputOutdining(): It does the same as validateInputIndining(). This method skips to check type as out dining does not have any type. Returns true if all the fields have valid input else false.
 \end{itemize}
 
 \subsubsection{DiningTableRow}
+
+\begin{itemize}
+	\item Constructor: Initialize checkbox.Sets an action on checkbox. It updates the diningManager (Where the data is stored) and also the Consume serving upon selecting or deselecting the checkbox.
+\end{itemize}
 \subsection{Model Interface}
 The Model portion of the MVC (Model View Controller) design architecture. Every class in this module will be instanced as an object to store the necessary data for the application. Below are the detailed specifications of the classes.
 
@@ -399,7 +410,7 @@ Subclass of the Dining class.
 \item setRetailer(): Mutator for the retailer variable.
  \item toString(): Returns String object containing information for the name and consumed variables.
  \item equals(): Method that determines if the passed argument object is equal to the calling object.
- \item hashCode(): Method to create and return a hash code for Outdining object.
+ \item hashCode(): Method to create and return a hash code for Out dining object.
 \end{itemize}
 
 \subsubsection{Serving}
@@ -417,11 +428,26 @@ Class that records the data related to nutritional content of food items.
 \item getSugar(): Accessor for the sugar variable.
 \item setSugar(): Mutator for the sugar variable.
  \item equals(): Method that determines if the passed argument object is equal to the calling object.
-  \item hashCode(): Method to create and return a hash code for Serving object.
-  \item toString(): Method that returns all of the stored data for each variable of the Serving class as a String object.
+ \item hashCode(): Method to create and return a hash code for Serving object.
+ \item toString(): Method that returns all of the stored data for each variable of the Serving class as a String object.
 \end{itemize}
 
 \subsection{Controller Interface}
+
+The class is called DiningManager. To store the data we used an array. There is an observer to observe the changes happened by any interaction from user using the GUI. Below are the methods it contains:
+
+\begin{itemize}
+	\item addDiningItem(): This method initialize an instance of DiningTableRow class. Notify the observer and updates the array list of table that displays the food items. Calls this method addDiningItemDataModel() which will be described below.
+	\item addDiningItemDataModel(): Updates the array list that contains all the data.
+	\item removeDiningItem(): Checks if the collection is not empty. Then remove the selected item from Dining Item. Check if the array list for dining table is empty. If not then remove the selected item from dining item. At the end calls the below method.
+	\item removeDiningItemDataModel(): Checks if the array list for all the dining item is empty. If not then remove the selected item from array list.
+	\item markConsumed(): Iterate through all the dining item in the dining table and sets the value true for all the items that user selected consumed for. Then calls the below method.
+	\item markConsumedDataModel(): Gets the index number of the item user selected as consumed and update the array list of data.
+	\item markUnConsumed(): Iterate through all the dining item in the dining table and sets the value false for all the items that user deselected consumed for.
+	\item hideConsumed(): If the item is in the collection (Observer) the this method removes it.
+	\item unHideConsumed(): Iterate through all the items in the dining table array list and if the item does not exist in the collection the adds it.
+	\item updateCurrServing(): Iterate all the dining table row in the array list and updates the serving for each of then and then updates the total.
+\end{itemize}
 
 \chapter{Internal Module Design}
 
