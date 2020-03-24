@@ -7,7 +7,7 @@ import team4.personaldietary.bean.Dining;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DiningManager {
+public class DiningManager implements DiningManagerInterface{
     private ArrayList<Dining> diningArrayList; // consider this as the data model.
     private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
     private Collection<DiningTableRow> observableCollection; // this is the items shown on the screen
