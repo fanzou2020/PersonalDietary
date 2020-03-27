@@ -451,6 +451,67 @@ The class is called DiningManager. To store the data we used an array. There is 
 
 \chapter{Internal Module Design}
 
+We have selected to use System Sequence Diagram to better understand the communication between different classes and their methods. Below are the major functionality of our application:
+
+\section{Launch Application}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=11cm]{pictures/launch-app.png}
+\caption*{Sequence Diagram of Launching the Application}
+\end{figure}
+
+\FloatBarrier
+
+\section{Add a food item}
+
+The following diagram pictures the scenario when a user clicks the Add Item button. First the data will be collected from the form and it will be added into the Dining table (Model) and also the serving will be updated. The food group will also be coloured to indicate a specific food has been consumed.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=15cm]{pictures/add-food-sd.png}
+\caption*{Sequence Diagram of adding a food item}
+\end{figure}
+
+\FloatBarrier
+
+\section{Remove a food item}
+
+The following diagram displays the process for user to remove a food item. It will update the display table followed by dining manager. Also it will check the food group to make sure there are food available in the list for a particular food group.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=15cm]{pictures/remove-food-sd.png}
+\caption*{Sequence Diagram of removing a food item}
+\end{figure}
+
+\FloatBarrier
+
+\section{Mark as consumed}
+
+The following diagram illustrates the option to mark an added food item as consumed or not-consumed. There is an event handler in the DiningTableRow class which will update the DiningManager class.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=11cm]{pictures/mark-consumed-sd.png}
+\caption*{Sequence Diagram of marking food items as consumed or not-consumed}
+\end{figure}
+
+\FloatBarrier
+
+\section{Hide/Unhide an added food item}
+
+The following diagram shows the sequence to hide/unhide a food item. It will  update three methods in the diningManager class (unHideConsumed(), hideConsumed(), updateServing()).
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=11cm]{pictures/hide-unhide-sd.png}
+\caption*{Sequence Diagram of hiding unhiding consumed item(s)}
+\end{figure}
+
+\FloatBarrier
+
+
+
 %Descriptions of classes, variables, methods here followed by class diagram
 
 % add other chapters and sections to suit

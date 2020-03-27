@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  22 MAR 2020 01:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  27 MAR 2020 04:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -609,7 +609,7 @@ Package hyperref Warning: Option `bookmarks' has already been used,
 (hyperref)                setting the option has no effect on input line 23.
 
 Package hyperref Info: Option `colorlinks' set `true' on input line 23.
-(./design_doc.aux)
+No file design_doc.aux.
 \openout1 = `design_doc.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -626,7 +626,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
-
 (/usr/local/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count131
@@ -673,8 +672,6 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 27.
 LaTeX Info: Redefining \pageref on input line 27.
 LaTeX Info: Redefining \nameref on input line 27.
-
-(./design_doc.out) (./design_doc.out)
 \@outlinefile=\write4
 \openout4 = `design_doc.out'.
 
@@ -704,14 +701,7 @@ Package caption Info: End \AtBeginDocument code.
 
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (./design_doc.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 2.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 2.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 2.
-)
+[2]
 \tf@toc=\write5
 \openout5 = `design_doc.toc'.
 
@@ -739,6 +729,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 53--55
 
  []
 
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 61.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 61.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 61.
 
 Overfull \hbox (28.32361pt too wide) in paragraph at lines 61--74
 [] 
@@ -771,7 +767,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 104--105
 [6
 
 ]
-<MVC-Process.png, id=96, 501.875pt x 552.0625pt>
+<MVC-Process.png, id=48, 501.875pt x 552.0625pt>
 File: MVC-Process.png Graphic file (type png)
 <use MVC-Process.png>
 Package pdftex.def Info: MVC-Process.png  used on input line 145.
@@ -798,7 +794,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
  [9
 
 ]
-<pictures/raw.png, id=114, 3854.4pt x 2168.1pt>
+<pictures/raw.png, id=72, 3854.4pt x 2168.1pt>
 File: pictures/raw.png Graphic file (type png)
 <use pictures/raw.png>
 Package pdftex.def Info: pictures/raw.png  used on input line 184.
@@ -808,7 +804,7 @@ Overfull \hbox (8.53578pt too wide) in paragraph at lines 184--185
  [][] 
  []
 
-<pictures/add-food-item.png, id=115, 3605.47pt x 937.5025pt>
+<pictures/add-food-item.png, id=73, 3605.47pt x 937.5025pt>
 File: pictures/add-food-item.png Graphic file (type png)
 <use pictures/add-food-item.png>
 Package pdftex.def Info: pictures/add-food-item.png  used on input line 204.
@@ -821,13 +817,13 @@ Overfull \hbox (8.53578pt too wide) in paragraph at lines 204--205
 [10
 
  <./pictures/raw.png>]
-<pictures/err-add-item.png, id=128, 523.9575pt x 877.2775pt>
+<pictures/err-add-item.png, id=88, 523.9575pt x 877.2775pt>
 File: pictures/err-add-item.png Graphic file (type png)
 <use pictures/err-add-item.png>
 Package pdftex.def Info: pictures/err-add-item.png  used on input line 229.
 (pdftex.def)             Requested size: 142.26378pt x 238.19331pt.
  [11 <./pictures/add-food-item.png>] [12 <./pictures/err-add-item.png>]
-<pictures/consumed.png, id=155, 3071.475pt x 1489.565pt>
+<pictures/consumed.png, id=114, 3071.475pt x 1489.565pt>
 File: pictures/consumed.png Graphic file (type png)
 <use pictures/consumed.png>
 Package pdftex.def Info: pictures/consumed.png  used on input line 242.
@@ -837,7 +833,7 @@ Overfull \hbox (8.53578pt too wide) in paragraph at lines 242--243
  [][] 
  []
 
-<pictures/remove-food.png, id=156, 3071.475pt x 668.4975pt>
+<pictures/remove-food.png, id=115, 3071.475pt x 668.4975pt>
 File: pictures/remove-food.png Graphic file (type png)
 <use pictures/remove-food.png>
 Package pdftex.def Info: pictures/remove-food.png  used on input line 258.
@@ -848,7 +844,7 @@ Overfull \hbox (8.53578pt too wide) in paragraph at lines 258--259
  []
 
 [13 <./pictures/consumed.png> <./pictures/remove-food.png>]
-<pictures/hide.png, id=164, 3079.505pt x 198.7425pt>
+<pictures/hide.png, id=126, 3079.505pt x 198.7425pt>
 File: pictures/hide.png Graphic file (type png)
 <use pictures/hide.png>
 Package pdftex.def Info: pictures/hide.png  used on input line 275.
@@ -859,7 +855,7 @@ Overfull \hbox (8.53578pt too wide) in paragraph at lines 275--276
  []
 
 [14 <./pictures/hide.png>]
-<pictures/food-group.png, id=172, 3601.455pt x 1907.125pt>
+<pictures/food-group.png, id=137, 3601.455pt x 1907.125pt>
 File: pictures/food-group.png Graphic file (type png)
 <use pictures/food-group.png>
 Package pdftex.def Info: pictures/food-group.png  used on input line 293.
@@ -877,23 +873,69 @@ Overfull \hbox (7.41621pt too wide) in paragraph at lines 365--366
 
 [17] [18] [19] [20]
 chapter 4.
+<pictures/launch-app.png, id=177, 1158.3275pt x 1306.8825pt>
+File: pictures/launch-app.png Graphic file (type png)
+<use pictures/launch-app.png>
+Package pdftex.def Info: pictures/launch-app.png  used on input line 460.
+(pdftex.def)             Requested size: 312.9803pt x 353.12222pt.
 [21
 
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 457.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 457.
- (./design_doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 457.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 457.
-Package rerunfilecheck Info: File `design_doc.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 457.
+ <./pictures/launch-app.png>]
+<pictures/add-food-sd.png, id=185, 1656.1875pt x 1268.74pt>
+File: pictures/add-food-sd.png Graphic file (type png)
+<use pictures/add-food-sd.png>
+Package pdftex.def Info: pictures/add-food-sd.png  used on input line 472.
+(pdftex.def)             Requested size: 426.79134pt x 326.94135pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 472--473
+ [][] 
+ []
+
+<pictures/remove-food-sd.png, id=186, 1300.86pt x 1266.7325pt>
+File: pictures/remove-food-sd.png Graphic file (type png)
+<use pictures/remove-food-sd.png>
+Package pdftex.def Info: pictures/remove-food-sd.png  used on input line 483.
+(pdftex.def)             Requested size: 426.79134pt x 415.5876pt.
+
+Overfull \hbox (8.53578pt too wide) in paragraph at lines 483--484
+ [][] 
+ []
+
+[22 <./pictures/add-food-sd.png>] [23 <./pictures/remove-food-sd.png>]
+<pictures/mark-consumed-sd.png, id=199, 961.5925pt x 1238.6275pt>
+File: pictures/mark-consumed-sd.png Graphic file (type png)
+<use pictures/mark-consumed-sd.png>
+Package pdftex.def Info: pictures/mark-consumed-sd.png  used on input line 495.
+
+(pdftex.def)             Requested size: 312.9803pt x 403.15398pt.
+<pictures/hide-unhide-sd.png, id=200, 915.42pt x 1256.695pt>
+File: pictures/hide-unhide-sd.png Graphic file (type png)
+<use pictures/hide-unhide-sd.png>
+Package pdftex.def Info: pictures/hide-unhide-sd.png  used on input line 507.
+(pdftex.def)             Requested size: 312.9803pt x 429.64842pt.
+ [24 <./pictures/mark-consumed-sd.png>] [25 <./pictures/hide-unhide-sd.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 518.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 518.
+
+(./design_doc.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 518.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 518.
+
+
+Package rerunfilecheck Warning: File `design_doc.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `design_doc.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 518.
  ) 
 Here is how much of TeX's memory you used:
- 20232 strings out of 492616
- 384787 string characters out of 6129482
- 566567 words of memory out of 5000000
- 23769 multiletter control sequences out of 15000+600000
+ 20263 strings out of 492616
+ 385430 string characters out of 6129482
+ 563372 words of memory out of 5000000
+ 23789 multiletter control sequences out of 15000+600000
  9388 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,8n,68p,9116b,764s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -903,10 +945,10 @@ Here is how much of TeX's memory you used:
 /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
 sr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
 usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on design_doc.pdf (21 pages, 1947544 bytes).
+Output written on design_doc.pdf (25 pages, 2311468 bytes).
 PDF statistics:
- 343 PDF objects out of 1000 (max. 8388607)
- 301 compressed objects within 4 object streams
- 92 named destinations out of 1000 (max. 500000)
- 285 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 363 PDF objects out of 1000 (max. 8388607)
+ 312 compressed objects within 4 object streams
+ 106 named destinations out of 1000 (max. 500000)
+ 350 words of extra memory for PDF output out of 10000 (max. 10000000)
 
