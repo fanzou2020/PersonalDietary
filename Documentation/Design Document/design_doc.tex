@@ -142,7 +142,7 @@ An abstract depiction of the MVC architecture is illustrated in the below figure
 
 \begin{figure}[ht]
 \centering
-\includegraphics[height=9cm]{MVC-Process.png}
+\includegraphics[height=9cm]{pictures/MVC-Process.png}
 \caption{Source for image found under section 1.4}
 \end{figure}
 
@@ -150,7 +150,16 @@ The graphical user interface (GUI) that the user witnesses and interacts with is
 
 The model is the core module of the system. Every piece of data input by the user is stored in the model under local memory. When the appropriate changes are made to the data contained in the model the View is updated as needed. The application relies on the model to relay accurate data to the user through the View. \\
 
-The controller contains all of the necessary logic to provide additional data to the model and modify any existing data as required. The user will use their I/O peripherals (mouse, keyboard) to input data into text fields or click the various button options available to interact with the controller. 
+The controller contains all of the necessary logic to provide additional data to the model and modify any existing data as required. The user will use their I/O peripherals (mouse, keyboard) to input data into text fields or click the various button options available to interact with the controller.
+
+\subsection{Observable Model \& Observing View}
+
+\begin{figure}[ht]
+\includegraphics{pictures/obs.png}
+\caption{Diagram of the Observer-Model design.}
+\end{figure}
+
+The above diagram illustrates the link between the Model component and the View component. The previous sections of this document discussed the MVC (Model-View-Controller) architecture and the overall operation between all three components. However, it is important to note that the software project described by this design document combines the Observer pattern with the MVC pattern. The personal dietary application makes use of events when responding to user input. These events are responded to by the Controller which manages the transfer of data to the Model. Once this data is stored successfully the Model performing the Observable functionality will provide updates to the Observing View of all state changes that occur.
 
 \section{System Topology}
 
@@ -171,7 +180,7 @@ User will interact with the computer using the user interface. We tried to make 
 \item Guiding user: Guiding user by displaying different colour if they miss out something while inputting a food item.
 \end{itemize}
 
-\section{Dynamic Models of System Interface}
+\subsection{Interface Description}
 The system interfaces that establish the interaction between user and computer are described below:
 
 \clearpage
@@ -449,7 +458,13 @@ The class is called DiningManager. To store the data we used an array. There is 
 	\item updateCurrServing(): Iterate all the dining table row in the array list and updates the serving for each of then and then updates the total.
 \end{itemize}
 
-\chapter{Internal Module Design}
+\section{Domain Model}
+
+\includegraphics[width=11cm]{pictures/Domain-Diagram.png}
+
+This domain model abstracts the concepts required to formulate the design of the personal dietary application. They are used as a guide to build classes which make up the modules of the program. The main actor, the Diet Person, is the user of the application. This entity will be keeping track of various food items and their nutritional information on an electronic list. This person can either eat professionally made restaurant food items or prepare produce and various sustenance at their dwelling. The application will need to keep track of this data.
+
+\chapter{Dynamic Sequence Diagrams of the Interface}
 
 We have selected to use System Sequence Diagram to better understand the communication between different classes and their methods. Below are the major functionality of our application:
 
