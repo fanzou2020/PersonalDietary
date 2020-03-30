@@ -21,7 +21,7 @@
     urlcolor=purple,        % color of external links
     linktoc=page            % only page is linked
 }%
-\def\myversion{1.0}
+\def\myversion{1.3}
 \date{}
 \usepackage{hyperref}
 \begin{document}
@@ -50,12 +50,12 @@
 \end{titlepage}
 \tableofcontents
 \chapter{Introduction}
-The project undertaken in this COMP 5541 course involves creating an application that keeps track of dietary records for the user. This diet app has been designed to use the border pane layout for the main window. \\ \\ 
-This design document will provide details for the type of software architecture used to develop the software and explain the design for the user interface. The architectural component illustrates the abstraction of the software classes involved and how they relate to each other to maniuplate and process data that the user interacts with. The interface design section will assess the process for the states the user goes through to interact with the personal dietary application.
+The project undertaken in this COMP 5541 course involves creating an application that keeps track of dietary records for the user. This diet application has been designed to use the border pane layout for the main window of the User Interface (UI). \\ \\ 
+This design document will provide details for the type of software architecture used to develop the software and explain the design for the user interface. The architectural component illustrates the abstraction of the software classes involved and how they relate to each other to manipulate and process data that the user interacts with. The interface design section will assess the process for the states the user goes through to interact with the personal dietary application.
 \section{Purpose}
-This document will serve as an illustration for the architectural design choices as well as an explanation for the properties of the user interface implemented for the Personal Dietary Application software. This software project is being completed for the COMP 5541 graduate diploma course at Concordia University. There will be diagrams to chowcase the type of the architecture used and a class diagram. Screenshots are used to provide a valuable perspective on the user interface. These graphical aids are described in further detail to demonstrate the functionality of the interface.
+This document will serve as an illustration for the architectural design choices as well as an explanation for the properties of the user interface implemented for the Personal Dietary Application software. This software project is being completed for the COMP 5541 graduate diploma course at Concordia University. There will be diagrams to showcase the type of the architecture used and a domain diagram which encompasses real world concepts to work from and aid in designing the software. Screenshots are used to provide a valuable perspective on the user interface. These graphical aids are described in further detail to demonstrate the functionality of the interface.
 \section{Scope}
-In order to provide proper design documentation for the Personal Dietary Application this document will be properly formatted and included all necessary information. The team responsible for surveying this document and creating the software will be able to use the robust explanation of the architectural model presented in this document to carry out the necessary work. The visual graphics demonstrating the user interface design choices will serve as a guide for the team to orchestrate the proper performance of the software.
+In order to provide proper design documentation for the Personal Dietary Application this document will be properly formatted and includ all necessary information. The team responsible for surveying this document and creating the software will be able to use the robust explanation of the architectural model presented in this document to carry out the necessary work. The visual graphics demonstrating the user interface design choices will serve as a guide for the team to orchestrate the proper performance of the software.
 \section{Definitions and Abbreviations}
 \subsection{Definitions}
 \begin{tabular}{|l|l|}
@@ -91,21 +91,22 @@ In order to provide proper design documentation for the Personal Dietary Applica
 https://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg \\
 http://users.encs.concordia.ca/~paquet/wiki/images/e/ee/Phase2final.pdf
 \section{Overview}
-The rest of the document is composed of two main sections. First, there is a section dedication to Architectural Design. Lastly, the largest section, consists of Software Interface Design. In the portion concerning the software architecture the three smaller sections are related to the reasoning for choosing the architecture, a diagram illustrating how the architecture behaves abstractly, and the final section details how software files will operate together on the computer. \\
-The interface section will provide documentation regarding the system, modules, and dynamic interfaces for the software project.
+Following the introduction, the remaining portions of the document is composed of three main sections. First, there is a section dedication to Architectural Design. Second, the largest section, consists of Software Interface Design. In the portion concerning the software architecture the three smaller sections are related to the reasoning for choosing the architecture, a diagram illustrating how the architecture behaves abstractly, and the closing architectural section details how software files will operate together on the computer. \\
+The interface section will provide documentation regarding the system, modules, and dynamic interfaces for the software project. \\
+The final section consists of state sequence diagrams. These diagrams showcase the inner method call sequence and the different states the software application will traverse in order to fulfill user operations.
 \chapter{Architectural Design}
 \section{Rationale}
 The Model View Controller (MVC) architecture design pattern has been chosen for this software project. Model, View, and Controller are the three components which comprise this architecture. \\
 
-The purpose of the Controller model is to navigate and facilitate the transfer of data between the View and the Model. The Controller is responsible for acquiring data input from the user, manipulate the model with the necessary memory changes, and potentially provide updates to the View if and when exceptions or errors are thrown. \\
+The purpose of the Controller model is to navigate and facilitate the transfer of data between the View and the Model. The Controller is responsible for acquiring data input from the user, manipulate the model with the necessary memory changes, and provide updates to the View if and when exceptions or errors are thrown. \\
 
-The View is where the (graphical) user interface rests. The information stored in the model is used by the View to display everything necessary to the user. Everything the user interacts with rests with the View, from input functionality to button objects. Whenever data is manipulated in the Model the View will reflect this accordingly. \\
+The View is where the (graphical) user interface rests. The information stored in the model is used by the View to display everything necessary to the user. Everything the user interacts with rests with the View, from input functionality to button objects. Whenever data is manipulated in the Model the View will reflect this accordingly, adhering to the Observer software design pattern. \\
 
-The objective of the Model is to store all of the necessary information and data that the application requires to operate successfully. All of the data is stored in local memory. Every food item and all of the details of each item is stored in the Model module. There is a list of every food item added by the user that is stored in the Model, and whenever a change is made (adding or removing food items), the View will graphically respond to these changes. \\
+The objective of the Model is to store all of the necessary information and data that the application requires to operate successfully. All of the data is stored in local memory. Every food item and all of the details of each item is stored in the Model module. There is a list of every food item added by the user that is stored in the Model (Observable List), and whenever a change is made (adding or removing food items), the View will graphically respond to these changes. \\
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
 \centering
-\begin{tikzpicture}[scale=0.2]
+\begin{tikzpicture}[scale=0.19]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (39.5,-15.1) circle (3);
 \draw (39.5,-15.1) node {$View$};
@@ -131,7 +132,7 @@ The objective of the Model is to store all of the necessary information and data
 \fill [black] (39.5,-18.1) -- (39,-18.9) -- (40,-18.9);
 \draw (40,-24.85) node [right] {$Updates$};
 \end{tikzpicture}
-\caption{}
+\caption{Diagram of MVC architecture and Observer design pattern}
 \end{figure}
 
 The software specifications outlined in the project instructions specifically mandated the MVC architecture. The purpose of this architecture is to provide a relevant abstraction of how desktop, mobile, or web applications operate when requiring constant use by a user. The abstraction allows three distinct modules to operate independently of each other and be capable of being updated separately. Different developers can be assigned to develop for the various modules with minimal cooperation required between them as the core functionality of each module remains the same across updates.
@@ -146,7 +147,7 @@ An abstract depiction of the MVC architecture is illustrated in the below figure
 \caption{Source for image found under section 1.4}
 \end{figure}
 
-The graphical user interface (GUI) that the user witnesses and interacts with is contained in the View module. The user can keep track of the dietary items they add to the application with the provided graphical display window. The user also has the option to remove these dietary items. The noted food groups that have been consumed are also indicated here. \\
+The graphical user interface (GUI) that the user witnesses and interacts with is contained in the View module. The user can keep track of the dietary items they add to the application with the provided graphical display window. The user also has the option to remove these dietary items. The noted food groups that have been consumed are also indicated in this UI window. \\
 
 The model is the core module of the system. Every piece of data input by the user is stored in the model under local memory. When the appropriate changes are made to the data contained in the model the View is updated as needed. The application relies on the model to relay accurate data to the user through the View. \\
 
@@ -155,7 +156,7 @@ The controller contains all of the necessary logic to provide additional data to
 \subsection{Observable Model \& Observing View}
 
 \begin{figure}[ht]
-\includegraphics{pictures/obs.png}
+\includegraphics[width=10cm]{pictures/obsv2.png}
 \caption{Diagram of the Observer-Model design.}
 \end{figure}
 
@@ -168,36 +169,36 @@ The personal dietary application is developed with the Java programming language
 \chapter{Software Interface Design}
 \section{System Interface Diagrams}
 
-Our personal dietary application has only system level interface. The application does not employ any software or hardware interfaces. GUI is the system level interface. GUI allows the user to interact with the application. Using GUI user will be able to add a food item, mark it as eaten or not eaten, hide an added item, remove an item and the update of the dietary.
+Our personal dietary application has only system level interface. The application does not employ any software or hardware interfaces. GUI is the system level interface. GUI allows the user to interact with the application. By using the GUI the user will be able to add a food item, mark it as eaten or not eaten, hide an added item, remove an item and provide updates to the list keeping track of the various dietary items.
 
 \subsection{User Interface}
 
-User will interact with the computer using the user interface. We tried to make it as user friendly as possible by placing the components with an order of their importance and utilizing the full screen mode. Below are the few points we took into consideration for user interface:
+The user will interact with the software using the user interface. An attempt was made to make it as user friendly as possible by placing the components with an order of their importance and utilizing the full screen mode. Below are a few points taken into consideration for the user interface:
 
 \begin{itemize}
-\item User Friendly: Making it user friendly by putting important components according to user's view point.
-\item Easy to find information: Since the application is all about their dietary, so it was important to make it easy to calculate and display their consumed and need to consumed items. We make it as handy as possible.
+\item User Friendly: Making it user friendly by putting important components according to the user's view point.
+\item Easy to find information: Since the application is all about their dietary needs, so it was important to make it easy to calculate and display their consumed and need to consumed items. It was made as handy as possible.
 \item Guiding user: Guiding user by displaying different colour if they miss out something while inputting a food item.
 \end{itemize}
 
 \subsection{Interface Description}
-The system interfaces that establish the interaction between user and computer are described below:
+The system interfaces that establishes the interaction between user and computer are described below:
 
 \clearpage
 
 \subsection{Landing page}
-Below is the first screen user will see when they will launch the application. Here is the description of every options available to user:
+Below is the first screen that the user will see when they will launch the application. Here is the description of every option available to user:
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=15cm]{pictures/raw.png}
-\caption*{Landing page}
+\caption{Landing page}
 \end{figure}
 \FloatBarrier
 \begin{enumerate}
 \item Add a food item: User can input the food details to have it added.
-\item Display the added food: It's a list of all food added by user
-\item Remove a food item: It's a button to remove a food item from added list.
+\item Display the added food: It is a list of all food added by user
+\item Remove a food item: It is a button to remove a food item from added list.
 \item Hide/unhide Consumed food: This button gives the user ability to hide/unhide consumed food.
 \item Total serving: It will show the total serving of all the items in the added food list.
 \item Serving of consumed item: This will only show the total serving of consumed item(s).
@@ -206,12 +207,12 @@ Below is the first screen user will see when they will launch the application. H
 	
 \subsection{Add Food Item Scenario}
 
-Below gives the ability to an user to add a food item by inserting the details of the food:
+Below gives the ability for the user to add a food item by inserting the details of the food:
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=15cm]{pictures/add-food-item.png}
-\caption*{Add a food item}
+\caption{Add a food item}
 \end{figure}
 
 \FloatBarrier
@@ -219,7 +220,7 @@ Below gives the ability to an user to add a food item by inserting the details o
 \begin{enumerate}
 \item Name: User will insert the name of the food.
 \item Date: User will select the date from the calendar on the right side of the text box.
-\item Time: User will insert the time of the food consumed. Time the is in 24h formate.
+\item Time: User will insert the time of the food consumed. Time the is in 24h format.
 \item Food Group: User will select the respective food group from the drop down menu.
 \item Meal: User will insert the meal they consumed the food at.
 \item Type: This field is for user to indicate whether the food was bought, homemade. If the food was consumed at out dining then this field will get greyed out.
@@ -230,51 +231,51 @@ Below gives the ability to an user to add a food item by inserting the details o
 \item Sodium: The amount of Sodium presented in the consumed food.
 \item Sugar: The amount of Sugar presented in the consumed food.
 \item Toggle Switch (In dining/Out Dining): This toggle switch will allow the user to choose whether the food was consumed inside of outside.
-\item Add Item: After Filling out all the details of the food user will press the Add Item button to add the food item.
-\item Validation: If user does not fill out all the fields then the placeholder will show up to indicate which field needs to be filled out and what to put inside that field
+\item Add Item: After Filling out all the details of the food, the user will press the Add Item button to add the food item.
+\item Validation: If the user does not fill out all the fields then the placeholder will show up to indicate which field needs to be filled out and what to put inside that field.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=5cm]{pictures/err-add-item.png}
-\caption*{Validation of input}
+\caption{Validation of input}
 \end{figure}
 
 \FloatBarrier
 \end{enumerate}
 
-Once a food item has been added successfully the details will show up on the list section at the middle of the page. As we keep on adding food items on the very left side the total serving will be calculated. This serving is not for consumed item(s), this is the total of all the food items added by user.
+Once a food item has been added successfully the details will show up on the list section at the middle of the page. As we keep on adding food items on the very left side the total serving will be calculated. This serving is not for consumed item(s), this is the total of all the food items added by the user.
 \pagebreak
 \subsection{Set Food Item as Consumed Scenario}
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=15cm]{pictures/consumed.png}
-\caption*{Mark as consumed}
+\caption{Mark as consumed}
 \end{figure}
 
 \FloatBarrier
 
-In the display list of the food item(s) user will have the option to mark a food as consumed by clicking the checkbox in "Consumed" column. As user keeps on marking different food items as consumed from display list the total serving (Total serving of consumed list) will be changing on the left side.
+In the display list of the food item(s) the user will have the option to mark a food as consumed by clicking the checkbox in "Consumed" column. As the user keeps on marking different food items as consumed from display list the total serving (Total serving of consumed list) will be changing on the left side.
 
 \subsection{Set Food Item as Unconsumed Scenario}
 
-If a food has been marked as consumed, user has the option to click on the checkbox again of the same food to remove the mark and make it as unconsumed. After making a food unconsumed the serving of that particular food will be deducted from the "Total serving of consumed food".
+If a food item has been marked as consumed, the user has the option to click on the checkbox again of the same food item to remove the mark and mark it as unconsumed. After making a food item as unconsumed the serving of that particular food will be deducted from the "Total serving of consumed food".
 
 \subsection{Remove Food Item Scenario}
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=15cm]{pictures/remove-food.png}
-\caption*{Remove a food item}
+\caption{Remove a food item}
 \end{figure}
 
 \FloatBarrier
 
-To remove a food item there are two steps user needs to follow:
+To remove a food item there are two steps the user needs to follow:
 
 \begin{enumerate}
-\item Step 1: First user needs to select the item he/she wants to remove from the display list.
-\item Step 2: Then he/she needs to click the remove button.
+\item Step 1: First, the user needs to select the item he/she wants to remove from the display list.
+\item Step 2: Then they need to click the remove button.
 \end{enumerate}
 
 \subsection{Hide Consumed Diet Scenario}
@@ -282,16 +283,16 @@ To remove a food item there are two steps user needs to follow:
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=15cm]{pictures/hide.png}
-\caption*{Hide consumed item(s)}
+\caption{Hide consumed item(s)}
 \end{figure}
 
 \FloatBarrier
 
-When user clicks the "Hide/Unhide Consumed" button on the right had side all the consumed food item(s) will disappear from the display list. It also update the "Total serving of displayed items" as this list display the serving of all displayed food items.
+When the user clicks the "Hide/Unhide Consumed" button on the right had side all the consumed food item(s) will disappear from the display list. It also updates the "Total serving of displayed items" as this list displays the serving of all displayed food items.
 
 \subsection{Unhide Consumed Diet Scenario}
 
-When all the item(s) are hidden by a user then user can click the same "Hide/Unhide Consumed" button again to make all the consumed food item(s) appear on the display list. Also "Total serving of displayed items" list will be updated.
+When all the item(s) are hidden by a user then the user can click the same "Hide/Unhide Consumed" button again to make all the consumed food item(s) appear on the display list. Also the "Total serving of displayed items" list will be updated.
 
 \pagebreak
 
@@ -305,7 +306,7 @@ When all the item(s) are hidden by a user then user can click the same "Hide/Unh
 
 \FloatBarrier
 
-To mark a food group user does not need to do anything explicitly. During the adding of a food item they need to select a food group from drop down. Once a food group has been selected and added in the display list the respective food group will light up in green colour. On the other hand if user removes a food item from the display list and there is no food item present of a particular food group in the display list then that food group will set back to grey colour indicating there is no food present in the list of that food group.
+To mark a food group the user does not need to do anything explicitly. During the adding of a food item they need to select a food group from drop down. Once a food group has been selected and added in the display list the respective food group will light up in green colour. On the other hand if the user removes a food item from the display list and there is no food item present of a particular food group in the display list then that food group will set back to grey colour indicating there is no food present in the list of that food group.
 
 \section{Module Interface Diagrams}
 
@@ -332,7 +333,7 @@ To mark a food group user does not need to do anything explicitly. During the ad
 
 \subsection{View Interface}
 
-This is the View part of MVC (Model View Controller) design pattern. It holds all the classes that together build GUI of our application. Following are the classes and methods of all the classed inside view:
+This is the View part of MVC (Model View Controller) design pattern. It holds all the classes that together builds the GUI of the application. The following are the classes and methods of all the classes inside view interface:
 
 \subsubsection{FXApp}
 
@@ -361,12 +362,12 @@ In this class we initialized the Left, Right, Center and Bottom part of the bord
 		\item For each of the above change it will update the list of "Total serving of consumed items".
 	\end{itemize}
 	\item initialBottomPart(): We used HBox of JavaFx to organize the four buttons that updates food group.
-	\item refreshItems(): Once user add a food item by clicking the "Add Item" button this method clears out all the fields in for form on the left side of the GUI.
-	\item stringToGroup(): Return the type of FoodGroup by the name of the food group selected by user.
+	\item refreshItems(): Once the user add a food item by clicking the "Add Item" button this method clears out all the fields in for form on the left side of the GUI.
+	\item stringToGroup(): Return the type of FoodGroup by the name of the food group selected by the user.
 	\item markFoodGroupAdd(): There are four different counters, one for each Food Group to keep track how many food items belong to an individual group. This method increases that counter for an individual food group and sets the background colour green 				once a food has been added for a particular food group.
 	\item markFoodGroupRemove(): It decreases the counter for a food group and sets the colour grey if there is no food listed in the display table.
 	\item validateInput(TextField): Checks if the text fields are null or empty. If so then return false, else return true.
-	\item validateInput(ComboBox): If user did not select one food group from the drop down then it return false. Else it returns true.
+	\item validateInput(ComboBox): If the user did not select one food group from the drop down then it return false. Else it returns true.
 	\item validateInput(DatePicker): If no date is selected then this method will return false. Else it will return true.
 	\item validateInputServing(): Checks and validates the input for serving (Calories, Fat, Sodium and Sugar). It uses the validateInput(TextField) to make sure the fields are not null or empty. If not then it cast the value for each field from string to double.
 	\item validateInputTime(): It uses the validateInput(TextField) to make sure the field is not null or empty. Then it parse the time into LocalTime format. If the input is not valid the method will display the placeholder to give the hind of the format to use to input time.
@@ -377,13 +378,13 @@ In this class we initialized the Left, Right, Center and Bottom part of the bord
 \subsubsection{DiningTableRow}
 
 \begin{itemize}
-	\item Constructor: Initialize checkbox.Sets an action on checkbox. It updates the diningManager (Where the data is stored) and also the Consume serving upon selecting or deselecting the checkbox.
+	\item Constructor: Initialize checkbox. Sets an action on checkbox. It updates the diningManager (Where the data is stored) and also the Consume serving upon selecting or deselecting the checkbox.
 \end{itemize}
 \subsection{Model Interface}
 The Model portion of the MVC (Model View Controller) design architecture. Every class in this module will be instanced as an object to store the necessary data for the application. Below are the detailed specifications of the classes.
 
 \subsubsection{Dining}
-The parent class to both Indining and Outdining. The main object type that is used to store data for user food items.
+The parent class to both Indining and Outdining. The main object type that is used to store data for the user food items.
 \begin{itemize}
 \item Dining(): Constructor for the Dining class.
 \item getName(): Accessor method for name variable.
@@ -443,16 +444,16 @@ Class that records the data related to nutritional content of food items.
 
 \subsection{Controller Interface}
 
-The class is called DiningManager. To store the data we used an array. There is an observer to observe the changes happened by any interaction from user using the GUI. Below are the methods it contains:
+The class is called DiningManager. To store the data we used an array. There is an observer to observe the changes happened by any interaction from the user using the GUI. Below are the methods it contains:
 
 \begin{itemize}
 	\item addDiningItem(): This method initialize an instance of DiningTableRow class. Notify the observer and updates the array list of table that displays the food items. Calls this method addDiningItemDataModel() which will be described below.
 	\item addDiningItemDataModel(): Updates the array list that contains all the data.
 	\item removeDiningItem(): Checks if the collection is not empty. Then remove the selected item from Dining Item. Check if the array list for dining table is empty. If not then remove the selected item from dining item. At the end calls the below method.
 	\item removeDiningItemDataModel(): Checks if the array list for all the dining item is empty. If not then remove the selected item from array list.
-	\item markConsumed(): Iterate through all the dining item in the dining table and sets the value true for all the items that user selected consumed for. Then calls the below method.
-	\item markConsumedDataModel(): Gets the index number of the item user selected as consumed and update the array list of data.
-	\item markUnConsumed(): Iterate through all the dining item in the dining table and sets the value false for all the items that user deselected consumed for.
+	\item markConsumed(): Iterate through all the dining item in the dining table and sets the value true for all the items that the user selected consumed for. Then calls the below method.
+	\item markConsumedDataModel(): Gets the index number of the item the user selected as consumed and update the array list of data.
+	\item markUnConsumed(): Iterate through all the dining item in the dining table and sets the value false for all the items that the user deselected consumed for.
 	\item hideConsumed(): If the item is in the collection (Observer) the this method removes it.
 	\item unHideConsumed(): Iterate through all the items in the dining table array list and if the item does not exist in the collection the adds it.
 	\item updateCurrServing(): Iterate all the dining table row in the array list and updates the serving for each of then and then updates the total.
@@ -466,7 +467,7 @@ This domain model abstracts the concepts required to formulate the design of the
 
 \chapter{Dynamic Sequence Diagrams of the Interface}
 
-We have selected to use System Sequence Diagram to better understand the communication between different classes and their methods. Below are the major functionality of our application:
+We have selected to use sequence diagrams to better understand the communication between different classes and their methods. Below are the major functionalities of our application:
 
 \section{Launch Application}
 
