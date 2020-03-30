@@ -11,7 +11,6 @@ public class TypeDAOImp implements TypeDAO {
 
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private String filename = "jarDbConnection"; // properties file
     // for connecting to
     // the DB
@@ -58,23 +57,22 @@ public class TypeDAOImp implements TypeDAO {
     @Override
     public Type findTypeById(int typeId) throws SQLException {
         Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE type_id=1";
+        String selectQuery = "SELECT * FROM type WHERE type_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
-            Class.forName(JDBC_DRIVER);
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException | ClassNotFoundException npe) {
-            System.out.println("Error: " + npe.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
         // Using try with resources
         // This ensures that the objects in the parenthesis () will be closed
         // when block ends. In this case the Connection, PreparedStatement and
         // the ResultSet will all be closed.
-        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?useSSL=false";
+        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?serverTimezone=UTC";
         //myDbConn = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
-        try (Connection connection = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
+        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {

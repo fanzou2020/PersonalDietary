@@ -89,6 +89,7 @@ public class FXController {
         TypeDAO typeDAO=new TypeDAOImp();
         try{
             Type type=typeDAO.findTypeById(1);
+            String a=type.getTypeName();
         }
         catch (SQLException e) {
             e.printStackTrace();
