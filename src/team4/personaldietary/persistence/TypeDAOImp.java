@@ -11,7 +11,7 @@ public class TypeDAOImp implements TypeDAO {
 
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private String filename = "jarDbConnection"; // properties file
     // for connecting to
     // the DB
@@ -61,7 +61,7 @@ public class TypeDAOImp implements TypeDAO {
         String selectQuery = "SELECT * FROM type WHERE type_id=1";
         try {
             dcb = pm.loadTextProperties("",filename);
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER);
         } catch (IOException ioe) {
             System.out.println("Error: " + ioe.getMessage());
         } catch (NullPointerException | ClassNotFoundException npe) {
@@ -72,7 +72,7 @@ public class TypeDAOImp implements TypeDAO {
         // This ensures that the objects in the parenthesis () will be closed
         // when block ends. In this case the Connection, PreparedStatement and
         // the ResultSet will all be closed.
-        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?useSSL=true&requireSSL=false";
+        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?useSSL=false";
         //myDbConn = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
         try (Connection connection = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
              // You must use PreparedStatements to guard against SQL
