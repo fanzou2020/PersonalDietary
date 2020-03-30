@@ -70,9 +70,7 @@ public class TypeDAOImp implements TypeDAO {
         // This ensures that the objects in the parenthesis () will be closed
         // when block ends. In this case the Connection, PreparedStatement and
         // the ResultSet will all be closed.
-        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?serverTimezone=UTC";
-        //myDbConn = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
+       try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
@@ -90,7 +88,7 @@ public class TypeDAOImp implements TypeDAO {
     @Override
     public Type findTypeByName(String typeName) throws SQLException {
         Type found = new Type();
-        String selectQuery = "SELECT * FROM TYPE WHERE UPPER(type_name)=?";
+        String selectQuery = "SELECT * FROM type WHERE UPPER(type_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);
