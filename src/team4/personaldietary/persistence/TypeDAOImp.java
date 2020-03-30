@@ -1,0 +1,123 @@
+package team4.personaldietary.persistence;
+
+import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
+import team4.personaldietary.bean.DbConnectionConfigBean;
+import team4.personaldietary.bean.Type;
+
+import java.io.IOException;
+import java.sql.*;
+
+public class TypeDAOImp implements TypeDAO {
+
+    private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
+    private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private String filename = "jarDbConnection"; // properties file
+    // for connecting to
+    // the DB
+
+    public TypeDAOImp() {
+        super();
+    }
+
+    /*
+     * This method adds a Type object as a record to the database. The
+     * column list does not include ID as this is an auto increment value in the
+     * table.
+     *
+     * @param MailBean
+     *
+     * @return The number of records created, should always be 1
+     *
+     * @throws SQLException
+     */
+    @Override
+    public int createType(Type type) throws SQLException {
+        int result;
+        String createTypeQuery = "INSERT INTO type(type_name)VALUES (?)";
+
+        try {
+            dcb = pm.loadTextProperties("",filename);
+        } catch (IOException | NullPointerException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+        }
+
+        // Connection is only open for the operation and then immediately closed
+        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
+             PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
+            ps.setString(1, type.getTypeName());
+            result = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                type.setTypeId(rs.getInt(1));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Type findTypeById(int typeId) throws SQLException {
+        Type found = new Type();
+        String selectQuery = "SELECT * FROM type WHERE type_id=1";
+        try {
+            dcb = pm.loadTextProperties("",filename);
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+        } catch (NullPointerException | ClassNotFoundException npe) {
+            System.out.println("Error: " + npe.getMessage());
+        }
+
+        // Using try with resources
+        // This ensures that the objects in the parenthesis () will be closed
+        // when block ends. In this case the Connection, PreparedStatement and
+        // the ResultSet will all be closed.
+        String url ="jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb?useSSL=true&requireSSL=false";
+        //myDbConn = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
+        try (Connection connection = DriverManager.getConnection(url, "team4admin@team4dbserver", "zaq1@WSX");
+             // You must use PreparedStatements to guard against SQL
+             // Injection
+             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
+            pStatement.setInt(1, typeId);
+            try (ResultSet resultSet = pStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    found.setTypeName(resultSet.getString("type_name"));
+                    found.setTypeId(typeId);
+                }
+            }
+        }
+        return found;
+    }
+
+    @Override
+    public Type findTypeByName(String typeName) throws SQLException {
+        Type found = new Type();
+        String selectQuery = "SELECT * FROM TYPE WHERE UPPER(type_name)=?";
+
+        try {
+            dcb = pm.loadTextProperties("",filename);
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+        } catch (NullPointerException npe) {
+            System.out.println("Error: " + npe.getMessage());
+        }
+
+        // Using try with resources
+        // This ensures that the objects in the parenthesis () will be closed
+        // when block ends. In this case the Connection, PreparedStatement and
+        // the ResultSet will all be closed.
+        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
+             // You must use PreparedStatements to guard against SQL
+             // Injection
+             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
+            pStatement.setString(1, typeName.toUpperCase());
+            try (ResultSet resultSet = pStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    found.setTypeId(resultSet.getInt("type_id"));
+                    found.setTypeName(typeName);
+                }
+            }
+        }
+        return found;
+    }
+}

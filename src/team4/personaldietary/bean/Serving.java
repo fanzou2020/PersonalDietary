@@ -8,6 +8,7 @@ import java.util.Objects;
  * @version 11/3/2020
  */
 public class Serving {
+    private int servingId;
     private String amount;
     private double calories;
     private double fat;
@@ -28,6 +29,14 @@ public class Serving {
         this.fat = fat;
         this.sodium = sodium;
         this.sugar = sugar;
+    }
+
+    public int getServingId() {
+        return servingId;
+    }
+
+    public void setServingId(int servingId) {
+        this.servingId = servingId;
     }
 
     /**

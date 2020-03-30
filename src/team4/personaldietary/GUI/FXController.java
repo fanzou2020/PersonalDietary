@@ -25,7 +25,10 @@ import javafx.util.Duration;
 import javafx.event.*;
 import team4.personaldietary.bean.*;
 import team4.personaldietary.business.*;
+import team4.personaldietary.persistence.TypeDAO;
+import team4.personaldietary.persistence.TypeDAOImp;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -82,6 +85,15 @@ public class FXController {
         initialRightPart();
         initialBottomPart();
         initialCenterPart();
+
+        TypeDAO typeDAO=new TypeDAOImp();
+        try{
+            Type type=typeDAO.findTypeById(1);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

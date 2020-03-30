@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
  * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
  * @version 11/3/2020
  */
-public abstract class Dining {
+public class Dining {
 
+    private int diningId;
     private String name;
     private LocalDateTime time;
     private FoodGroup foodGroup;
@@ -85,5 +86,13 @@ public abstract class Dining {
 
     public void setConsumed(boolean consumed) {
         this.consumed = consumed;
+    }
+
+    public int getDiningId() {
+        return diningId;
+    }
+
+    public void setDiningId(int diningId) {
+        this.diningId = diningId;
     }
 }

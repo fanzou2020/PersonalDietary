@@ -4,7 +4,8 @@
     <data-source source="LOCAL" name="MySQL - personaldietarydb@team4dbserver.mysql.database.azure.com" uuid="1f8ce914-b3fe-4762-a504-da936b53fc6e">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://team4dbserver.mysql.database.azure.com:3306/personaldietarydb</jdbc-url>
       <driver-properties>
         <property name="serverTimezone" value="UTC" />
