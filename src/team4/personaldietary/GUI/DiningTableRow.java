@@ -6,6 +6,7 @@ import javafx.scene.control.CheckBox;
 import team4.personaldietary.bean.Dining;
 import team4.personaldietary.bean.Indining;
 import team4.personaldietary.bean.Outdining;
+import team4.personaldietary.bean.Type;
 import team4.personaldietary.business.DiningManager;
 
 import java.time.LocalDateTime;
@@ -49,7 +50,7 @@ public class DiningTableRow {
         name = diningItem.getName();
         time = diningItem.getTime();
         group = diningItem.getFoodGroup().toString();
-        meal = diningItem.getMeal();
+        meal = diningItem.getMeal().getMealName();
         amount = diningItem.getServing().getAmount();
         calories = diningItem.getServing().getCalories();
         fat = diningItem.getServing().getFat();
@@ -59,12 +60,12 @@ public class DiningTableRow {
         if (diningItem instanceof Indining) {
             retailer = " ";
             inOut = "In";
-            type = ((Indining) diningItem).getType();
+            type = ((Indining) diningItem).getType().getTypeName();
         }
         else if (diningItem instanceof Outdining) {
             type = " ";
             inOut = "Out";
-            retailer = ((Outdining) diningItem).getRetailer();
+            retailer = ((Outdining) diningItem).getRetailer().getRetailerName();
         }
 
         // ******** event handle to mark a food item as consumed or unconsumed *******************

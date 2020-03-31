@@ -4,12 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
+import team4.personaldietary.bean.FoodGroup;
+import team4.personaldietary.bean.Retailer;
 import team4.personaldietary.bean.Type;
 
 import java.io.IOException;
 import java.sql.*;
 
-public class TypeDAOImp implements TypeDAO{
+public class FoodGroupDAOImp implements FoodGroupDAO {
 
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
@@ -17,48 +19,13 @@ public class TypeDAOImp implements TypeDAO{
     // for connecting to
     // the DB
 
-    public TypeDAOImp() {
+    public FoodGroupDAOImp() {
         super();
     }
-    /*
-     * This method adds a Type object as a record to the database. The
-     * column list does not include ID as this is an auto increment value in the
-     * table.
-     *
-     * @param type
-     *
-     * @return The number of records created, should always be 1
-     *
-     * @throws SQLException
-     */
     @Override
-    public int createType(Type type) throws SQLException {
-        int result;
-        String createTypeQuery = "INSERT INTO type(type_name)VALUES (?)";
-
-        try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException | NullPointerException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        }
-
-        // Connection is only open for the operation and then immediately closed
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
-            ps.setString(1, type.getTypeName());
-            result = ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                type.setTypeId(rs.getInt(1));
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public Type findTypeById(int typeId) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE type_id=?";
+    public FoodGroup findFoodGroupById(int foodGroupId) throws SQLException {
+        FoodGroup found = new FoodGroup();
+        String selectQuery = "SELECT * FROM foodgroup WHERE foodgroup_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -75,11 +42,11 @@ public class TypeDAOImp implements TypeDAO{
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setInt(1, typeId);
+            pStatement.setInt(1, foodGroupId);
             try (ResultSet resultSet = pStatement.executeQuery();) {
                 while (resultSet.next()) {
-                    found.setTypeName(resultSet.getString("type_name"));
-                    found.setTypeId(typeId);
+                    found.setFoodGroupName(resultSet.getString("foodgroup_name"));
+                    found.setFoodGroupId(foodGroupId);
                 }
             }
         }
@@ -87,9 +54,9 @@ public class TypeDAOImp implements TypeDAO{
     }
 
     @Override
-    public Type findTypeByName(String typeName) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE UPPER(type_name)=?";
+    public FoodGroup findFoodGroupByName(String typeName) throws SQLException {
+        FoodGroup found = new FoodGroup();
+        String selectQuery = "SELECT * FROM foodgroup WHERE UPPER(foodgroup_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -110,8 +77,8 @@ public class TypeDAOImp implements TypeDAO{
             pStatement.setString(1, typeName.toUpperCase());
             try (ResultSet resultSet = pStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    found.setTypeId(resultSet.getInt("type_id"));
-                    found.setTypeName(typeName);
+                    found.setFoodGroupId(resultSet.getInt("foodgroup_id"));
+                    found.setFoodGroupName(typeName);
                 }
             }
         }
@@ -120,18 +87,18 @@ public class TypeDAOImp implements TypeDAO{
 
     /*
      * Retrieve all the records for the given table and returns the data as an
-     * Arraylist of Type objects
+     * Arraylist of FoodGroup objects
      *
-     * @return The Arraylist of Type objects
+     * @return The Arraylist of FoodGroup objects
      *
      * @throws SQLException
      */
     @Override
-    public ObservableList<Type> findAllType() throws SQLException {
-        System.out.println("TypeDAOImpl");
-        ObservableList<Type> rows = FXCollections
+    public ObservableList<FoodGroup> findAllFoodGroup() throws SQLException {
+        System.out.println("FoodGroupDAOImpl");
+        ObservableList<FoodGroup> rows = FXCollections
                 .observableArrayList();
-        String selectQuery = "SELECT * FROM type";
+        String selectQuery = "SELECT * FROM foodgroup";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -150,9 +117,9 @@ public class TypeDAOImp implements TypeDAO{
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);
              ResultSet resultSet = pStatement.executeQuery()) {
             while (resultSet.next()) {
-                Type found=new Type();
-                found.setTypeId(resultSet.getInt("type_id"));
-                found.setTypeName(resultSet.getString("type_name"));
+                FoodGroup found=new FoodGroup();
+                found.setFoodGroupId(resultSet.getInt("foodgroup_id"));
+                found.setFoodGroupName(resultSet.getString("foodgroup_name"));
                 rows.add(found);
             }
         }

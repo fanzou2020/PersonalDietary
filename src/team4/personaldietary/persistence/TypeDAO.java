@@ -4,8 +4,6 @@ import javafx.collections.ObservableList;
 import team4.personaldietary.bean.Type;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public interface TypeDAO {
     // Create
@@ -14,5 +12,5 @@ public interface TypeDAO {
     // Read
     public Type findTypeById(int typeId) throws SQLException;
     public Type findTypeByName(String typeName) throws SQLException;
-
+    public ObservableList<Type> findAllType() throws SQLException;
 }

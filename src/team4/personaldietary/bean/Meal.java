@@ -1,8 +1,12 @@
 package team4.personaldietary.bean;
 
+import java.util.Objects;
+
 public class Meal {
     private int mealId;
     private String mealName;
+
+    public Meal(){}
 
     public Meal(String meal_name) {
         this.mealName = meal_name;
@@ -22,5 +26,19 @@ public class Meal {
 
     public void setMealName(String mealName) {
         this.mealName = mealName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meal meal = (Meal) o;
+        return mealId == meal.mealId &&
+                Objects.equals(mealName, meal.mealName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mealId, mealName);
     }
 }

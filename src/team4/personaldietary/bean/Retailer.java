@@ -1,8 +1,12 @@
 package team4.personaldietary.bean;
 
+import java.util.Objects;
+
 public class Retailer {
     private int retailerId;
     private String retailerName;
+
+    public Retailer(){}
 
     public Retailer(String retailer_name) {
         this.retailerName = retailer_name;
@@ -22,5 +26,19 @@ public class Retailer {
 
     public void setRetailerName(String retailerName) {
         this.retailerName = retailerName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Retailer retailer = (Retailer) o;
+        return retailerId == retailer.retailerId &&
+                Objects.equals(retailerName, retailer.retailerName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(retailerId, retailerName);
     }
 }

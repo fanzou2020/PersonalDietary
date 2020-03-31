@@ -5,9 +5,30 @@ package team4.personaldietary.bean;
  * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
  * @version 11/3/2020
  */
-public enum FoodGroup {
-    vegetable_and_fruit,
-    grain_products,
-    milk_and_alternatives,
-    meat_and_alternatives
+public class FoodGroup {
+    private int foodGroupId;
+    private String foodGroupName;
+
+    public FoodGroup(){}
+
+    public FoodGroup(String foodGroupName) {
+        this.foodGroupName = foodGroupName;
+    }
+
+
+    public int getFoodGroupId() {
+        return foodGroupId;
+    }
+
+    public void setFoodGroupId(int foodGroupId) {
+        this.foodGroupId = foodGroupId;
+    }
+
+    public String getFoodGroupName() {
+        return foodGroupName;
+    }
+
+    public void setFoodGroupName(String foodGroupName) {
+        this.foodGroupName = foodGroupName;
+    }
 }

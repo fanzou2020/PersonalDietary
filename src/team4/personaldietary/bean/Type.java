@@ -1,12 +1,13 @@
 package team4.personaldietary.bean;
 
+import java.util.Objects;
+
 public class Type {
 
     private int typeId;
     private String typeName;
 
-    public Type() {
-    }
+    public Type() {}
 
     public Type(String type_name) {
         this.typeName = type_name;
@@ -26,5 +27,19 @@ public class Type {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Type type = (Type) o;
+        return typeId == type.typeId &&
+                Objects.equals(typeName, type.typeName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(typeId, typeName);
     }
 }

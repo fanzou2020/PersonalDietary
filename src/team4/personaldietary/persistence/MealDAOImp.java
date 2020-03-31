@@ -4,37 +4,37 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
-import team4.personaldietary.bean.Type;
+import team4.personaldietary.bean.Meal;
+import team4.personaldietary.bean.Retailer;
 
 import java.io.IOException;
 import java.sql.*;
 
-public class TypeDAOImp implements TypeDAO{
-
+public class MealDAOImp implements MealDAO {
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
     private String filename = "jarDbConnection"; // properties file
     // for connecting to
     // the DB
 
-    public TypeDAOImp() {
+    public MealDAOImp() {
         super();
     }
     /*
-     * This method adds a Type object as a record to the database. The
+     * This method adds a Meal object as a record to the database. The
      * column list does not include ID as this is an auto increment value in the
      * table.
      *
-     * @param type
+     * @param Meal
      *
      * @return The number of records created, should always be 1
      *
      * @throws SQLException
      */
     @Override
-    public int createType(Type type) throws SQLException {
+    public int createMeal(Meal meal) throws SQLException {
         int result;
-        String createTypeQuery = "INSERT INTO type(type_name)VALUES (?)";
+        String createTypeQuery = "INSERT INTO meal(meal_name)VALUES (?)";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -45,20 +45,20 @@ public class TypeDAOImp implements TypeDAO{
         // Connection is only open for the operation and then immediately closed
         try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
              PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
-            ps.setString(1, type.getTypeName());
+            ps.setString(1, meal.getMealName());
             result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                type.setTypeId(rs.getInt(1));
+                meal.setMealId(rs.getInt(1));
             }
         }
         return result;
     }
 
     @Override
-    public Type findTypeById(int typeId) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE type_id=?";
+    public Meal findMealById(int mealId) throws SQLException {
+        Meal found = new Meal();
+        String selectQuery = "SELECT * FROM meal WHERE meal_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -75,11 +75,11 @@ public class TypeDAOImp implements TypeDAO{
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setInt(1, typeId);
+            pStatement.setInt(1, mealId);
             try (ResultSet resultSet = pStatement.executeQuery();) {
                 while (resultSet.next()) {
-                    found.setTypeName(resultSet.getString("type_name"));
-                    found.setTypeId(typeId);
+                    found.setMealName(resultSet.getString("meal_name"));
+                    found.setMealId(mealId);
                 }
             }
         }
@@ -87,9 +87,9 @@ public class TypeDAOImp implements TypeDAO{
     }
 
     @Override
-    public Type findTypeByName(String typeName) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE UPPER(type_name)=?";
+    public Meal findMealByName(String mealName) throws SQLException {
+        Meal found = new Meal();
+        String selectQuery = "SELECT * FROM meal WHERE UPPER(meal_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -107,11 +107,11 @@ public class TypeDAOImp implements TypeDAO{
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setString(1, typeName.toUpperCase());
+            pStatement.setString(1, mealName.toUpperCase());
             try (ResultSet resultSet = pStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    found.setTypeId(resultSet.getInt("type_id"));
-                    found.setTypeName(typeName);
+                    found.setMealId(resultSet.getInt("meal_id"));
+                    found.setMealName(mealName);
                 }
             }
         }
@@ -120,18 +120,18 @@ public class TypeDAOImp implements TypeDAO{
 
     /*
      * Retrieve all the records for the given table and returns the data as an
-     * Arraylist of Type objects
+     * Arraylist of Meal objects
      *
-     * @return The Arraylist of Type objects
+     * @return The Arraylist of Meal objects
      *
      * @throws SQLException
      */
     @Override
-    public ObservableList<Type> findAllType() throws SQLException {
-        System.out.println("TypeDAOImpl");
-        ObservableList<Type> rows = FXCollections
+    public ObservableList<Meal> findAllMeal() throws SQLException {
+        System.out.println("MealDAOImpl");
+        ObservableList<Meal> rows = FXCollections
                 .observableArrayList();
-        String selectQuery = "SELECT * FROM type";
+        String selectQuery = "SELECT * FROM meal";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -150,9 +150,9 @@ public class TypeDAOImp implements TypeDAO{
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);
              ResultSet resultSet = pStatement.executeQuery()) {
             while (resultSet.next()) {
-                Type found=new Type();
-                found.setTypeId(resultSet.getInt("type_id"));
-                found.setTypeName(resultSet.getString("type_name"));
+                Meal found=new Meal();
+                found.setMealId(resultSet.getInt("meal_id"));
+                found.setMealName(resultSet.getString("meal_name"));
                 rows.add(found);
             }
         }

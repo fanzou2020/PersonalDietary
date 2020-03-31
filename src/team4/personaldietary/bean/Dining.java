@@ -14,16 +14,24 @@ public class Dining {
     private LocalDateTime time;
     private FoodGroup foodGroup;
     private Serving serving;
-    private String meal;
+    private Meal meal;
     private boolean consumed;
 
-    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, String meal) {
+    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, Meal meal) {
         setName(name);
         setTime(time);
         setFoodGroup(foodGroup);
         setServing(serving);
         setMeal(meal);
         setConsumed(false);
+    }
+
+    public int getDiningId() {
+        return diningId;
+    }
+
+    public void setDiningId(int diningId) {
+        this.diningId = diningId;
     }
 
     /**
@@ -68,7 +76,7 @@ public class Dining {
     /**
      * @return a string of meal
      */
-    public String getMeal() {
+    public Meal getMeal() {
         return meal;
     }
 
@@ -76,7 +84,7 @@ public class Dining {
      * set meal
      * @param meal
      */
-    public void setMeal(String meal) {
+    public void setMeal(Meal meal) {
         this.meal = meal;
     }
 
@@ -86,13 +94,5 @@ public class Dining {
 
     public void setConsumed(boolean consumed) {
         this.consumed = consumed;
-    }
-
-    public int getDiningId() {
-        return diningId;
-    }
-
-    public void setDiningId(int diningId) {
-        this.diningId = diningId;
     }
 }

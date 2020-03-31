@@ -278,8 +278,8 @@ public class FXController {
                             LocalTime.parse(timeField.getText())
                     );
                     foodItem = new Indining(nameField.getText(), dateTime,
-                            stringToGroup(foodGroup.getValue()), servingItem,
-                            mealField.getText(), typeField.getText());
+                            new FoodGroup(foodGroup.getValue()), servingItem,
+                            new Meal(mealField.getText()), new Type(typeField.getText()));
                 }
                 // else, add outdining food item
                 else if(!inOutDining.get() && validateInputOutdining()){
@@ -294,8 +294,8 @@ public class FXController {
                             LocalTime.parse(timeField.getText())
                     );
                     foodItem = new Outdining(nameField.getText(), dateTime,
-                            stringToGroup(foodGroup.getValue()), servingItem,
-                            mealField.getText(), retailerField.getText());
+                            new FoodGroup(foodGroup.getValue()), servingItem,
+                            new Meal(mealField.getText()), new Retailer(retailerField.getText()));
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
@@ -462,32 +462,18 @@ public class FXController {
     }
 
     /**
-     * @param s
-     * @return
-     */
-    private FoodGroup stringToGroup(String s) {
-        switch (s){
-            case "Grain Products": return FoodGroup.grain_products;
-            case "Milk and Alternatives": return FoodGroup.milk_and_alternatives;
-            case "Meat and Alternatives": return FoodGroup.meat_and_alternatives;
-            case "Vegetables and Fruits": return FoodGroup.vegetable_and_fruit;
-            default: return null;
-        }
-    }
-
-    /**
      * @param foodGroup
      */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
-        if (foodGroup == FoodGroup.vegetable_and_fruit) {
+        if (foodGroup.getFoodGroupName().equalsIgnoreCase( "vegetable_and_fruit")) {
             numItemsInFoodGroup[0]++;
             if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
         }
-        else if (foodGroup == FoodGroup.grain_products) {
+        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("grain_products")) {
             numItemsInFoodGroup[1]++;
             if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
         }
-        else if (foodGroup == FoodGroup.milk_and_alternatives) {
+        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("milk_and_alternatives")) {
             numItemsInFoodGroup[2]++;
             if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
         }
@@ -501,15 +487,15 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
-        if (foodGroup == FoodGroup.vegetable_and_fruit) {
+        if (foodGroup.getFoodGroupName().equalsIgnoreCase("vegetable_and_fruit")) {
             numItemsInFoodGroup[0]--;
             if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle(null);
         }
-        else if (foodGroup == FoodGroup.grain_products) {
+        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("grain_products")) {
             numItemsInFoodGroup[1]--;
             if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle(null);
         }
-        else if (foodGroup == FoodGroup.milk_and_alternatives) {
+        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("milk_and_alternatives")){
             numItemsInFoodGroup[2]--;
             if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle(null);
         }

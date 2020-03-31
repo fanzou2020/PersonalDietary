@@ -11,10 +11,10 @@ import java.util.Objects;
  */
 public class Indining extends Dining {
 
-    private String type;
+    private Type type;
 
     public  Indining(){
-        this("",LocalDateTime.now(),FoodGroup.grain_products,new Serving(),"","");
+        this("",LocalDateTime.now(),new FoodGroup(),new Serving(),new Meal(), new Type());
     }
     /**
      * Constructor extends Dining class
@@ -26,7 +26,7 @@ public class Indining extends Dining {
      * @param type
      */
     public Indining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
-                    String meal, String type) {
+                    Meal meal, Type type) {
         super(name, time, foodGroup, serving, meal);
         setType(type);
     }
@@ -34,7 +34,7 @@ public class Indining extends Dining {
     /**
      * @return a string of Type
      */
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -42,7 +42,7 @@ public class Indining extends Dining {
      * set type
      * @param type
      */
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

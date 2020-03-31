@@ -4,12 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
+import team4.personaldietary.bean.Retailer;
 import team4.personaldietary.bean.Type;
 
 import java.io.IOException;
 import java.sql.*;
 
-public class TypeDAOImp implements TypeDAO{
+public class RetailerDAOImp implements RetailerDAO {
 
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
@@ -17,24 +18,24 @@ public class TypeDAOImp implements TypeDAO{
     // for connecting to
     // the DB
 
-    public TypeDAOImp() {
+    public RetailerDAOImp() {
         super();
     }
     /*
-     * This method adds a Type object as a record to the database. The
+     * This method adds a Retailer object as a record to the database. The
      * column list does not include ID as this is an auto increment value in the
      * table.
      *
-     * @param type
+     * @param Retailer
      *
      * @return The number of records created, should always be 1
      *
      * @throws SQLException
      */
     @Override
-    public int createType(Type type) throws SQLException {
+    public int createRetailer(Retailer retailer) throws SQLException {
         int result;
-        String createTypeQuery = "INSERT INTO type(type_name)VALUES (?)";
+        String createTypeQuery = "INSERT INTO retailer(retailer_name)VALUES (?)";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -45,20 +46,20 @@ public class TypeDAOImp implements TypeDAO{
         // Connection is only open for the operation and then immediately closed
         try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
              PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
-            ps.setString(1, type.getTypeName());
+            ps.setString(1, retailer.getRetailerName());
             result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                type.setTypeId(rs.getInt(1));
+                retailer.setRetailerId(rs.getInt(1));
             }
         }
         return result;
     }
 
     @Override
-    public Type findTypeById(int typeId) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE type_id=?";
+    public Retailer findRetailerById(int retailerId) throws SQLException {
+        Retailer found = new Retailer();
+        String selectQuery = "SELECT * FROM retailer WHERE retailer_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -75,11 +76,11 @@ public class TypeDAOImp implements TypeDAO{
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setInt(1, typeId);
+            pStatement.setInt(1, retailerId);
             try (ResultSet resultSet = pStatement.executeQuery();) {
                 while (resultSet.next()) {
-                    found.setTypeName(resultSet.getString("type_name"));
-                    found.setTypeId(typeId);
+                    found.setRetailerName(resultSet.getString("retailer_name"));
+                    found.setRetailerId(retailerId);
                 }
             }
         }
@@ -87,9 +88,9 @@ public class TypeDAOImp implements TypeDAO{
     }
 
     @Override
-    public Type findTypeByName(String typeName) throws SQLException {
-        Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE UPPER(type_name)=?";
+    public Retailer findRetailerByName(String retailerName) throws SQLException {
+        Retailer found = new Retailer();
+        String selectQuery = "SELECT * FROM retailer WHERE UPPER(retailer_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -107,11 +108,11 @@ public class TypeDAOImp implements TypeDAO{
              // You must use PreparedStatements to guard against SQL
              // Injection
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setString(1, typeName.toUpperCase());
+            pStatement.setString(1, retailerName.toUpperCase());
             try (ResultSet resultSet = pStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    found.setTypeId(resultSet.getInt("type_id"));
-                    found.setTypeName(typeName);
+                    found.setRetailerId(resultSet.getInt("retailer_id"));
+                    found.setRetailerName(retailerName);
                 }
             }
         }
@@ -120,18 +121,18 @@ public class TypeDAOImp implements TypeDAO{
 
     /*
      * Retrieve all the records for the given table and returns the data as an
-     * Arraylist of Type objects
+     * Arraylist of Retailer objects
      *
-     * @return The Arraylist of Type objects
+     * @return The Arraylist of Retailer objects
      *
      * @throws SQLException
      */
     @Override
-    public ObservableList<Type> findAllType() throws SQLException {
-        System.out.println("TypeDAOImpl");
-        ObservableList<Type> rows = FXCollections
+    public ObservableList<Retailer> findAllRetailer() throws SQLException {
+        System.out.println("RetailerDAOImpl");
+        ObservableList<Retailer> rows = FXCollections
                 .observableArrayList();
-        String selectQuery = "SELECT * FROM type";
+        String selectQuery = "SELECT * FROM retailer";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -150,9 +151,9 @@ public class TypeDAOImp implements TypeDAO{
              PreparedStatement pStatement = connection.prepareStatement(selectQuery);
              ResultSet resultSet = pStatement.executeQuery()) {
             while (resultSet.next()) {
-                Type found=new Type();
-                found.setTypeId(resultSet.getInt("type_id"));
-                found.setTypeName(resultSet.getString("type_name"));
+                Retailer found=new Retailer();
+                found.setRetailerId(resultSet.getInt("retailer_id"));
+                found.setRetailerName(resultSet.getString("retailer_name"));
                 rows.add(found);
             }
         }
