@@ -267,7 +267,7 @@ public class FXController {
                 Dining foodItem = null;
                 // if it is indining food item
                 if (inOutDining.get() && validateInputIndining()) {
-                    Serving servingItem = new Serving(amountField.getText(),
+                    Serving servingItem = new Serving(Double.parseDouble(amountField.getText()),
                             Double.parseDouble(caloriesField.getText()),
                             Double.parseDouble(fatField.getText()),
                             Double.parseDouble(sodiumField.getText()),
@@ -283,7 +283,7 @@ public class FXController {
                 }
                 // else, add outdining food item
                 else if(!inOutDining.get() && validateInputOutdining()){
-                    Serving servingItem = new Serving(amountField.getText(),
+                    Serving servingItem = new Serving(Double.parseDouble(amountField.getText()),
                             Double.parseDouble(caloriesField.getText()),
                             Double.parseDouble(fatField.getText()),
                             Double.parseDouble(sodiumField.getText()),

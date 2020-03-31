@@ -33,7 +33,7 @@ public class DiningTableRow {
     private String meal;
     private String type;
     private String retailer;
-    private String amount;
+    private double amount;
     private double calories;
     private double fat;
     private double sodium;
@@ -232,14 +232,14 @@ public class DiningTableRow {
     /**
      * @return
      */
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
     /**
      * @param amount
      */
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

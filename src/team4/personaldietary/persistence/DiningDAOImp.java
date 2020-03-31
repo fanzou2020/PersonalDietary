@@ -247,7 +247,7 @@ public class DiningDAOImp implements DiningDAO {
     @Override
     public int createServing(Serving serving) throws SQLException {
         int result;
-        String createTypeQuery = "INSERT INTO serving(calories, fat, sodium, sugar)VALUES (?,?,?,?)";
+        String createTypeQuery = "INSERT INTO serving(calories, fat, sodium, sugar, amount)VALUES (?,?,?,?,?)";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -262,6 +262,8 @@ public class DiningDAOImp implements DiningDAO {
             ps.setDouble(2, serving.getFat());
             ps.setDouble(3, serving.getSodium());
             ps.setDouble(4, serving.getSugar());
+            ps.setDouble(5, serving.getAmount());
+
             result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -296,9 +298,10 @@ public class DiningDAOImp implements DiningDAO {
                 while (resultSet.next()) {
                     found.setServingId(servingId);
                     found.setCalories(resultSet.getDouble("calories"));
-                    found.setCalories(resultSet.getDouble("fat"));
-                    found.setCalories(resultSet.getDouble("sodium"));
-                    found.setCalories(resultSet.getDouble("sugar"));
+                    found.setFat(resultSet.getDouble("fat"));
+                    found.setSodium(resultSet.getDouble("sodium"));
+                    found.setSugar(resultSet.getDouble("sugar"));
+                    found.setAmount(resultSet.getDouble("amount"));
                 }
             }
         }
@@ -379,9 +382,10 @@ public class DiningDAOImp implements DiningDAO {
         Serving serving=new Serving();
         serving.setServingId(resultSet.getInt("s.serving_id"));
         serving.setCalories(resultSet.getDouble("s.calories"));
-        serving.setCalories(resultSet.getDouble("s.fat"));
-        serving.setCalories(resultSet.getDouble("s.sodium"));
-        serving.setCalories(resultSet.getDouble("s.sugar"));
+        serving.setFat(resultSet.getDouble("s.fat"));
+        serving.setSodium(resultSet.getDouble("s.sodium"));
+        serving.setSugar(resultSet.getDouble("s.sugar"));
+        serving.setAmount(resultSet.getDouble("s.amount"));
 
         if(resultSet.getObject("t.type_id")!=null && resultSet.getObject("t.type_name")!=null)
         {

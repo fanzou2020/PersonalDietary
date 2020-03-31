@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Serving {
     private int servingId;
-    private String amount;
+    private double amount;
     private double calories;
     private double fat;
     private double sodium;
@@ -23,7 +23,7 @@ public class Serving {
      * @param sodium
      * @param sugar
      */
-    public Serving(String amount, double calories, double fat, double sodium, double sugar) {
+    public Serving(double amount, double calories, double fat, double sodium, double sugar) {
         this.amount = amount;
         this.calories = calories;
         this.fat = fat;
@@ -40,9 +40,9 @@ public class Serving {
     }
 
     /**
-     * @return a string of amount
+     * @return amount
      */
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -50,7 +50,7 @@ public class Serving {
      * set amount
      * @param amount
      */
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
