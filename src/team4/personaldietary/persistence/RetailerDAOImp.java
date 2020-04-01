@@ -90,7 +90,7 @@ public class RetailerDAOImp implements RetailerDAO {
     @Override
     public Retailer findRetailerByName(String retailerName) throws SQLException {
         Retailer found = new Retailer();
-        String selectQuery = "SELECT * FROM retailer WHERE UPPER(retailer_name)=?";
+        String selectQuery = "SELECT * FROM retailer WHERE LOWER(retailer_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);

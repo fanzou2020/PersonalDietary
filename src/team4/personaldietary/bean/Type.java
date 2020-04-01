@@ -7,10 +7,11 @@ public class Type {
     private int typeId;
     private String typeName;
 
-    public Type() {}
+    public Type() {this("");}
 
-    public Type(String type_name) {
-        this.typeName = type_name;
+    public Type(String typeName) {
+        this.setTypeId(-1);
+        this.setTypeName(typeName);
     }
 
     public int getTypeId() {

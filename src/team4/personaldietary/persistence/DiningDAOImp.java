@@ -24,7 +24,9 @@ public class DiningDAOImp implements DiningDAO {
     @Override
     public int createDining(Dining dining) throws SQLException {
         int result;
-        String createTypeQuery = "INSERT INTO dining(dining_name, time, foodgroup_id, serving_id, meal_id, isConsumed, retailer_id, type_id)VALUES (?,?,?,?,?,?,?,?)";
+        if(createServing(dining.getServing())==0) return 0;
+
+        String createQuery = "INSERT INTO dining(dining_name, time, foodgroup_id, serving_id, meal_id, isConsumed, retailer_id, type_id)VALUES (?,?,?,?,?,?,?,?)";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -34,7 +36,7 @@ public class DiningDAOImp implements DiningDAO {
 
         // Connection is only open for the operation and then immediately closed
         try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
+             PreparedStatement ps = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);) {
             ps.setString(1, dining.getName());
             ps.setTimestamp(2, Timestamp.valueOf(dining.getTime()));
             ps.setInt(3, dining.getFoodGroup().getFoodGroupId());
@@ -43,12 +45,12 @@ public class DiningDAOImp implements DiningDAO {
             ps.setBoolean(6, false);
             if(dining instanceof Indining)
             {
-                ps.setObject(7, null);
+                ps.setInt(7, 0);
                 ps.setInt(8, ((Indining) dining).getType().getTypeId());
             }
             else if(dining instanceof Outdining){
                 ps.setInt(7, ((Outdining) dining).getRetailer().getRetailerId());
-                ps.setObject(8, null);
+                ps.setInt(8, 0);
             }
             result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -211,7 +213,7 @@ public class DiningDAOImp implements DiningDAO {
 
     @Override
     public int deleteDining(int diningId) throws SQLException {
-        int result = 0;
+        int result;
         Dining find = findDiningById(diningId);
         if (find == null) {
             throw new IllegalArgumentException("Can not delete, this dining does not exist.");
@@ -234,10 +236,8 @@ public class DiningDAOImp implements DiningDAO {
             try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
                  PreparedStatement ps = connection.prepareStatement(deleteQuery);) {
                 ps.setInt(1, diningId);
-                ArrayList<Integer> addressIdlist = findServingIdByDiningId(diningId);
-                for (int i : addressIdlist) {
-                    deleteServing(i);
-                }
+                int id = findServingIdByDiningId(diningId);
+                deleteServing(id);
                 result = ps.executeUpdate();
             }
         }
@@ -247,7 +247,7 @@ public class DiningDAOImp implements DiningDAO {
     @Override
     public int createServing(Serving serving) throws SQLException {
         int result;
-        String createTypeQuery = "INSERT INTO serving(calories, fat, sodium, sugar, amount)VALUES (?,?,?,?,?)";
+        String createQuery = "INSERT INTO serving(calories, fat, sodium, sugar, amount)VALUES (?,?,?,?,?)";
 
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -257,7 +257,7 @@ public class DiningDAOImp implements DiningDAO {
 
         // Connection is only open for the operation and then immediately closed
         try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
+             PreparedStatement ps = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);) {
             ps.setDouble(1, serving.getCalories());
             ps.setDouble(2, serving.getFat());
             ps.setDouble(3, serving.getSodium());
@@ -309,9 +309,9 @@ public class DiningDAOImp implements DiningDAO {
     }
 
     @Override
-    public ArrayList<Integer> findServingIdByDiningId(int diningId) throws SQLException {
-        ArrayList<Integer> rows = new ArrayList<Integer>();
-        String selectQuery = "SELECT s.serving_id FROM dining d INNER JOIN serving s using (serving_id) WHERE d.dining_id=?";
+    public int findServingIdByDiningId(int diningId) throws SQLException {
+        int id = -1;
+        String selectQuery = "SELECT s.serving_id FROM dining d INNER JOIN serving s USING (serving_id) WHERE d.dining_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -331,11 +331,11 @@ public class DiningDAOImp implements DiningDAO {
             pStatement.setInt(1, diningId);
             try (ResultSet resultSet = pStatement.executeQuery();) {
                 while (resultSet.next()) {
-                    rows.add(resultSet.getInt("serving_id"));
+                    id= (resultSet.getInt("serving_id"));
                 }
             }
         }
-        return rows;
+        return id;
     }
 
     @Override
@@ -387,7 +387,7 @@ public class DiningDAOImp implements DiningDAO {
         serving.setSugar(resultSet.getDouble("s.sugar"));
         serving.setAmount(resultSet.getDouble("s.amount"));
 
-        if(resultSet.getObject("t.type_id")!=null && resultSet.getObject("t.type_name")!=null)
+        if(resultSet.getInt("t.type_id")!=0)
         {
             Type type=new Type();
             type.setTypeId(resultSet.getInt("t.type_id"));
@@ -403,7 +403,7 @@ public class DiningDAOImp implements DiningDAO {
             dining.setConsumed(resultSet.getBoolean("isConsumed"));
             return dining;
         }
-        if(resultSet.getObject("r.retailer_id")!=null && resultSet.getObject("r.retailer_name")!=null)
+        if(resultSet.getInt("r.retailer_id")!=0 )
         {
             Retailer retailer=new Retailer();
             retailer.setRetailerId(resultSet.getInt("r.retailer_id"));

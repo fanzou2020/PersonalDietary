@@ -18,12 +18,13 @@ public class Dining {
     private boolean consumed;
 
     public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, Meal meal) {
-        setName(name);
-        setTime(time);
-        setFoodGroup(foodGroup);
-        setServing(serving);
-        setMeal(meal);
-        setConsumed(false);
+        this.setDiningId(-1);
+        this.setName(name);
+        this.setTime(time);
+        this.setFoodGroup(foodGroup);
+        this.setServing(serving);
+        this.setMeal(meal);
+        this.setConsumed(false);
     }
 
     public int getDiningId() {

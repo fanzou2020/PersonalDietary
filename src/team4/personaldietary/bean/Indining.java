@@ -66,7 +66,6 @@ public class Indining extends Dining {
         Indining indining = (Indining) o;
         return (indining.isConsumed() == super.isConsumed()) &&
                 (indining.getName().equals(super.getName())) &&
-                (indining.getTime().equals(super.getTime())) &&
                 (indining.getFoodGroup() == super.getFoodGroup()) &&
                 (indining.getServing().equals(super.getServing())) &&
                 (indining.getMeal().equals(super.getMeal())) &&
@@ -83,7 +82,7 @@ public class Indining extends Dining {
     @Override
     public int hashCode() {
         String i = "Indining";
-        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getFoodGroup(),
+        return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(),
                 super.getServing(), super.getMeal(), type);
     }
 }

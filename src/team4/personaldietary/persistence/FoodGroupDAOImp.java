@@ -56,7 +56,7 @@ public class FoodGroupDAOImp implements FoodGroupDAO {
     @Override
     public FoodGroup findFoodGroupByName(String typeName) throws SQLException {
         FoodGroup found = new FoodGroup();
-        String selectQuery = "SELECT * FROM foodgroup WHERE UPPER(foodgroup_name)=?";
+        String selectQuery = "SELECT * FROM foodgroup WHERE LOWER(foodgroup_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);

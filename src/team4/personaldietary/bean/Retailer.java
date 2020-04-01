@@ -6,10 +6,11 @@ public class Retailer {
     private int retailerId;
     private String retailerName;
 
-    public Retailer(){}
+    public Retailer(){this("");}
 
-    public Retailer(String retailer_name) {
-        this.retailerName = retailer_name;
+    public Retailer(String retailerName) {
+        this.setRetailerId(-1);
+        this.setRetailerName(retailerName);
     }
 
     public int getRetailerId() {

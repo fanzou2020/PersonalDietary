@@ -89,7 +89,7 @@ public class TypeDAOImp implements TypeDAO{
     @Override
     public Type findTypeByName(String typeName) throws SQLException {
         Type found = new Type();
-        String selectQuery = "SELECT * FROM type WHERE UPPER(type_name)=?";
+        String selectQuery = "SELECT * FROM type WHERE LOWER(type_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);

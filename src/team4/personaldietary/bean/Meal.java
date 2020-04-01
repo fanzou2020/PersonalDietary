@@ -6,10 +6,11 @@ public class Meal {
     private int mealId;
     private String mealName;
 
-    public Meal(){}
+    public Meal(){this("");}
 
-    public Meal(String meal_name) {
-        this.mealName = meal_name;
+    public Meal(String mealname) {
+        this.setMealId(-1);
+        this.setMealName(mealname);
     }
 
     public int getMealId() {

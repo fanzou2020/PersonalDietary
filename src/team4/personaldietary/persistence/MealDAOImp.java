@@ -89,7 +89,7 @@ public class MealDAOImp implements MealDAO {
     @Override
     public Meal findMealByName(String mealName) throws SQLException {
         Meal found = new Meal();
-        String selectQuery = "SELECT * FROM meal WHERE UPPER(meal_name)=?";
+        String selectQuery = "SELECT * FROM meal WHERE LOWER(meal_name)=?";
 
         try {
             dcb = pm.loadTextProperties("",filename);

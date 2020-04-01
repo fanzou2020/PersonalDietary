@@ -9,12 +9,14 @@ public class FoodGroup {
     private int foodGroupId;
     private String foodGroupName;
 
-    public FoodGroup(){}
-
-    public FoodGroup(String foodGroupName) {
-        this.foodGroupName = foodGroupName;
+    public FoodGroup(){
+        this("");
     }
 
+    public FoodGroup(String foodGroupName) {
+        this.setFoodGroupId(-1);
+        this.setFoodGroupName(foodGroupName);
+    }
 
     public int getFoodGroupId() {
         return foodGroupId;

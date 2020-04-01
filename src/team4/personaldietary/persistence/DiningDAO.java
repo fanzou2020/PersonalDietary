@@ -35,7 +35,7 @@ public interface DiningDAO {
 
     // Read
     public Serving findServingById(int servingId) throws SQLException;
-    public ArrayList<Integer> findServingIdByDiningId(int diningId) throws SQLException;
+    public int findServingIdByDiningId(int diningId) throws SQLException;
     // Delete
     public int deleteServing(int servingId) throws SQLException;
     //endregion
