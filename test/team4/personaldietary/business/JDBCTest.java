@@ -344,7 +344,7 @@ public class JDBCTest {
         DiningDAO diningDAO= new DiningDAOImp();
         int id=18;
         Serving serving =diningDAO.findServingById(id);
-        assertEquals("T3---findRetailerByKnownIdTest: ", id, serving.getServingId());
+        assertEquals("T3---findServingByKnownIdTest: ", id, serving.getServingId());
     }
 
     @Ignore
@@ -353,7 +353,7 @@ public class JDBCTest {
         DiningDAO diningDAO= new DiningDAOImp();
         int id=30;
         Serving serving =diningDAO.findServingById(id);
-        assertEquals("T3---findRetailerByUnknownIdTest: ", -1, serving.getServingId());
+        assertEquals("T3---findServingByUnknownIdTest: ", -1, serving.getServingId());
     }
 
     @Ignore
@@ -362,7 +362,7 @@ public class JDBCTest {
         DiningDAO diningDAO= new DiningDAOImp();
         int id=4;
         int servingId =diningDAO.findServingIdByDiningId(id);
-        assertEquals("T3---findRetailerByNameTest: ", 18, servingId);
+        assertEquals("T3---findServingIdByDiningIdTest: ", 18, servingId);
     }
 
     @Ignore
