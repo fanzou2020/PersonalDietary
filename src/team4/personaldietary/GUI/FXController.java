@@ -25,10 +25,7 @@ import javafx.util.Duration;
 import javafx.event.*;
 import team4.personaldietary.bean.*;
 import team4.personaldietary.business.*;
-import team4.personaldietary.persistence.TypeDAO;
-import team4.personaldietary.persistence.TypeDAOImp;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -85,16 +82,6 @@ public class FXController {
         initialRightPart();
         initialBottomPart();
         initialCenterPart();
-
-        TypeDAO typeDAO=new TypeDAOImp();
-        try{
-            Type type=typeDAO.findTypeById(1);
-            String a=type.getTypeName();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /**
@@ -264,43 +251,51 @@ public class FXController {
         EventHandler<ActionEvent> addEventHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Dining foodItem = null;
+                Serving servingItem = null;
                 // if it is indining food item
                 if (inOutDining.get() && validateInputIndining()) {
-                    Serving servingItem = new Serving(Double.parseDouble(amountField.getText()),
-                            Double.parseDouble(caloriesField.getText()),
-                            Double.parseDouble(fatField.getText()),
-                            Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText())
-                    );
                     LocalDateTime dateTime = LocalDateTime.of(
                             datePicker.getValue(),
                             LocalTime.parse(timeField.getText())
                     );
-                    foodItem = new Indining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroup.getValue()), servingItem,
+                    Dining foodItem = new Indining(nameField.getText(), dateTime,
+                            new FoodGroup(foodGroup.getValue()),
                             new Meal(mealField.getText()), new Type(typeField.getText()));
+
+                    servingItem = new Serving(Double.parseDouble(amountField.getText()),
+                            Double.parseDouble(caloriesField.getText()),
+                            Double.parseDouble(fatField.getText()),
+                            Double.parseDouble(sodiumField.getText()),
+                            Double.parseDouble(sugarField.getText()),
+                            foodItem
+                    );
+
+
                 }
                 // else, add outdining food item
                 else if(!inOutDining.get() && validateInputOutdining()){
-                    Serving servingItem = new Serving(Double.parseDouble(amountField.getText()),
-                            Double.parseDouble(caloriesField.getText()),
-                            Double.parseDouble(fatField.getText()),
-                            Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText())
-                    );
                     LocalDateTime dateTime = LocalDateTime.of(
                             datePicker.getValue(),
                             LocalTime.parse(timeField.getText())
                     );
-                    foodItem = new Outdining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroup.getValue()), servingItem,
+
+                    Dining foodItem = new Outdining(nameField.getText(), dateTime,
+                            new FoodGroup(foodGroup.getValue()),
                             new Meal(mealField.getText()), new Retailer(retailerField.getText()));
+
+                    servingItem = new Serving(Double.parseDouble(amountField.getText()),
+                            Double.parseDouble(caloriesField.getText()),
+                            Double.parseDouble(fatField.getText()),
+                            Double.parseDouble(sodiumField.getText()),
+                            Double.parseDouble(sugarField.getText()),
+                            foodItem
+                    );
+
                 }
 
-                if(foodItem != null) { // call add food item function of the business layer
-                    diningManager.addDiningItem(foodItem);
-                    markFoodGroupAdd(foodItem.getFoodGroup());
+                if(servingItem != null) { // call add food item function of the business layer
+                    diningManager.addDiningItem(servingItem);
+                    markFoodGroupAdd(servingItem.getDining().getFoodGroup());
                     diningManager.updateCurrServing();
                     diningManager.updateConsumedServing();
                     refreshItems();
@@ -370,8 +365,8 @@ public class FXController {
                 if(table.getItems().size()>0) {
                     DiningTableRow selectedItem = table.getSelectionModel().getSelectedItem();
                     if(selectedItem == null ) return;
-                    diningManager.removeDiningItem(selectedItem.getDiningItem());
-                    markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
+                    diningManager.removeDiningItem(selectedItem.getServing().getDining());
+                    markFoodGroupRemove(selectedItem.getServing().getDining().getFoodGroup());
                     diningManager.updateCurrServing();
                     diningManager.updateConsumedServing();
                 }

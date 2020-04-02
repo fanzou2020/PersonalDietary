@@ -211,7 +211,6 @@ public class JDBCTest {
     @Test
     public void createDiningTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        Serving serving= new Serving(0,200,0.06,80,7);
         FoodGroup foodGroup=new FoodGroup("vegetable_and_fruit");
         foodGroup.setFoodGroupId(1);
         Meal meal=new Meal("coffee");
@@ -226,7 +225,6 @@ public class JDBCTest {
         indining.setConsumed(false);
         indining.setFoodGroup(foodGroup);
         indining.setMeal(meal);
-        indining.setServing(serving);
         indining.setTime(LocalDateTime.now());
         indining.setType(type);
 
@@ -238,7 +236,6 @@ public class JDBCTest {
         outdining.setConsumed(false);
         outdining.setFoodGroup(foodGroup);
         outdining.setMeal(meal);
-        outdining.setServing(serving);
         outdining.setTime(LocalDateTime.now());
         outdining.setRetailer(retailer);
         int outResult = diningDAO.createDining(outdining);
@@ -254,7 +251,7 @@ public class JDBCTest {
     @Test
     public void findDiningByKnownIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=25;
+        int id=2;
         Dining dining =diningDAO.findDiningById(id);
         assertEquals("T3---findDiningByKnownIdTest: ", id, dining.getDiningId());
     }
@@ -272,7 +269,7 @@ public class JDBCTest {
     @Test
     public void findDiningByNameTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        String diningName="Bread";
+        String diningName="testOutdining";
         Dining dining =diningDAO.findDiningByName(diningName);
         assertEquals("T3---findDiningByNameTest: ", diningName, dining.getName());
     }
@@ -283,7 +280,7 @@ public class JDBCTest {
         DiningDAO diningDAO= new DiningDAOImp();
         Dining dining = new Outdining();
         dining.setDiningId(1);
-        dining.setConsumed(false);
+        dining.setConsumed(true);
         int result = diningDAO.updateDining(dining);
         assertEquals("T---updateDiningTest: ", 1, result);
     }
@@ -292,7 +289,7 @@ public class JDBCTest {
     @Test
     public void deleteKnownDiningTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteDining(33);
+        int result = diningDAO.deleteDining(3);
         assertEquals("T30---deleteKnownDiningTest: ", 1, result);
     }
 
@@ -318,7 +315,22 @@ public class JDBCTest {
     @Test
     public void createServingTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        Serving serving=new Serving(480,200,30,100,150);
+        FoodGroup foodGroup=new FoodGroup("vegetable_and_fruit");
+        foodGroup.setFoodGroupId(1);
+        Meal meal=new Meal("coffee");
+        meal.setMealId(1);
+        Type type=new Type("homemade");
+        type.setTypeId(1);
+
+        Indining indining=new Indining();
+        indining.setName("bread");
+        indining.setConsumed(false);
+        indining.setFoodGroup(foodGroup);
+        indining.setMeal(meal);
+        indining.setTime(LocalDateTime.now());
+        indining.setType(type);
+
+        Serving serving=new Serving(480,200,30,100,150, indining);
 
         int result = diningDAO.createServing(serving);
         Serving found= diningDAO.findServingById(serving.getServingId());
@@ -330,7 +342,7 @@ public class JDBCTest {
     @Test
     public void findServingByKnownIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=1;
+        int id=18;
         Serving serving =diningDAO.findServingById(id);
         assertEquals("T3---findRetailerByKnownIdTest: ", id, serving.getServingId());
     }
@@ -339,7 +351,7 @@ public class JDBCTest {
     @Test
     public void findServingByUnknownIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=15;
+        int id=30;
         Serving serving =diningDAO.findServingById(id);
         assertEquals("T3---findRetailerByUnknownIdTest: ", -1, serving.getServingId());
     }
@@ -348,16 +360,16 @@ public class JDBCTest {
     @Test
     public void findServingIdByDiningIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=1;
+        int id=4;
         int servingId =diningDAO.findServingIdByDiningId(id);
-        assertEquals("T3---findRetailerByNameTest: ", 1, servingId);
+        assertEquals("T3---findRetailerByNameTest: ", 18, servingId);
     }
 
     @Ignore
     @Test
     public void deleteKnownServingTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteServing(3);
+        int result = diningDAO.deleteServing(4);
         assertEquals("T30---deleteKnownServingTest: ", 1, result);
     }
 

@@ -1,10 +1,11 @@
 package team4.personaldietary.business;
 
 import team4.personaldietary.bean.Dining;
+import team4.personaldietary.bean.Serving;
 
 public interface DiningManagerInterface {
 
-    boolean addDiningItem(Dining diningItem);
+    boolean addDiningItem(Serving serving);
 
     boolean addDiningItemDataModel(Dining diningItem);
 

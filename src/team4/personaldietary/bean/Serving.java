@@ -14,8 +14,9 @@ public class Serving {
     private double fat;
     private double sodium;
     private double sugar;
+    private Dining dining;
 
-    public Serving(){this(0,0,0,0,0);}
+    public Serving(){this(0,0,0,0,0, null);}
     /**
      * @param amount
      * @param calories
@@ -23,13 +24,14 @@ public class Serving {
      * @param sodium
      * @param sugar
      */
-    public Serving(double amount, double calories, double fat, double sodium, double sugar) {
+    public Serving(double amount, double calories, double fat, double sodium, double sugar,Dining dining) {
         this.setServingId(-1);
         this.setAmount(amount);
         this.setCalories(calories);
         this.setFat(fat);
         this.setSodium(sodium);
         this.setSugar(sugar);
+        this.setDining(dining);
     }
 
     public int getServingId() {
@@ -113,6 +115,14 @@ public class Serving {
      */
     public void setSugar(double sugar) {
         this.sugar = sugar;
+    }
+
+    public Dining getDining() {
+        return dining;
+    }
+
+    public void setDining(Dining dining) {
+        this.dining = dining;
     }
 
     /**

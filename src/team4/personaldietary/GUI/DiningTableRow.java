@@ -3,10 +3,7 @@ package team4.personaldietary.GUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
-import team4.personaldietary.bean.Dining;
-import team4.personaldietary.bean.Indining;
-import team4.personaldietary.bean.Outdining;
-import team4.personaldietary.bean.Type;
+import team4.personaldietary.bean.*;
 import team4.personaldietary.business.DiningManager;
 
 import java.time.LocalDateTime;
@@ -23,7 +20,7 @@ import java.time.LocalDateTime;
  * @version 11/3/2020
  */
 public class DiningTableRow {
-    private Dining diningItem;
+    private Serving serving;
     private CheckBox checkBox;
     private boolean consumed;
     private String name;
@@ -40,32 +37,32 @@ public class DiningTableRow {
     private double sugar;
 
     /**
-     * @param diningItem
+     * @param serving
      * @param diningManager
      */
-    public DiningTableRow(Dining diningItem, DiningManager diningManager) {
-        this.diningItem = diningItem;
+    public DiningTableRow(Serving serving, DiningManager diningManager) {
+        this.serving = serving;
         this.checkBox = new CheckBox();
-        consumed = diningItem.isConsumed();
-        name = diningItem.getName();
-        time = diningItem.getTime();
-        group = diningItem.getFoodGroup().toString();
-        meal = diningItem.getMeal().getMealName();
-        amount = diningItem.getServing().getAmount();
-        calories = diningItem.getServing().getCalories();
-        fat = diningItem.getServing().getFat();
-        sodium = diningItem.getServing().getSodium();
-        sugar = diningItem.getServing().getSugar();
+        consumed = serving.getDining().isConsumed();
+        name = serving.getDining().getName();
+        time = serving.getDining().getTime();
+        group = serving.getDining().getFoodGroup().toString();
+        meal = serving.getDining().getMeal().getMealName();
+        amount = serving.getAmount();
+        calories = serving.getCalories();
+        fat = serving.getFat();
+        sodium = serving.getSodium();
+        sugar = serving.getSugar();
 
-        if (diningItem instanceof Indining) {
+        if (serving.getDining() instanceof Indining) {
             retailer = " ";
             inOut = "In";
-            type = ((Indining) diningItem).getType().getTypeName();
+            type = ((Indining) serving.getDining()).getType().getTypeName();
         }
-        else if (diningItem instanceof Outdining) {
+        else if (serving.getDining() instanceof Outdining) {
             type = " ";
             inOut = "Out";
-            retailer = ((Outdining) diningItem).getRetailer().getRetailerName();
+            retailer = ((Outdining) serving.getDining()).getRetailer().getRetailerName();
         }
 
         // ******** event handle to mark a food item as consumed or unconsumed *******************
@@ -74,14 +71,14 @@ public class DiningTableRow {
             public void handle(ActionEvent actionEvent) {
                 // if mark checkbox as selected, call function to mark a food item as consumed
                 if (checkBox.selectedProperty().get()) {
-                    diningManager.markConsumed(DiningTableRow.this.getDiningItem());
+                    diningManager.markConsumed(DiningTableRow.this.getServing().getDining());
                     diningManager.updateConsumedServing();
                     System.out.println("mark checkbox as True");
                 }
 
                 // if mark checkbox as unselected, call function to mark a food item as not consumed
                 if (!checkBox.selectedProperty().get()) {
-                    diningManager.markUnConsumed(DiningTableRow.this.getDiningItem());
+                    diningManager.markUnConsumed(DiningTableRow.this.getServing().getDining());
                     diningManager.updateConsumedServing();
                     System.out.println("mark checkbox as False");
                 }
@@ -92,15 +89,15 @@ public class DiningTableRow {
     /**
      * @return
      */
-    public Dining getDiningItem() {
-        return diningItem;
+    public Serving getServing() {
+        return serving;
     }
 
     /**
-     * @param diningItem
+     * @param serving
      */
-    public void setDiningItem(Dining diningItem) {
-        this.diningItem = diningItem;
+    public void setServing(Serving serving) {
+        this.serving = serving;
     }
 
     /**

@@ -14,20 +14,19 @@ public class Outdining extends Dining {
     private Retailer retailer;
 
     public  Outdining(){
-        this("",LocalDateTime.now(),new FoodGroup(),new Serving(),new Meal(),new Retailer());
+        this("",LocalDateTime.now(),new FoodGroup(),new Meal(),new Retailer());
     }
     /**
      * Constructor extends Dining class
      * @param name
      * @param time
      * @param foodGroup
-     * @param serving
      * @param meal
      * @param retailer
      */
-    public Outdining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
+    public Outdining(String name, LocalDateTime time, FoodGroup foodGroup,
                      Meal meal, Retailer retailer) {
-        super(name, time, foodGroup, serving, meal);
+        super(name, time, foodGroup, meal);
         setRetailer(retailer);
     }
 
@@ -67,7 +66,6 @@ public class Outdining extends Dining {
         return (outdining.isConsumed() == super.isConsumed()) &&
                 (outdining.getName().equals(super.getName())) &&
                 (outdining.getFoodGroup() == super.getFoodGroup()) &&
-                (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
                 (outdining.getRetailer().equals(retailer));
 
@@ -82,6 +80,6 @@ public class Outdining extends Dining {
     public int hashCode() {
         String i = "Outdining";
         return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(),
-                super.getServing(), super.getMeal(), retailer);
+                super.getMeal(), retailer);
     }
 }

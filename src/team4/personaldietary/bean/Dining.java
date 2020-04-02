@@ -13,16 +13,14 @@ public class Dining {
     private String name;
     private LocalDateTime time;
     private FoodGroup foodGroup;
-    private Serving serving;
     private Meal meal;
     private boolean consumed;
 
-    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, Meal meal) {
+    public Dining(String name, LocalDateTime time, FoodGroup foodGroup,  Meal meal) {
         this.setDiningId(-1);
         this.setName(name);
         this.setTime(time);
         this.setFoodGroup(foodGroup);
-        this.setServing(serving);
         this.setMeal(meal);
         this.setConsumed(false);
     }
@@ -64,14 +62,6 @@ public class Dining {
 
     public void setFoodGroup(FoodGroup foodGroup) {
         this.foodGroup = foodGroup;
-    }
-
-    public Serving getServing() {
-        return serving;
-    }
-
-    public void setServing(Serving serving) {
-        this.serving = serving;
     }
 
     /**
