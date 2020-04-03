@@ -43,4 +43,9 @@ public class Type {
     public int hashCode() {
         return Objects.hash(typeId, typeName);
     }
+
+    @Override
+    public String toString() {
+        return this.getTypeName();
+    }
 }

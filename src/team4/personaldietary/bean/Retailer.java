@@ -42,4 +42,9 @@ public class Retailer {
     public int hashCode() {
         return Objects.hash(retailerId, retailerName);
     }
+
+    @Override
+    public String toString() {
+        return this.getRetailerName();
+    }
 }

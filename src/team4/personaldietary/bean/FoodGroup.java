@@ -33,4 +33,9 @@ public class FoodGroup {
     public void setFoodGroupName(String foodGroupName) {
         this.foodGroupName = foodGroupName;
     }
+
+    @Override
+    public String toString() {
+        return this.getFoodGroupName();
+    }
 }

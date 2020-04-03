@@ -25,9 +25,13 @@ import javafx.util.Duration;
 import javafx.event.*;
 import team4.personaldietary.bean.*;
 import team4.personaldietary.business.*;
+import team4.personaldietary.persistence.*;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The <tt>FXController</tt> class
@@ -50,7 +54,8 @@ public class FXController {
     private TextField fatField = new TextField();
     private TextField sodiumField = new TextField();
     private TextField sugarField = new TextField();
-    private ComboBox<String> foodGroup;
+    private ComboBox<FoodGroup> foodGroupComboBox;
+    private ObservableList<FoodGroup> foodGroupObservableList;
 
     // items for right part
     private ObservableList<String> currServingList = FXCollections.observableArrayList();
@@ -61,17 +66,19 @@ public class FXController {
     // items for center part
     private ObservableList<DiningTableRow> diningList = FXCollections.observableArrayList(); // ObservableList related to TableView.
     private TableView<DiningTableRow> table = new TableView<>(diningList); // TableView in the center of bPane.
-    private int[] numItemsInFoodGroup = {0, 0, 0, 0}; // number of items for each food group
     private boolean hideConsumed = false;  // whether to hide the consumed food item.
 
-    //Initializing buttons for food group
-    private Button buttonVeg = new Button("Vegetables and Fruits");
-    private Button buttonGrain = new Button("Grain Products");
-    private Button buttonMilk = new Button("Milk and Alternatives");
-    private Button buttonMeat = new Button("Meat and Alternatives");
-
+    // items for bottom part
+    private List<Button> buttonList= new ArrayList<>();
     // Business layer controller
     private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
+
+    //DAO
+    private DiningDAO diningDAO=new DiningDAOImp();
+    private FoodGroupDAO foodGroupDAO=new FoodGroupDAOImp();
+    private MealDAO mealDAO=new MealDAOImp();
+    private RetailerDAO retailerDAO =new RetailerDAOImp();
+    private TypeDAO typeDAO =new TypeDAOImp();
 
     /**
      * initialize widgets
@@ -178,9 +185,15 @@ public class FXController {
         Button addItemButton = new Button("Add Item");
 
         //Combo box for food group
-        foodGroup = new ComboBox<>();
-        foodGroup.setPromptText("What group does it belong?");
-        foodGroup.getItems().addAll("Vegetables and Fruits", "Grain Products", "Milk and Alternatives", "Meat and Alternatives");
+        foodGroupComboBox = new ComboBox<>();
+        foodGroupComboBox.setPromptText("What group does it belong?");
+        //foodGroup.getItems().addAll("Vegetables and Fruits", "Grain Products", "Milk and Alternatives", "Meat and Alternatives");
+        try{
+            foodGroupObservableList =foodGroupDAO.findAllFoodGroup();
+            foodGroupComboBox.setItems(foodGroupObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         //*********************************** Set toggle switch ***************************************************
@@ -259,7 +272,7 @@ public class FXController {
                             LocalTime.parse(timeField.getText())
                     );
                     Dining foodItem = new Indining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroup.getValue()),
+                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()),
                             new Meal(mealField.getText()), new Type(typeField.getText()));
 
                     servingItem = new Serving(Double.parseDouble(amountField.getText()),
@@ -280,7 +293,7 @@ public class FXController {
                     );
 
                     Dining foodItem = new Outdining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroup.getValue()),
+                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()),
                             new Meal(mealField.getText()), new Retailer(retailerField.getText()));
 
                     servingItem = new Serving(Double.parseDouble(amountField.getText()),
@@ -313,7 +326,7 @@ public class FXController {
         gridPane.add(timeText, 0, 2);
         gridPane.add(timeField, 1, 2);
         gridPane.add(groupText, 0, 3);
-        gridPane.add(foodGroup, 1, 3);
+        gridPane.add(foodGroupComboBox, 1, 3);
         gridPane.add(mealText, 0, 4);
         gridPane.add(mealField, 1, 4);
         gridPane.add(typeText, 0, 5);
@@ -420,7 +433,14 @@ public class FXController {
      * Initialize the Bottom part of boarder pane
      */
     private void initialBottomPart() {
-        HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
+        //Initializing buttons for food group
+        HBox bottomMenu = new HBox();
+        Object[] foodGroupArray=foodGroupObservableList.toArray();
+        for (int i=0; i<foodGroupArray.length; i++) {
+            Button button=new Button(((FoodGroup)foodGroupArray[i]).getFoodGroupName());
+            bottomMenu.getChildren().add(button);
+            buttonList.add(button);
+        }
 
         //Customize HBox
         bottomMenu.setPadding(new Insets(10, 0, 10, 0));
@@ -446,9 +466,9 @@ public class FXController {
         retailerField.setPromptText("");
         typeField.clear();
         typeField.setPromptText("");
-        foodGroup.getSelectionModel().clearSelection();
-        foodGroup.setPromptText("What group does it belong?");
-        foodGroup.setStyle(null);
+        foodGroupComboBox.getSelectionModel().clearSelection();
+        foodGroupComboBox.setPromptText("What group does it belong?");
+        foodGroupComboBox.setStyle(null);
         amountField.clear();
         caloriesField.clear();
         fatField.clear();
@@ -460,21 +480,11 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
-        if (foodGroup.getFoodGroupName().equalsIgnoreCase( "vegetable_and_fruit")) {
-            numItemsInFoodGroup[0]++;
-            if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
-        }
-        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("grain_products")) {
-            numItemsInFoodGroup[1]++;
-            if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
-        }
-        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("milk_and_alternatives")) {
-            numItemsInFoodGroup[2]++;
-            if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
-        }
-        else {
-            numItemsInFoodGroup[3]++;
-            if (numItemsInFoodGroup[3] > 0) buttonMeat.setStyle("-fx-background-color: green");
+        for(int i=0; i<buttonList.size();i++){
+            if (foodGroup.getFoodGroupName().equalsIgnoreCase( buttonList.get(i).getText())) {
+                buttonList.get(i).setStyle("-fx-background-color: green");
+                break;
+            }
         }
     }
 
@@ -482,21 +492,11 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
-        if (foodGroup.getFoodGroupName().equalsIgnoreCase("vegetable_and_fruit")) {
-            numItemsInFoodGroup[0]--;
-            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle(null);
-        }
-        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("grain_products")) {
-            numItemsInFoodGroup[1]--;
-            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle(null);
-        }
-        else if (foodGroup.getFoodGroupName().equalsIgnoreCase("milk_and_alternatives")){
-            numItemsInFoodGroup[2]--;
-            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle(null);
-        }
-        else {
-            numItemsInFoodGroup[3]--;
-            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle(null);
+        for(int i=0; i<buttonList.size();i++){
+            if (foodGroup.getFoodGroupName().equalsIgnoreCase( buttonList.get(i).getText())) {
+                buttonList.get(i).setStyle(null);
+                break;
+            }
         }
     }
 
@@ -519,7 +519,7 @@ public class FXController {
      * @param comboBox
      * @return
      */
-    private boolean validateInput(ComboBox<String> comboBox){
+    private boolean validateInput(ComboBox<? extends Object> comboBox){
         if(comboBox.getValue() == null ){
             comboBox.setStyle("-fx-background-color: red");
             comboBox.getParent().requestFocus();
@@ -592,7 +592,7 @@ public class FXController {
      * @return
      */
     private boolean validateInputIndining() {
-        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
                 validateInput(mealField) && validateInput(typeField) && validateInputServing();
     }
 
@@ -601,7 +601,7 @@ public class FXController {
      * @return
      */
     private boolean validateInputOutdining() {
-        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
                 validateInput(mealField) && validateInput(retailerField) && validateInputServing();
     }
 }

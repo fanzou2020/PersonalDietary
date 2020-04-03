@@ -42,4 +42,9 @@ public class Meal {
     public int hashCode() {
         return Objects.hash(mealId, mealName);
     }
+
+    @Override
+    public String toString() {
+        return this.getMealName();
+    }
 }
