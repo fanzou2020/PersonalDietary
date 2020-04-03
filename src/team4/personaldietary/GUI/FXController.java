@@ -435,9 +435,9 @@ public class FXController {
     private void initialBottomPart() {
         //Initializing buttons for food group
         HBox bottomMenu = new HBox();
-        Object[] foodGroupArray=foodGroupObservableList.toArray();
-        for (int i=0; i<foodGroupArray.length; i++) {
-            Button button=new Button(((FoodGroup)foodGroupArray[i]).getFoodGroupName());
+
+        for(FoodGroup f:foodGroupObservableList){
+            Button button=new Button(f.getFoodGroupName());
             bottomMenu.getChildren().add(button);
             buttonList.add(button);
         }
@@ -480,9 +480,9 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
-        for(int i=0; i<buttonList.size();i++){
-            if (foodGroup.getFoodGroupName().equalsIgnoreCase( buttonList.get(i).getText())) {
-                buttonList.get(i).setStyle("-fx-background-color: green");
+        for(Button button: buttonList){
+            if (foodGroup.getFoodGroupName().equalsIgnoreCase( button.getText())) {
+                button.setStyle("-fx-background-color: green");
                 break;
             }
         }
@@ -492,9 +492,9 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
-        for(int i=0; i<buttonList.size();i++){
-            if (foodGroup.getFoodGroupName().equalsIgnoreCase( buttonList.get(i).getText())) {
-                buttonList.get(i).setStyle(null);
+        for (Button button : buttonList) {
+            if (button.getText().equalsIgnoreCase(foodGroup.getFoodGroupName())) {
+                button.setStyle(null);
                 break;
             }
         }
