@@ -143,8 +143,9 @@ public class DiningDAOImp implements DiningDAO {
         String selectQuery = "SELECT * FROM dining d " +
                 "INNER JOIN foodgroup f ON d.foodgroup_id = f.foodgroup_id " +
                 "INNER JOIN meal m ON d.meal_id = m.meal_id " +
-                "LEFT JOIN retailer r ON d.retailer_id = r.retailer_id " +
-                "LEFT JOIN type t ON d.type_id = t.type_id";
+                "INNER JOIN serving s ON d.serving_id = s.serving_id " +
+                "INNER JOIN retailer r ON d.retailer_id = r.retailer_id " +
+                "INNER JOIN type t ON d.type_id = t.type_id";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {

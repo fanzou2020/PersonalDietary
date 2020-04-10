@@ -374,23 +374,23 @@ public class JDBCTest {
 //        int servingId =diningDAO.findServingIdByDiningId(id);
 //        assertEquals("T3---findServingIdByDiningIdTest: ", 18, servingId);
 //    }
-
-    @Ignore
-    @Test
-    public void deleteKnownServingTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteServing(8);
-        assertEquals("T30---deleteKnownServingTest: ", 1, result);
-    }
-
-    @Ignore
-    @Test
-    public void deleteUnknownServingTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteServing(22);
-        assertEquals("T30---deleteUnknownServingTest: ", 0, result);
-    }
-    //endregion
+//
+//    @Ignore
+//    @Test
+//    public void deleteKnownServingTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        int result = diningDAO.deleteServing(8);
+//        assertEquals("T30---deleteKnownServingTest: ", 1, result);
+//    }
+//
+//    @Ignore
+//    @Test
+//    public void deleteUnknownServingTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        int result = diningDAO.deleteServing(22);
+//        assertEquals("T30---deleteUnknownServingTest: ", 0, result);
+//    }
+//    //endregion
 
 
 }
