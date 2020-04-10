@@ -1,10 +1,10 @@
 package team4.personaldietary.persistence;
 
 import javafx.collections.ObservableList;
-import team4.personaldietary.bean.*;
+import team4.personaldietary.bean.Dining;
+import team4.personaldietary.bean.Serving;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * The <tt>DiningDAO</tt> interface
@@ -26,12 +26,13 @@ public interface DiningDAO {
     // Update
     public int updateDining(Dining dining) throws SQLException ;
     // Delete
-    public int deleteDining(int diningId) throws SQLException;
+//    public int deleteDining(int diningId) throws SQLException;
     //endregion
 
+    public int createServing(Serving serving) throws SQLException;
+    /*
     //region ServingDAO
     // Create
-    public int createServing(Serving serving) throws SQLException;
 
     // Read
     public Serving findServingById(int servingId) throws SQLException;
@@ -39,5 +40,6 @@ public interface DiningDAO {
     // Delete
     public int deleteServing(int servingId) throws SQLException;
     //endregion
+     */
 
 }

@@ -3,7 +3,6 @@ package team4.personaldietary.business;
 import javafx.collections.ObservableList;
 import team4.personaldietary.GUI.DiningTableRow;
 import team4.personaldietary.bean.Dining;
-import team4.personaldietary.bean.Serving;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,11 +36,11 @@ public class DiningManager implements DiningManagerInterface{
         return consumedServingList;
     }
 
-    public boolean addDiningItem(Serving serving) {
-        DiningTableRow newItem = new DiningTableRow(serving, this);
+    public boolean addDiningItem(Dining diningItem) {
+        DiningTableRow newItem = new DiningTableRow(diningItem, this);
         observableCollection.add(newItem);     // control the GUI
         diningTableRowArrayList.add(newItem);
-        addDiningItemDataModel(serving.getDining());
+        addDiningItemDataModel(diningItem);
         return true;
     }
 
@@ -52,9 +51,9 @@ public class DiningManager implements DiningManagerInterface{
 
     public boolean removeDiningItem(Dining diningItem) {
         if (!observableCollection.isEmpty())
-            observableCollection.removeIf(d -> d.getServing().getDining().equals(diningItem));
+            observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
         if (!diningTableRowArrayList.isEmpty())
-            diningTableRowArrayList.removeIf(d -> d.getServing().getDining().equals(diningItem));
+            diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
         removeDiningItemDataModel(diningItem);
         return true;
     }
@@ -68,7 +67,7 @@ public class DiningManager implements DiningManagerInterface{
     public boolean markConsumed(Dining diningItem) {
         // mark consumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
-            if (d.getServing().getDining().equals(diningItem)) d.setConsumed(true);
+            if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
         System.out.println(diningArrayList);
         markConsumedDataModel(diningItem);
         return true;
@@ -84,7 +83,7 @@ public class DiningManager implements DiningManagerInterface{
     public boolean markUnConsumed(Dining diningItem) {
         // mark unconsumed in DiningTableRowArrayList
         for (DiningTableRow d : diningTableRowArrayList)
-            if (d.getServing().getDining().equals(diningItem)) d.setConsumed(false);
+            if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
         System.out.println(diningArrayList);
         markUnConsumedDataModel(diningItem);
         return true;

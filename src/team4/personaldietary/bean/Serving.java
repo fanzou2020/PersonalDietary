@@ -9,14 +9,13 @@ import java.util.Objects;
  */
 public class Serving {
     private int servingId;
-    private double amount;
+    private String amount;
     private double calories;
     private double fat;
     private double sodium;
     private double sugar;
-    private Dining dining;
 
-    public Serving(){this(0,0,0,0,0, null);}
+    public Serving(){this(null,0,0,0,0);}
     /**
      * @param amount
      * @param calories
@@ -24,14 +23,13 @@ public class Serving {
      * @param sodium
      * @param sugar
      */
-    public Serving(double amount, double calories, double fat, double sodium, double sugar,Dining dining) {
+    public Serving(String amount, double calories, double fat, double sodium, double sugar) {
         this.setServingId(-1);
         this.setAmount(amount);
         this.setCalories(calories);
         this.setFat(fat);
         this.setSodium(sodium);
         this.setSugar(sugar);
-        this.setDining(dining);
     }
 
     public int getServingId() {
@@ -45,7 +43,7 @@ public class Serving {
     /**
      * @return amount
      */
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
@@ -53,7 +51,7 @@ public class Serving {
      * set amount
      * @param amount
      */
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -115,14 +113,6 @@ public class Serving {
      */
     public void setSugar(double sugar) {
         this.sugar = sugar;
-    }
-
-    public Dining getDining() {
-        return dining;
-    }
-
-    public void setDining(Dining dining) {
-        this.dining = dining;
     }
 
     /**

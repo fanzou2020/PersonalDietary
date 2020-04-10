@@ -1,4 +1,7 @@
 package team4.personaldietary.bean;
+
+import java.util.Objects;
+
 /**
  * The <tt>FoodGroup</tt> bean class
  *
@@ -37,5 +40,19 @@ public class FoodGroup {
     @Override
     public String toString() {
         return this.getFoodGroupName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FoodGroup foodGroup = (FoodGroup) o;
+        return foodGroupId == foodGroup.foodGroupId &&
+                Objects.equals(foodGroupName, foodGroup.foodGroupName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(foodGroupId, foodGroupName);
     }
 }

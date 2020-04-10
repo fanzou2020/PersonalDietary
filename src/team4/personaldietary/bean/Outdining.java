@@ -14,19 +14,20 @@ public class Outdining extends Dining {
     private Retailer retailer;
 
     public  Outdining(){
-        this("",LocalDateTime.now(),new FoodGroup(),new Meal(),new Retailer());
+        this("",LocalDateTime.now(),new FoodGroup(), new Serving(), new Meal(),new Retailer());
     }
     /**
      * Constructor extends Dining class
      * @param name
      * @param time
      * @param foodGroup
+     * @param serving
      * @param meal
      * @param retailer
      */
-    public Outdining(String name, LocalDateTime time, FoodGroup foodGroup,
+    public Outdining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
                      Meal meal, Retailer retailer) {
-        super(name, time, foodGroup, meal);
+        super(name, time, foodGroup, serving, meal);
         setRetailer(retailer);
     }
 
@@ -65,7 +66,8 @@ public class Outdining extends Dining {
         Outdining outdining = (Outdining) o;
         return (outdining.isConsumed() == super.isConsumed()) &&
                 (outdining.getName().equals(super.getName())) &&
-                (outdining.getFoodGroup() == super.getFoodGroup()) &&
+                (outdining.getFoodGroup().equals(super.getFoodGroup())) &&
+                (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
                 (outdining.getRetailer().equals(retailer));
 
@@ -79,7 +81,7 @@ public class Outdining extends Dining {
     @Override
     public int hashCode() {
         String i = "Outdining";
-        return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(),
+        return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(), super.getServing(),
                 super.getMeal(), retailer);
     }
 }

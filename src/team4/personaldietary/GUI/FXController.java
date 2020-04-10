@@ -264,24 +264,23 @@ public class FXController {
         EventHandler<ActionEvent> addEventHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Serving servingItem = null;
+                Dining foodItem = null;
                 // if it is indining food item
                 if (inOutDining.get() && validateInputIndining()) {
                     LocalDateTime dateTime = LocalDateTime.of(
                             datePicker.getValue(),
                             LocalTime.parse(timeField.getText())
                     );
-                    Dining foodItem = new Indining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()),
-                            new Meal(mealField.getText()), new Type(typeField.getText()));
-
-                    servingItem = new Serving(Double.parseDouble(amountField.getText()),
+                    Serving servingItem = new Serving(amountField.getText(),
                             Double.parseDouble(caloriesField.getText()),
                             Double.parseDouble(fatField.getText()),
                             Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText()),
-                            foodItem
+                            Double.parseDouble(sugarField.getText())
                     );
+                    foodItem = new Indining(nameField.getText(), dateTime,
+                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()),
+                            servingItem, new Meal(mealField.getText()), new Type(typeField.getText()));
+
 
 
                 }
@@ -292,23 +291,22 @@ public class FXController {
                             LocalTime.parse(timeField.getText())
                     );
 
-                    Dining foodItem = new Outdining(nameField.getText(), dateTime,
-                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()),
-                            new Meal(mealField.getText()), new Retailer(retailerField.getText()));
-
-                    servingItem = new Serving(Double.parseDouble(amountField.getText()),
+                    Serving servingItem = new Serving(amountField.getText(),
                             Double.parseDouble(caloriesField.getText()),
                             Double.parseDouble(fatField.getText()),
                             Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText()),
-                            foodItem
+                            Double.parseDouble(sugarField.getText())
                     );
+
+                    foodItem = new Outdining(nameField.getText(), dateTime,
+                            new FoodGroup(foodGroupComboBox.getValue().getFoodGroupName()), servingItem,
+                            new Meal(mealField.getText()), new Retailer(retailerField.getText()));
 
                 }
 
-                if(servingItem != null) { // call add food item function of the business layer
-                    diningManager.addDiningItem(servingItem);
-                    markFoodGroupAdd(servingItem.getDining().getFoodGroup());
+                if(foodItem != null) { // call add food item function of the business layer
+                    diningManager.addDiningItem(foodItem);
+                    markFoodGroupAdd(foodItem.getFoodGroup());
                     diningManager.updateCurrServing();
                     diningManager.updateConsumedServing();
                     refreshItems();
@@ -378,8 +376,8 @@ public class FXController {
                 if(table.getItems().size()>0) {
                     DiningTableRow selectedItem = table.getSelectionModel().getSelectedItem();
                     if(selectedItem == null ) return;
-                    diningManager.removeDiningItem(selectedItem.getServing().getDining());
-                    markFoodGroupRemove(selectedItem.getServing().getDining().getFoodGroup());
+                    diningManager.removeDiningItem(selectedItem.getDiningItem());
+                    markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
                     diningManager.updateCurrServing();
                     diningManager.updateConsumedServing();
                 }
