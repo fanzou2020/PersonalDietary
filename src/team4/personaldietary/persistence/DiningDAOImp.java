@@ -32,6 +32,10 @@ public class DiningDAOImp implements DiningDAO {
             System.out.println("Error: " + ioe.getMessage());
         }
 
+        if (dining.getServing().getServingId() == -1) {
+            createServing(dining.getServing());
+        }
+
         // Connection is only open for the operation and then immediately closed
         try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
              PreparedStatement ps = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS);) {
@@ -49,9 +53,6 @@ public class DiningDAOImp implements DiningDAO {
                 ps.setInt(6, ((Outdining) dining).getRetailer().getRetailerId());
                 ps.setInt(7, 0);
             }
-
-            int servingResult = createServing(dining.getServing());
-
             ps.setInt(8, dining.getServing().getServingId());
             result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -68,9 +69,9 @@ public class DiningDAOImp implements DiningDAO {
         String selectQuery = "SELECT * FROM dining d " +
                 "INNER JOIN foodgroup f ON d.foodgroup_id = f.foodgroup_id " +
                 "INNER JOIN meal m ON d.meal_id = m.meal_id " +
-                "LEFT JOIN retailer r ON d.retailer_id = r.retailer_id " +
-                "LEFT JOIN type t ON d.type_id = t.type_id " +
-                "LEFT JOIN serving s ON d.serving_id = s.serving_id" +
+                "INNER JOIN serving s ON d.serving_id = s.serving_id " +
+                "INNER JOIN retailer r ON d.retailer_id = r.retailer_id " +
+                "INNER JOIN type t ON d.type_id = t.type_id " +
                 "WHERE dining_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -104,8 +105,9 @@ public class DiningDAOImp implements DiningDAO {
         String selectQuery = "SELECT * FROM dining d " +
                 "INNER JOIN foodgroup f ON d.foodgroup_id = f.foodgroup_id " +
                 "INNER JOIN meal m ON d.meal_id = m.meal_id " +
-                "LEFT JOIN retailer r ON d.retailer_id = r.retailer_id " +
-                "LEFT JOIN type t ON d.type_id = t.type_id " +
+                "INNER JOIN serving s ON d.serving_id = s.serving_id " +
+                "INNER JOIN retailer r ON d.retailer_id = r.retailer_id " +
+                "INNER JOIN type t ON d.type_id = t.type_id " +
                 "WHERE dining_name=?";
         try {
             dcb = pm.loadTextProperties("",filename);
@@ -210,10 +212,11 @@ public class DiningDAOImp implements DiningDAO {
         return result;
     }
 
-/*
+
     @Override
     public int deleteDining(int diningId) throws SQLException {
         int result;
+        int serving_id;
         Dining find = findDiningById(diningId);
         if (find == null) {
             throw new IllegalArgumentException("Can not delete, this dining does not exist.");
@@ -236,13 +239,16 @@ public class DiningDAOImp implements DiningDAO {
             try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
                  PreparedStatement ps = connection.prepareStatement(deleteQuery);) {
                 ps.setInt(1, diningId);
-                deleteServing(findServingIdByDiningId(diningId));
+//                deleteServing(findServingIdByDiningId(diningId));
+                serving_id = findDiningById(diningId).getServing().getServingId();
                 result = ps.executeUpdate();
             }
         }
+        if (result == 1) {
+            deleteServing(serving_id);
+        }
         return result;
     }
-*/
 
     public int createServing(Serving serving) throws SQLException {
         int result;
@@ -271,7 +277,7 @@ public class DiningDAOImp implements DiningDAO {
         return result;
     }
 
-/*
+
     @Override
     public Serving findServingById(int servingId) throws SQLException {
         Serving found = new Serving();
@@ -300,8 +306,7 @@ public class DiningDAOImp implements DiningDAO {
                     found.setFat(resultSet.getDouble("fat"));
                     found.setSodium(resultSet.getDouble("sodium"));
                     found.setSugar(resultSet.getDouble("sugar"));
-                    found.setAmount(resultSet.getDouble("amount"));
-                    found.setDining(findDiningById(resultSet.getInt("dining_id")));
+                    found.setAmount(resultSet.getString("amount"));
                 }
             }
         }
@@ -311,7 +316,7 @@ public class DiningDAOImp implements DiningDAO {
     @Override
     public int findServingIdByDiningId(int diningId) throws SQLException {
         int id = -1;
-        String selectQuery = "SELECT serving_id FROM serving WHERE dining_id=?";
+        String selectQuery = "SELECT serving_id FROM dining WHERE dining_id=?";
         try {
             dcb = pm.loadTextProperties("",filename);
         } catch (IOException ioe) {
@@ -368,7 +373,6 @@ public class DiningDAOImp implements DiningDAO {
         }
         return result;
     }
-     */
 
     private Dining createDiningObject(ResultSet resultSet) throws SQLException {
 

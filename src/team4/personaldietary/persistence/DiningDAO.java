@@ -26,11 +26,11 @@ public interface DiningDAO {
     // Update
     public int updateDining(Dining dining) throws SQLException ;
     // Delete
-//    public int deleteDining(int diningId) throws SQLException;
+    public int deleteDining(int diningId) throws SQLException;
     //endregion
 
     public int createServing(Serving serving) throws SQLException;
-    /*
+
     //region ServingDAO
     // Create
 
@@ -40,6 +40,6 @@ public interface DiningDAO {
     // Delete
     public int deleteServing(int servingId) throws SQLException;
     //endregion
-     */
+
 
 }

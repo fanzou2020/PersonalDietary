@@ -233,6 +233,7 @@ public class JDBCTest {
         int inResult = diningDAO.createDining(indining);
         Dining inFound= diningDAO.findDiningById(indining.getDiningId());
 
+        Serving serving2 = new Serving("1 cup", 20, 20, 20, 20);
         Outdining outdining=new Outdining();
         outdining.setName("testOutdining");
         outdining.setConsumed(false);
@@ -240,12 +241,12 @@ public class JDBCTest {
         outdining.setMeal(meal);
         outdining.setTime(LocalDateTime.now());
         outdining.setRetailer(retailer);
-        outdining.setServing(serving);
+        outdining.setServing(serving2);
         int outResult = diningDAO.createDining(outdining);
         Dining outFound= diningDAO.findDiningById(outdining.getDiningId());
 
         assertEquals("T0---Create Dining", 1, inResult);
-        assertEquals("T0---createInDiningTest", inFound.getName(), indining.getName());
+        assertEquals("T0---createInDiningTest", inFound, indining);
 //        assertEquals("T0---Create Dining", 1, outResult);
 //        assertEquals("T0---createOutDiningTest", outFound, outdining);
 //        assertEquals("T0---FoodGroup equality", inFound.getFoodGroup(), indining.getFoodGroup());
@@ -257,7 +258,7 @@ public class JDBCTest {
     @Test
     public void findDiningByKnownIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=2;
+        int id=18;
         Dining dining =diningDAO.findDiningById(id);
         assertEquals("T3---findDiningByKnownIdTest: ", id, dining.getDiningId());
     }
@@ -266,7 +267,7 @@ public class JDBCTest {
     @Test
     public void findDiningByUnknownIdTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int id=15;
+        int id=100;
         Dining dining =diningDAO.findDiningById(id);
         assertEquals("T3---findDiningByUnknownIdTest: ", -1, dining.getDiningId());
     }
@@ -285,20 +286,21 @@ public class JDBCTest {
     public void updateDiningTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
         Dining dining = new Outdining();
-        dining.setDiningId(1);
+        dining.setDiningId(18);
         dining.setConsumed(true);
         int result = diningDAO.updateDining(dining);
         assertEquals("T---updateDiningTest: ", 1, result);
     }
 
-    /*
+
     @Ignore
     @Test
     public void deleteKnownDiningTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteDining(3);
+        int result = diningDAO.deleteDining(32);
         assertEquals("T30---deleteKnownDiningTest: ", 1, result);
     }
+
 
     @Ignore
     @Test
@@ -307,6 +309,7 @@ public class JDBCTest {
         int result = diningDAO.deleteServing(50);
         assertEquals("T30---deleteUnknownDiningTest: ", 0, result);
     }
+
 
     @Ignore
     @Test
@@ -317,66 +320,66 @@ public class JDBCTest {
     }
     //endregion
 
-    //region test Serving
-    @Ignore
-    @Test
-    public void createServingTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        FoodGroup foodGroup=new FoodGroup("vegetable_and_fruit");
-        foodGroup.setFoodGroupId(1);
-        Meal meal=new Meal("coffee");
-        meal.setMealId(1);
-        Type type=new Type("homemade");
-        type.setTypeId(1);
-
-        Indining indining=new Indining();
-        indining.setName("bread");
-        indining.setConsumed(false);
-        indining.setFoodGroup(foodGroup);
-        indining.setMeal(meal);
-        indining.setTime(LocalDateTime.now());
-        indining.setType(type);
-
-        Serving serving=new Serving("480",200,30,100,150, indining);
-
-        int result = diningDAO.createServing(serving);
-        Serving found= diningDAO.findServingById(serving.getServingId());
-        assertEquals("T0---Create serving", 1, result);
-        assertEquals("T0---createServingTest", found, serving);
-    }
-
-    @Ignore
-    @Test
-    public void findServingByKnownIdTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        int id=18;
-        Serving serving =diningDAO.findServingById(id);
-        assertEquals("T3---findServingByKnownIdTest: ", id, serving.getServingId());
-    }
-
-    @Ignore
-    @Test
-    public void findServingByUnknownIdTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        int id=30;
-        Serving serving =diningDAO.findServingById(id);
-        assertEquals("T3---findServingByUnknownIdTest: ", -1, serving.getServingId());
-    }
-
-    @Ignore
-    @Test
-    public void findServingIdByDiningIdTest() throws SQLException {
-        DiningDAO diningDAO= new DiningDAOImp();
-        int id=4;
-        int servingId =diningDAO.findServingIdByDiningId(id);
-        assertEquals("T3---findServingIdByDiningIdTest: ", 18, servingId);
-    }
+//    //region test Serving
+//    @Ignore
+//    @Test
+//    public void createServingTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        FoodGroup foodGroup=new FoodGroup("vegetable_and_fruit");
+//        foodGroup.setFoodGroupId(1);
+//        Meal meal=new Meal("coffee");
+//        meal.setMealId(1);
+//        Type type=new Type("homemade");
+//        type.setTypeId(1);
+//
+//        Indining indining=new Indining();
+//        indining.setName("bread");
+//        indining.setConsumed(false);
+//        indining.setFoodGroup(foodGroup);
+//        indining.setMeal(meal);
+//        indining.setTime(LocalDateTime.now());
+//        indining.setType(type);
+//
+//        Serving serving=new Serving("480",200,30,100,150, indining);
+//
+//        int result = diningDAO.createServing(serving);
+//        Serving found= diningDAO.findServingById(serving.getServingId());
+//        assertEquals("T0---Create serving", 1, result);
+//        assertEquals("T0---createServingTest", found, serving);
+//    }
+//
+//    @Ignore
+//    @Test
+//    public void findServingByKnownIdTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        int id=18;
+//        Serving serving =diningDAO.findServingById(id);
+//        assertEquals("T3---findServingByKnownIdTest: ", id, serving.getServingId());
+//    }
+//
+//    @Ignore
+//    @Test
+//    public void findServingByUnknownIdTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        int id=30;
+//        Serving serving =diningDAO.findServingById(id);
+//        assertEquals("T3---findServingByUnknownIdTest: ", -1, serving.getServingId());
+//    }
+//
+//    @Ignore
+//    @Test
+//    public void findServingIdByDiningIdTest() throws SQLException {
+//        DiningDAO diningDAO= new DiningDAOImp();
+//        int id=4;
+//        int servingId =diningDAO.findServingIdByDiningId(id);
+//        assertEquals("T3---findServingIdByDiningIdTest: ", 18, servingId);
+//    }
 
     @Ignore
     @Test
     public void deleteKnownServingTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
-        int result = diningDAO.deleteServing(4);
+        int result = diningDAO.deleteServing(8);
         assertEquals("T30---deleteKnownServingTest: ", 1, result);
     }
 
@@ -389,5 +392,5 @@ public class JDBCTest {
     }
     //endregion
 
-     */
+
 }
