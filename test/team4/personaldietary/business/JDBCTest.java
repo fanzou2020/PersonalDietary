@@ -316,7 +316,7 @@ public class JDBCTest {
     public void findAllDiningTest() throws SQLException {
         DiningDAO diningDAO= new DiningDAOImp();
         List<Dining> lmb =diningDAO.findAllDining();
-        assertEquals("T3---findAllDiningTest: ", 1, lmb.size());
+        assertEquals("T3---findAllDiningTest: ", 3, lmb.size());
     }
     //endregion
 

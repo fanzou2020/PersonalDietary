@@ -1,10 +1,10 @@
 package team4.personaldietary.persistence;
 
-import javafx.collections.ObservableList;
 import team4.personaldietary.bean.Dining;
 import team4.personaldietary.bean.Serving;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * The <tt>DiningDAO</tt> interface
@@ -21,7 +21,7 @@ public interface DiningDAO {
     // Read
     public Dining findDiningById(int diningId) throws SQLException;
     public Dining findDiningByName(String diningName) throws SQLException;
-    public ObservableList<Dining> findAllDining() throws SQLException ;
+    public List<Dining> findAllDining() throws SQLException ;
 
     // Update
     public int updateDining(Dining dining) throws SQLException ;

@@ -1,12 +1,12 @@
 package team4.personaldietary.persistence;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.*;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 public class DiningDAOImp implements DiningDAO {
 
@@ -136,9 +136,9 @@ public class DiningDAOImp implements DiningDAO {
     }
 
     @Override
-    public ObservableList<Dining> findAllDining() throws SQLException {
+    public List<Dining> findAllDining() throws SQLException {
         System.out.println("DiningDAOImpl");
-        ObservableList<Dining> rows = FXCollections
+        List<Dining> rows = FXCollections
                 .observableArrayList();
         String selectQuery = "SELECT * FROM dining d " +
                 "INNER JOIN foodgroup f ON d.foodgroup_id = f.foodgroup_id " +
