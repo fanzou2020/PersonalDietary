@@ -1,13 +1,12 @@
 package team4.personaldietary.persistence;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.Meal;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MealDAOImp implements MealDAO {
@@ -129,8 +128,7 @@ public class MealDAOImp implements MealDAO {
     @Override
     public List<Meal> findAllMeal() throws SQLException {
         System.out.println("MealDAOImpl");
-        ObservableList<Meal> rows = FXCollections
-                .observableArrayList();
+        List<Meal> rows = new ArrayList<>();
         String selectQuery = "SELECT * FROM meal";
         try {
             dcb = pm.loadTextProperties("",filename);

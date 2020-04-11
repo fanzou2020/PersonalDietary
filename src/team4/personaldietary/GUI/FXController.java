@@ -6,6 +6,8 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,18 +50,21 @@ public class FXController {
     private DatePicker datePicker = new DatePicker();
     private TextField timeField = new TextField();
     private ComboBox<FoodGroup> foodGroupComboBox;
-    private ComboBox<Meal> mealComboBox;
-    private ComboBox<Type> typeComboBox;
-    private ComboBox<Retailer> retailerComboBox;
+    private ComboBox<String> mealComboBox;
+    private ComboBox<String> typeComboBox;
+    private ComboBox<String> retailerComboBox;
     private TextField amountField = new TextField();
     private TextField caloriesField = new TextField();
     private TextField fatField = new TextField();
     private TextField sodiumField = new TextField();
     private TextField sugarField = new TextField();
     private ObservableList<FoodGroup> foodGroupObservableList;
-    private ObservableList<Meal> mealObservableList;
-    private ObservableList<Type> typeObservableList;
-    private ObservableList<Retailer> retailerObservableList;
+    private List<Meal> mealList;
+    private ObservableList<String> mealObservableList;
+    private List<Type> typeList;
+    private ObservableList<String> typeObservableList;
+    private List<Retailer> retailerList;
+    private ObservableList<String> retailerObservableList;
 
     // items for right part
     private ObservableList<String> currServingList = FXCollections.observableArrayList();
@@ -204,34 +209,80 @@ public class FXController {
         }
 
         // ComboBox for meal
-        mealComboBox = new ComboBox<>();
+        mealComboBox = new ComboBox<String>();
         mealComboBox.setPromptText("Select or input a meal category:");
         try {
-            mealObservableList = FXCollections.observableArrayList(facadeDAO.findAllMeal());
+            mealList = facadeDAO.findAllMeal();
+            mealObservableList = FXCollections.observableArrayList();
+            for (Meal m : mealList)
+                mealObservableList.add(m.getMealName());
             mealComboBox.setItems(mealObservableList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        mealComboBox.setEditable(true);
+        mealComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null)
+                    updateMealList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         // ComboBox for type
         typeComboBox = new ComboBox<>();
         typeComboBox.setPromptText("Select or input a type category:");
         try {
-            typeObservableList = FXCollections.observableArrayList(facadeDAO.findAllType());
+            typeList = facadeDAO.findAllType();
+            typeObservableList = FXCollections.observableArrayList();
+            for (Type t : typeList)
+                typeObservableList.add(t.getTypeName());
             typeComboBox.setItems(typeObservableList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        typeComboBox.setEditable(true);
+        typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null)
+                        updateTypeList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         // ComboBox for retailer
         retailerComboBox = new ComboBox<>();
         retailerComboBox.setPromptText("Select or input a retailer:");
         try {
-            retailerObservableList = FXCollections.observableArrayList(facadeDAO.findAllRetailer());
+            retailerList = facadeDAO.findAllRetailer();
+            retailerObservableList = FXCollections.observableArrayList();
+            for (Retailer r : retailerList)
+                retailerObservableList.add(r.getRetailerName());
             retailerComboBox.setItems(retailerObservableList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        retailerComboBox.setEditable(true);
+        retailerComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null)
+                        updateRetailerList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
         //*********************************** Set toggle switch ***************************************************
@@ -319,7 +370,7 @@ public class FXController {
                             Double.parseDouble(sugarField.getText())
                     );
                     foodItem = new Indining(nameField.getText(), dateTime, foodGroupComboBox.getValue(),
-                            servingItem, mealComboBox.getValue(), typeComboBox.getValue());
+                            servingItem, findMealByName(mealComboBox.getValue()), findTypeByName(typeComboBox.getValue()));
                 }
 
                 // else, add outdining food item
@@ -337,7 +388,8 @@ public class FXController {
                     );
 
                     foodItem = new Outdining(nameField.getText(), dateTime, foodGroupComboBox.getValue(),
-                            servingItem, mealComboBox.getValue(), retailerComboBox.getValue());
+                            servingItem, findMealByName(mealComboBox.getValue()),
+                            findRetailerByName(retailerComboBox.getValue()));
                 }
 
                 if(foodItem != null) { // call add food item function of the business layer
@@ -646,4 +698,68 @@ public class FXController {
         return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
                 validateInput(mealComboBox) && validateInput(retailerComboBox) && validateInputServing();
     }
+
+
+    // update meal list when the meal name is not in database
+    private boolean updateMealList(String mealName) throws SQLException {
+        // if meal not added into database
+        if (!mealObservableList.contains(mealName)) {
+                facadeDAO.createMeal(new Meal(mealName));
+                mealList = facadeDAO.findAllMeal();
+                mealObservableList.add(mealName);
+        }
+        return true;
+    }
+
+    // find Meal object by mealName in mealList
+    private Meal findMealByName(String mealName) {
+        for (Meal m : mealList) {
+            if (m.getMealName().equalsIgnoreCase(mealName)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    // update type list when the type name is not in database
+    private boolean updateTypeList(String typeName) throws SQLException {
+        // if meal not added into database
+        if (!typeObservableList.contains(typeName)) {
+            facadeDAO.createType(new Type(typeName));
+            typeList = facadeDAO.findAllType();
+            typeObservableList.add(typeName);
+        }
+        return true;
+    }
+
+    private Type findTypeByName(String typeName) {
+        for (Type t : typeList) {
+            if (t.getTypeName().equalsIgnoreCase(typeName)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    // update retailer list when the retailer name is not in database
+    private boolean updateRetailerList(String retailerName) throws SQLException {
+        // if retailer not added into database
+        if (!retailerObservableList.contains(retailerName)) {
+            facadeDAO.createRetailer(new Retailer(retailerName));
+            retailerList = facadeDAO.findAllRetailer();
+            retailerObservableList.add(retailerName);
+        }
+        return true;
+    }
+
+    private Retailer findRetailerByName(String retailerName) {
+        for (Retailer r : retailerList) {
+            if (r.getRetailerName().equalsIgnoreCase(retailerName)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+
 }
