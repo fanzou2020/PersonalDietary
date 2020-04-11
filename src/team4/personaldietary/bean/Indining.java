@@ -69,7 +69,8 @@ public class Indining extends Dining {
                 (indining.getFoodGroup().equals(super.getFoodGroup())) &&
                 (indining.getServing().equals(super.getServing())) &&
                 (indining.getMeal().equals(super.getMeal())) &&
-                (indining.getType().equals(type));
+                (indining.getType().equals(type)) &&
+                (indining.getDiningId() == super.getDiningId());
 
     }
 

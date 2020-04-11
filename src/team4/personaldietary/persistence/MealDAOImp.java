@@ -5,10 +5,10 @@ import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.Meal;
-import team4.personaldietary.bean.Retailer;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 public class MealDAOImp implements MealDAO {
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
@@ -127,7 +127,7 @@ public class MealDAOImp implements MealDAO {
      * @throws SQLException
      */
     @Override
-    public ObservableList<Meal> findAllMeal() throws SQLException {
+    public List<Meal> findAllMeal() throws SQLException {
         System.out.println("MealDAOImpl");
         ObservableList<Meal> rows = FXCollections
                 .observableArrayList();

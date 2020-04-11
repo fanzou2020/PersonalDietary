@@ -6,7 +6,7 @@ public interface DiningManagerInterface {
 
     boolean addDiningItem(Dining diningItem);
 
-    boolean addDiningItemDataModel(Dining diningItem);
+    boolean addDiningItemData(Dining diningItem);
 
     boolean markConsumed(Dining diningItem);
 

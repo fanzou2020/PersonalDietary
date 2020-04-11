@@ -69,7 +69,8 @@ public class Outdining extends Dining {
                 (outdining.getFoodGroup().equals(super.getFoodGroup())) &&
                 (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
-                (outdining.getRetailer().equals(retailer));
+                (outdining.getRetailer().equals(retailer)) &&
+                (outdining.getDiningId() == super.getDiningId());
 
     }
 

@@ -8,6 +8,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,10 +24,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.event.*;
 import team4.personaldietary.bean.*;
-import team4.personaldietary.business.*;
-import team4.personaldietary.persistence.*;
+import team4.personaldietary.business.DiningManager;
+import team4.personaldietary.facade.FacadeDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -74,11 +75,7 @@ public class FXController {
     private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
 
     //DAO
-    private DiningDAO diningDAO=new DiningDAOImp();
-    private FoodGroupDAO foodGroupDAO=new FoodGroupDAOImp();
-    private MealDAO mealDAO=new MealDAOImp();
-    private RetailerDAO retailerDAO =new RetailerDAOImp();
-    private TypeDAO typeDAO =new TypeDAOImp();
+    private FacadeDAO facadeDAO = new FacadeDAO();
 
     /**
      * initialize widgets
@@ -89,6 +86,24 @@ public class FXController {
         initialRightPart();
         initialBottomPart();
         initialCenterPart();
+        loadInitialData();
+    }
+
+    /**
+     * When launch application, load data from database
+     */
+    private void loadInitialData() {
+        try {
+            List<Dining> diningList = facadeDAO.findAllDining();
+            for (Dining d : diningList) {
+                diningManager.addDiningItem(d);
+                diningManager.updateConsumedServing();
+                diningManager.updateCurrServing();
+                markFoodGroupAdd(d.getFoodGroup());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -189,7 +204,7 @@ public class FXController {
         foodGroupComboBox.setPromptText("What group does it belong?");
         //foodGroup.getItems().addAll("Vegetables and Fruits", "Grain Products", "Milk and Alternatives", "Meat and Alternatives");
         try{
-            foodGroupObservableList =foodGroupDAO.findAllFoodGroup();
+            foodGroupObservableList = FXCollections.observableArrayList(facadeDAO.findAllFoodGroup());
             foodGroupComboBox.setItems(foodGroupObservableList);
         } catch (SQLException e) {
             e.printStackTrace();

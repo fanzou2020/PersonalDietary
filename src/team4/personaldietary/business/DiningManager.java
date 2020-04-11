@@ -37,14 +37,19 @@ public class DiningManager implements DiningManagerInterface{
     }
 
     public boolean addDiningItem(Dining diningItem) {
-        DiningTableRow newItem = new DiningTableRow(diningItem, this);
-        observableCollection.add(newItem);     // control the GUI
-        diningTableRowArrayList.add(newItem);
-        addDiningItemDataModel(diningItem);
+        addDiningItemView(diningItem);
+        addDiningItemData(diningItem);
         return true;
     }
 
-    public boolean addDiningItemDataModel(Dining diningItem) {
+    public boolean addDiningItemView(Dining diningItem) {
+        DiningTableRow newItem = new DiningTableRow(diningItem, this);
+        observableCollection.add(newItem);     // control the GUI
+        diningTableRowArrayList.add(newItem);
+        return true;
+    }
+
+    public boolean addDiningItemData(Dining diningItem) {
         diningArrayList.add(diningItem);   // control the data model.
         return true;
     }

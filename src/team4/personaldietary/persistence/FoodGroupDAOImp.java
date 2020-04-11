@@ -5,11 +5,10 @@ import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.FoodGroup;
-import team4.personaldietary.bean.Retailer;
-import team4.personaldietary.bean.Type;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 public class FoodGroupDAOImp implements FoodGroupDAO {
 
@@ -94,7 +93,7 @@ public class FoodGroupDAOImp implements FoodGroupDAO {
      * @throws SQLException
      */
     @Override
-    public ObservableList<FoodGroup> findAllFoodGroup() throws SQLException {
+    public List<FoodGroup> findAllFoodGroup() throws SQLException {
         System.out.println("FoodGroupDAOImpl");
         ObservableList<FoodGroup> rows = FXCollections
                 .observableArrayList();

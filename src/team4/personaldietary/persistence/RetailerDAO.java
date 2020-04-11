@@ -1,10 +1,9 @@
 package team4.personaldietary.persistence;
 
-import javafx.collections.ObservableList;
 import team4.personaldietary.bean.Retailer;
-import team4.personaldietary.bean.Type;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface RetailerDAO {
 
@@ -14,5 +13,5 @@ public interface RetailerDAO {
     // Read
     public Retailer findRetailerById(int retailerId) throws SQLException;
     public Retailer findRetailerByName(String retailerName) throws SQLException;
-    public ObservableList<Retailer> findAllRetailer() throws SQLException ;
+    public List<Retailer> findAllRetailer() throws SQLException ;
 }

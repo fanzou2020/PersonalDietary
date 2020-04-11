@@ -42,7 +42,7 @@ public class DiningTableRow {
      */
     public DiningTableRow(Dining diningItem, DiningManager diningManager) {
         this.diningItem = diningItem;
-        this.checkBox = new CheckBox();
+        checkBox = new CheckBox();
         consumed = diningItem.isConsumed();
         name = diningItem.getName();
         time = diningItem.getTime();
@@ -53,6 +53,10 @@ public class DiningTableRow {
         fat = diningItem.getServing().getFat();
         sodium = diningItem.getServing().getSodium();
         sugar = diningItem.getServing().getSugar();
+
+        if (consumed) {
+            checkBox.setSelected(true);
+        }
 
         if (diningItem instanceof Indining) {
             retailer = " ";

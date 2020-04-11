@@ -8,6 +8,7 @@ import team4.personaldietary.bean.Type;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 public class TypeDAOImp implements TypeDAO{
 
@@ -127,7 +128,7 @@ public class TypeDAOImp implements TypeDAO{
      * @throws SQLException
      */
     @Override
-    public ObservableList<Type> findAllType() throws SQLException {
+    public List<Type> findAllType() throws SQLException {
         System.out.println("TypeDAOImpl");
         ObservableList<Type> rows = FXCollections
                 .observableArrayList();

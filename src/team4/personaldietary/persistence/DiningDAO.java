@@ -1,7 +1,6 @@
 package team4.personaldietary.persistence;
 
 import team4.personaldietary.bean.Dining;
-import team4.personaldietary.bean.Serving;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -25,21 +24,9 @@ public interface DiningDAO {
 
     // Update
     public int updateDining(Dining dining) throws SQLException ;
+
     // Delete
     public int deleteDining(int diningId) throws SQLException;
-    //endregion
-
-    public int createServing(Serving serving) throws SQLException;
-
-    //region ServingDAO
-    // Create
-
-    // Read
-    public Serving findServingById(int servingId) throws SQLException;
-    public int findServingIdByDiningId(int diningId) throws SQLException;
-    // Delete
-    public int deleteServing(int servingId) throws SQLException;
-    //endregion
 
 
 }
