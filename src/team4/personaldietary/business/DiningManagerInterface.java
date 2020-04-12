@@ -8,9 +8,10 @@ public interface DiningManagerInterface {
 
     boolean removeDiningItem(Dining diningItem);
 
-    boolean markConsumed(Dining diningItem);
+    //boolean markConsumed(Dining diningItem);
 
-    boolean markUnConsumed(Dining diningItem);
+    //boolean markUnConsumed(Dining diningItem);
+    boolean updateConsumed(Dining diningItem);
 
     boolean hideConsumed();
 
