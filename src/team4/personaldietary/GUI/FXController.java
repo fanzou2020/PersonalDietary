@@ -241,7 +241,7 @@ public class FXController {
             typeList = facadeDAO.findAllType();
             typeObservableList = FXCollections.observableArrayList();
             for (Type t : typeList)
-                typeObservableList.add(t.getTypeName());
+                if (t.getTypeId() != 0) typeObservableList.add(t.getTypeName());
             typeComboBox.setItems(typeObservableList);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -251,7 +251,7 @@ public class FXController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (newValue != null)
+                    if (newValue != null && !newValue.equalsIgnoreCase("NA"))
                         updateTypeList(newValue);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -266,7 +266,7 @@ public class FXController {
             retailerList = facadeDAO.findAllRetailer();
             retailerObservableList = FXCollections.observableArrayList();
             for (Retailer r : retailerList)
-                retailerObservableList.add(r.getRetailerName());
+                if (r.getRetailerId() != 0) retailerObservableList.add(r.getRetailerName());
             retailerComboBox.setItems(retailerObservableList);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,7 +276,7 @@ public class FXController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (newValue != null)
+                    if (newValue != null && !newValue.equalsIgnoreCase("NA"))
                         updateRetailerList(newValue);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -357,8 +357,9 @@ public class FXController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Dining foodItem = null;
-                // if it is indining food item
-                if (inOutDining.get() && validateInputIndining()) {
+                boolean isIndining = inOutDining.get();
+
+                if (validateInputDining(isIndining)) {
                     LocalDateTime dateTime = LocalDateTime.of(
                             datePicker.getValue(),
                             LocalTime.parse(timeField.getText())
@@ -369,28 +370,11 @@ public class FXController {
                             Double.parseDouble(sodiumField.getText()),
                             Double.parseDouble(sugarField.getText())
                     );
-                    foodItem = new Indining(nameField.getText(), dateTime, foodGroupComboBox.getValue(),
-                            servingItem, findMealByName(mealComboBox.getValue()), findTypeByName(typeComboBox.getValue()));
+                    foodItem = DiningFactory.getDining(isIndining, nameField.getText(), dateTime,
+                            foodGroupComboBox.getValue(), servingItem, findMealByName(mealComboBox.getValue()),
+                            findTypeByName(typeComboBox.getValue()), findRetailerByName(retailerComboBox.getValue()));
                 }
 
-                // else, add outdining food item
-                else if(!inOutDining.get() && validateInputOutdining()){
-                    LocalDateTime dateTime = LocalDateTime.of(
-                            datePicker.getValue(),
-                            LocalTime.parse(timeField.getText())
-                    );
-
-                    Serving servingItem = new Serving(amountField.getText(),
-                            Double.parseDouble(caloriesField.getText()),
-                            Double.parseDouble(fatField.getText()),
-                            Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText())
-                    );
-
-                    foodItem = new Outdining(nameField.getText(), dateTime, foodGroupComboBox.getValue(),
-                            servingItem, findMealByName(mealComboBox.getValue()),
-                            findRetailerByName(retailerComboBox.getValue()));
-                }
 
                 if(foodItem != null) { // call add food item function of the business layer
                     boolean addResult = diningManager.addDiningItem(foodItem);
@@ -636,6 +620,17 @@ public class FXController {
         return true;
     }
 
+    private boolean validateNA(ComboBox<String> comboBox) {
+        if (comboBox.getValue().equalsIgnoreCase("NA")) {
+            comboBox.setStyle("-fx-background-color: red");
+            comboBox.getEditor().clear();
+            comboBox.setPromptText("NA is not validate");
+            comboBox.getParent().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     /**
      * validate input serving
      * @return
@@ -687,7 +682,8 @@ public class FXController {
      */
     private boolean validateInputIndining() {
         return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
-                validateInput(mealComboBox) && validateInput(typeComboBox) && validateInputServing();
+                validateInput(mealComboBox) && validateInput(typeComboBox) && validateInputServing() &&
+                validateNA(typeComboBox);
     }
 
     /**
@@ -696,14 +692,23 @@ public class FXController {
      */
     private boolean validateInputOutdining() {
         return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
-                validateInput(mealComboBox) && validateInput(retailerComboBox) && validateInputServing();
+                validateInput(mealComboBox) && validateInput(retailerComboBox) && validateInputServing() &&
+                validateNA(retailerComboBox);
+    }
+
+
+    private boolean validateInputDining(boolean isIndining) {
+        if (isIndining) return validateInputIndining();
+        else            return validateInputOutdining();
     }
 
 
     // update meal list when the meal name is not in database
     private boolean updateMealList(String mealName) throws SQLException {
         // if meal not added into database
-        if (!mealObservableList.contains(mealName)) {
+        if (!mealObservableList.contains(mealName) &&
+                !mealName.equalsIgnoreCase("NA") &&
+                !mealName.equals("")) {
                 facadeDAO.createMeal(new Meal(mealName));
                 mealList = facadeDAO.findAllMeal();
                 mealObservableList.add(mealName);
@@ -724,7 +729,7 @@ public class FXController {
     // update type list when the type name is not in database
     private boolean updateTypeList(String typeName) throws SQLException {
         // if meal not added into database
-        if (!typeObservableList.contains(typeName)) {
+        if (!typeObservableList.contains(typeName) && !typeName.equalsIgnoreCase("NA")) {
             facadeDAO.createType(new Type(typeName));
             typeList = facadeDAO.findAllType();
             typeObservableList.add(typeName);
@@ -744,7 +749,7 @@ public class FXController {
     // update retailer list when the retailer name is not in database
     private boolean updateRetailerList(String retailerName) throws SQLException {
         // if retailer not added into database
-        if (!retailerObservableList.contains(retailerName)) {
+        if (!retailerObservableList.contains(retailerName) && !retailerName.equalsIgnoreCase("NA")) {
             facadeDAO.createRetailer(new Retailer(retailerName));
             retailerList = facadeDAO.findAllRetailer();
             retailerObservableList.add(retailerName);
