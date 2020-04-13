@@ -729,7 +729,9 @@ public class FXController {
     // update type list when the type name is not in database
     private boolean updateTypeList(String typeName) throws SQLException {
         // if meal not added into database
-        if (!typeObservableList.contains(typeName) && !typeName.equalsIgnoreCase("NA")) {
+        if (!typeObservableList.contains(typeName) &&
+                !typeName.equalsIgnoreCase("NA") &&
+                !typeName.equals("")) {
             facadeDAO.createType(new Type(typeName));
             typeList = facadeDAO.findAllType();
             typeObservableList.add(typeName);
@@ -765,6 +767,4 @@ public class FXController {
         }
         return null;
     }
-
-
 }
