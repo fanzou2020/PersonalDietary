@@ -54,7 +54,9 @@ public class DiningTableRow {
         sodium = diningItem.getServing().getSodium();
         sugar = diningItem.getServing().getSugar();
 
-        checkBox.setSelected(consumed);
+        if (consumed) {
+            checkBox.setSelected(true);
+        }
 
         if (diningItem instanceof Indining) {
             retailer = " ";
@@ -72,7 +74,7 @@ public class DiningTableRow {
             @Override
             public void handle(ActionEvent actionEvent) {
                 // if mark checkbox as selected, call function to mark a food item as consumed
-                /*if (checkBox.selectedProperty().get()) {
+                if (checkBox.selectedProperty().get()) {
                     diningManager.markConsumed(DiningTableRow.this.getDiningItem());
                     diningManager.updateConsumedServing();
                     System.out.println("mark checkbox as True");
@@ -83,11 +85,7 @@ public class DiningTableRow {
                     diningManager.markUnConsumed(DiningTableRow.this.getDiningItem());
                     diningManager.updateConsumedServing();
                     System.out.println("mark checkbox as False");
-                }*/
-                Dining dining=DiningTableRow.this.getDiningItem();
-                dining.setConsumed(checkBox.selectedProperty().get());
-                diningManager.updateConsumed(dining);
-                diningManager.updateConsumedServing();
+                }
             }
         });
     }
