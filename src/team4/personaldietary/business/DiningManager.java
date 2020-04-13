@@ -88,54 +88,44 @@ public class DiningManager implements DiningManagerInterface{
         return false;
     }
 
-    public boolean updateConsumed(Dining diningItem) {
-        int updateResult = 0;
+
+    public boolean markConsumed(Dining diningItem) {
         try {
-            // update consumed in database
-            updateResult = facadeDAO.updateDining(diningItem);
+            // mark consumed in database
+            diningItem.setConsumed(true);
+            int updateResult = facadeDAO.updateDining(diningItem);
+
+            // mark consumed in DiningTableRowArrayList
+            if (updateResult == 1) {
+                for (DiningTableRow d : diningTableRowArrayList) {
+                    if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
+                }
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return updateResult == 1;
+        return false;
     }
 
-//    public boolean markConsumed(Dining diningItem) {
-//        try {
-//            // mark consumed in database
-//            diningItem.setConsumed(true);
-//            int updateResult = facadeDAO.updateDining(diningItem);
-//
-//            // mark consumed in DiningTableRowArrayList
-//            if (updateResult == 1) {
-//                for (DiningTableRow d : diningTableRowArrayList) {
-//                    if (d.getDiningItem().getDiningId()==diningItem.getDiningId()) d.setConsumed(true);
-//                    return true;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
-//
-//    public boolean markUnConsumed(Dining diningItem) {
-//        try {
-//            // mark unConsumed in database
-//            diningItem.setConsumed(false);
-//            int updateResult = facadeDAO.updateDining(diningItem);
-//
-//            // mark consumed in DiningTableRowArrayList
-//            if (updateResult == 1) {
-//                for (DiningTableRow d : diningTableRowArrayList) {
-//                    if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
-//                        return true;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public boolean markUnConsumed(Dining diningItem) {
+        try {
+            // mark unConsumed in database
+            diningItem.setConsumed(false);
+            int updateResult = facadeDAO.updateDining(diningItem);
+
+            // mark consumed in DiningTableRowArrayList
+            if (updateResult == 1) {
+                for (DiningTableRow d : diningTableRowArrayList) {
+                    if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public boolean hideConsumed() {
         //if item in observableCollection is consumed, remove it .
