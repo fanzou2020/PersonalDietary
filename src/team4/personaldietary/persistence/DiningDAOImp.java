@@ -1,6 +1,5 @@
 package team4.personaldietary.persistence;
 
-import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.DBManager.MyDataSource;
 import team4.personaldietary.bean.*;
 
@@ -11,12 +10,7 @@ import java.util.List;
 public class DiningDAOImp implements DiningDAO {
 
     private MyDataSource dataSource = new MyDataSource();
-    private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
-    private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
-    private String filename = "jarDbConnection"; // properties file
     private ServingDAO servingDAO = new ServingDAOImp();
-    // for connecting to
-    // the DB
 
     public DiningDAOImp() {
         super();

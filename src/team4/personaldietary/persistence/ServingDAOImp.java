@@ -1,19 +1,12 @@
 package team4.personaldietary.persistence;
 
-import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.DBManager.MyDataSource;
-import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.Serving;
 
 import java.sql.*;
 
 public class ServingDAOImp implements ServingDAO {
     private MyDataSource dataSource = new MyDataSource();
-    private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
-    private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
-    private String filename = "jarDbConnection"; // properties file
-    // for connecting to
-    // the DB
 
     public ServingDAOImp() { super(); }
 

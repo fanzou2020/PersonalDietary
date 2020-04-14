@@ -1,8 +1,6 @@
 package team4.personaldietary.persistence;
 
-import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
 import team4.personaldietary.DBManager.MyDataSource;
-import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.FoodGroup;
 
 import java.sql.*;
@@ -12,11 +10,6 @@ import java.util.List;
 public class FoodGroupDAOImp implements FoodGroupDAO {
 
     private MyDataSource dataSource = new MyDataSource();
-    private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
-    private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
-    private String filename = "jarDbConnection"; // properties file
-    // for connecting to
-    // the DB
 
     public FoodGroupDAOImp() {
         super();
