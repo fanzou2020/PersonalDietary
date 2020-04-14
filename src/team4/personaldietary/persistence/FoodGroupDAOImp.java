@@ -1,17 +1,17 @@
 package team4.personaldietary.persistence;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
+import team4.personaldietary.DBManager.MyDataSource;
 import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.FoodGroup;
 
-import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodGroupDAOImp implements FoodGroupDAO {
 
+    private MyDataSource dataSource = new MyDataSource();
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
     private String filename = "jarDbConnection"; // properties file
@@ -23,68 +23,59 @@ public class FoodGroupDAOImp implements FoodGroupDAO {
     }
     @Override
     public FoodGroup findFoodGroupById(int foodGroupId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         FoodGroup found = new FoodGroup();
-        String selectQuery = "SELECT * FROM foodgroup WHERE foodgroup_id=?";
-        try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
 
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             // You must use PreparedStatements to guard against SQL
-             // Injection
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setInt(1, foodGroupId);
-            try (ResultSet resultSet = pStatement.executeQuery();) {
-                while (resultSet.next()) {
-                    found.setFoodGroupName(resultSet.getString("foodgroup_name"));
-                    found.setFoodGroupId(foodGroupId);
-                }
+        try {
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM foodgroup WHERE foodgroup_id=?";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, foodGroupId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                found.setFoodGroupName(rs.getString("foodgroup_name"));
+                found.setFoodGroupId(foodGroupId);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
         return found;
     }
 
     @Override
     public FoodGroup findFoodGroupByName(String typeName) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         FoodGroup found = new FoodGroup();
-        String selectQuery = "SELECT * FROM foodgroup WHERE LOWER(foodgroup_name)=?";
 
         try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException npe) {
-            System.out.println("Error: " + npe.getMessage());
-        }
-
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             // You must use PreparedStatements to guard against SQL
-             // Injection
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setString(1, typeName.toUpperCase());
-            try (ResultSet resultSet = pStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    found.setFoodGroupId(resultSet.getInt("foodgroup_id"));
-                    found.setFoodGroupName(typeName);
-                }
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM foodgroup WHERE LOWER(foodgroup_name)=?";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, typeName);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                found.setFoodGroupId(rs.getInt("foodgroup_id"));
+                found.setFoodGroupName(typeName);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
         return found;
     }
 
-    /*
+    /**
      * Retrieve all the records for the given table and returns the data as an
      * Arraylist of FoodGroup objects
      *
@@ -94,34 +85,30 @@ public class FoodGroupDAOImp implements FoodGroupDAO {
      */
     @Override
     public List<FoodGroup> findAllFoodGroup() throws SQLException {
-        System.out.println("FoodGroupDAOImpl");
-        ObservableList<FoodGroup> rows = FXCollections
-                .observableArrayList();
-        String selectQuery = "SELECT * FROM foodgroup";
-        try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException npe) {
-            System.out.println("Error: " + npe.getMessage());
-        }
+        List<FoodGroup> rows = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        // You must use PreparedStatements to guard against SQL
-        // Injection
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);
-             ResultSet resultSet = pStatement.executeQuery()) {
-            while (resultSet.next()) {
-                FoodGroup found=new FoodGroup();
-                found.setFoodGroupId(resultSet.getInt("foodgroup_id"));
-                found.setFoodGroupName(resultSet.getString("foodgroup_name"));
+        try {
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM foodgroup";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                FoodGroup found = new FoodGroup();
+                found.setFoodGroupId(rs.getInt("foodgroup_id"));
+                found.setFoodGroupName(rs.getString("foodgroup_name"));
                 rows.add(found);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
+
         return rows;
     }
 }

@@ -125,10 +125,6 @@ public class FacadeDAO {
         return servingDAO.findServingById(servingId);
     }
 
-    public int findServingIdByDiningId(int diningId) throws SQLException {
-        return servingDAO.findServingIdByDiningId(diningId);
-    }
-
     // given serving id, delete serving item.
     public int deleteServing(int servingId) throws SQLException {
         return servingDAO.deleteServing(servingId);

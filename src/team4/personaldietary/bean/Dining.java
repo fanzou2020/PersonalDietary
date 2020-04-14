@@ -17,6 +17,10 @@ public class Dining {
     private Meal meal;
     private boolean consumed;
 
+    public Dining() {
+        this("",LocalDateTime.now(),new FoodGroup(), new Serving(), new Meal());
+    }
+
     public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, Meal meal) {
         this.setDiningId(-1);
         this.setName(name);

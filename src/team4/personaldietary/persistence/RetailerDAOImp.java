@@ -1,17 +1,17 @@
 package team4.personaldietary.persistence;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import team4.personaldietary.DBManager.DbConnectionPropertiesManager;
+import team4.personaldietary.DBManager.MyDataSource;
 import team4.personaldietary.bean.DbConnectionConfigBean;
 import team4.personaldietary.bean.Retailer;
 
-import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RetailerDAOImp implements RetailerDAO {
 
+    private MyDataSource dataSource = new MyDataSource();
     private DbConnectionPropertiesManager pm = new DbConnectionPropertiesManager();
     private DbConnectionConfigBean dcb = new DbConnectionConfigBean();
     private String filename = "jarDbConnection"; // properties file
@@ -21,12 +21,13 @@ public class RetailerDAOImp implements RetailerDAO {
     public RetailerDAOImp() {
         super();
     }
-    /*
+
+    /**
      * This method adds a Retailer object as a record to the database. The
      * column list does not include ID as this is an auto increment value in the
      * table.
      *
-     * @param Retailer
+     * @param retailer
      *
      * @return The number of records created, should always be 1
      *
@@ -34,88 +35,85 @@ public class RetailerDAOImp implements RetailerDAO {
      */
     @Override
     public int createRetailer(Retailer retailer) throws SQLException {
-        int result;
-        String createTypeQuery = "INSERT INTO retailer(retailer_name)VALUES (?)";
+        int result = 0;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException | NullPointerException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        }
-
-        // Connection is only open for the operation and then immediately closed
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);) {
+            connection = dataSource.getConnection();
+            String createTypeQuery = "INSERT INTO retailer(retailer_name)VALUES (?)";
+            ps = connection.prepareStatement(createTypeQuery, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, retailer.getRetailerName());
             result = ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 retailer.setRetailerId(rs.getInt(1));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
+
         return result;
     }
 
     @Override
     public Retailer findRetailerById(int retailerId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         Retailer found = new Retailer();
-        String selectQuery = "SELECT * FROM retailer WHERE retailer_id=?";
+
         try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException e) {
-            System.out.println("Error: " + e.getMessage());
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM retailer WHERE retailer_id=?";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, retailerId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                found.setRetailerName(rs.getString("retailer_name"));
+                found.setRetailerId(retailerId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
 
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             // You must use PreparedStatements to guard against SQL
-             // Injection
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setInt(1, retailerId);
-            try (ResultSet resultSet = pStatement.executeQuery();) {
-                while (resultSet.next()) {
-                    found.setRetailerName(resultSet.getString("retailer_name"));
-                    found.setRetailerId(retailerId);
-                }
-            }
-        }
         return found;
     }
 
     @Override
     public Retailer findRetailerByName(String retailerName) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         Retailer found = new Retailer();
-        String selectQuery = "SELECT * FROM retailer WHERE LOWER(retailer_name)=?";
 
         try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException npe) {
-            System.out.println("Error: " + npe.getMessage());
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM retailer WHERE LOWER(retailer_name)=?";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, retailerName);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                found.setRetailerName(retailerName);
+                found.setRetailerId(rs.getInt("retailer_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
 
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             // You must use PreparedStatements to guard against SQL
-             // Injection
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);) {
-            pStatement.setString(1, retailerName.toUpperCase());
-            try (ResultSet resultSet = pStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    found.setRetailerId(resultSet.getInt("retailer_id"));
-                    found.setRetailerName(retailerName);
-                }
-            }
-        }
         return found;
     }
 
@@ -129,34 +127,30 @@ public class RetailerDAOImp implements RetailerDAO {
      */
     @Override
     public List<Retailer> findAllRetailer() throws SQLException {
-        System.out.println("RetailerDAOImpl");
-        ObservableList<Retailer> rows = FXCollections
-                .observableArrayList();
-        String selectQuery = "SELECT * FROM retailer";
-        try {
-            dcb = pm.loadTextProperties("",filename);
-        } catch (IOException ioe) {
-            System.out.println("Error: " + ioe.getMessage());
-        } catch (NullPointerException npe) {
-            System.out.println("Error: " + npe.getMessage());
-        }
+        List<Retailer> rows = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-        // Using try with resources
-        // This ensures that the objects in the parenthesis () will be closed
-        // when block ends. In this case the Connection, PreparedStatement and
-        // the ResultSet will all be closed.
-        // You must use PreparedStatements to guard against SQL
-        // Injection
-        try (Connection connection = DriverManager.getConnection(dcb.getFullUrl()+":"+dcb.getPort()+"/"+dcb.getDatabase(), dcb.getUser(), dcb.getPassword());
-             PreparedStatement pStatement = connection.prepareStatement(selectQuery);
-             ResultSet resultSet = pStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Retailer found=new Retailer();
-                found.setRetailerId(resultSet.getInt("retailer_id"));
-                found.setRetailerName(resultSet.getString("retailer_name"));
+        try {
+            connection = dataSource.getConnection();
+            String selectQuery = "SELECT * FROM retailer";
+            ps = connection.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Retailer found = new Retailer();
+                found.setRetailerId(rs.getInt("retailer_id"));
+                found.setRetailerName(rs.getString("retailer_name"));
                 rows.add(found);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) dataSource.release(connection);
         }
+
         return rows;
     }
 }
