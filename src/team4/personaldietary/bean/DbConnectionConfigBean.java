@@ -115,7 +115,7 @@ public class DbConnectionConfigBean {
      * @return the database
      */
     public final String getDatabase() {
-        return database.get()+"?useSSL=false&serverTimezone=UTC";
+        return database.get()+"?useSSL=false&serverTimezone=UTC&autoReconnect=true&autoReconnectForPools=true";
     }
 
     /**
