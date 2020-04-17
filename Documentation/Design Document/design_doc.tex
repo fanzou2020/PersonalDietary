@@ -21,7 +21,7 @@
     urlcolor=purple,        % color of external links
     linktoc=page            % only page is linked
 }%
-\def\myversion{1.3}
+\def\myversion{1.4}
 \date{}
 \usepackage{hyperref}
 \begin{document}
@@ -84,6 +84,8 @@ In order to provide proper design documentation for the Personal Dietary Applica
 	UML & Unified Modeling Language \\
 \hline
 	PDA & Personal Dietary Application \\
+\hline
+	GRASP & General Responsibility Assignment Software Patterns \\
 \hline
 \end{tabular}
 
@@ -464,6 +466,23 @@ The class is called DiningManager. To store the data we used an array. There is 
 \includegraphics[width=11cm]{pictures/Domain-Diagram.png}
 
 This domain model abstracts the concepts required to formulate the design of the personal dietary application. They are used as a guide to build classes which make up the modules of the program. The main actor, the Diet Person, is the user of the application. This entity will be keeping track of various food items and their nutritional information on an electronic list. This person can either eat professionally made restaurant food items or prepare produce and various sustenance at their dwelling. The application will need to keep track of this data.
+
+\section{Class Diagrams}
+
+The Personal Dietary Application outlined in this design document consists of three main folders containing the source files of classes. Their makeup is transcribed as UML diagrams in the following subsections. Regarding software architecture and design patterns, the classes adhere to the Observable-Observer pattern by making use of the ObservableList objects available from the JavaFX library. The Model-View-Controller (MVC) architecture is paired with this Observable implementation by mediating the tasks of model, view, and controller among the three folders. Inside the GUI folder, there is also another controller to handle event captures from the user interface. \par
+GRASP principles are practiced by having the DiningTableRow class in the GUI Folder operate as the information expert. The class contains all of the stored data related to the items input by the user and allows retrieval and creation of these objects. The FXController functions as the GRASP controller to receive and manipulate events, acting as an event listener.
+
+\subsection{GUI Folder (View)}
+
+\includegraphics[width=17cm]{pictures/GUI-Class-Diagram.png}
+
+\subsection{bean Folder (Model)}
+
+\includegraphics{pictures/Bean-Class-Diagram.png}
+
+\subsection{business folder (Controller)}
+
+\includegraphics{pictures/Business-Class-Diagram.png}
 
 \chapter{Dynamic Sequence Diagrams of the Interface}
 
