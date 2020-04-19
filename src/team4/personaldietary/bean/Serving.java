@@ -8,13 +8,14 @@ import java.util.Objects;
  * @version 11/3/2020
  */
 public class Serving {
+    private int servingId;
     private String amount;
     private double calories;
     private double fat;
     private double sodium;
     private double sugar;
 
-    public Serving(){}
+    public Serving(){this(null,0,0,0,0);}
     /**
      * @param amount
      * @param calories
@@ -23,15 +24,24 @@ public class Serving {
      * @param sugar
      */
     public Serving(String amount, double calories, double fat, double sodium, double sugar) {
-        this.amount = amount;
-        this.calories = calories;
-        this.fat = fat;
-        this.sodium = sodium;
-        this.sugar = sugar;
+        this.setServingId(-1);
+        this.setAmount(amount);
+        this.setCalories(calories);
+        this.setFat(fat);
+        this.setSodium(sodium);
+        this.setSugar(sugar);
+    }
+
+    public int getServingId() {
+        return servingId;
+    }
+
+    public void setServingId(int servingId) {
+        this.servingId = servingId;
     }
 
     /**
-     * @return a string of amount
+     * @return amount
      */
     public String getAmount() {
         return amount;

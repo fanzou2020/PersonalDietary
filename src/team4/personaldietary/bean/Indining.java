@@ -11,10 +11,10 @@ import java.util.Objects;
  */
 public class Indining extends Dining {
 
-    private String type;
+    private Type type;
 
     public  Indining(){
-        this("",LocalDateTime.now(),FoodGroup.grain_products,new Serving(),"","");
+        this("",LocalDateTime.now(),new FoodGroup(), new Serving(), new Meal(), new Type());
     }
     /**
      * Constructor extends Dining class
@@ -26,7 +26,7 @@ public class Indining extends Dining {
      * @param type
      */
     public Indining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
-                    String meal, String type) {
+                    Meal meal, Type type) {
         super(name, time, foodGroup, serving, meal);
         setType(type);
     }
@@ -34,7 +34,7 @@ public class Indining extends Dining {
     /**
      * @return a string of Type
      */
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -42,7 +42,7 @@ public class Indining extends Dining {
      * set type
      * @param type
      */
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -66,11 +66,11 @@ public class Indining extends Dining {
         Indining indining = (Indining) o;
         return (indining.isConsumed() == super.isConsumed()) &&
                 (indining.getName().equals(super.getName())) &&
-                (indining.getTime().equals(super.getTime())) &&
-                (indining.getFoodGroup() == super.getFoodGroup()) &&
+                (indining.getFoodGroup().equals(super.getFoodGroup())) &&
                 (indining.getServing().equals(super.getServing())) &&
                 (indining.getMeal().equals(super.getMeal())) &&
-                (indining.getType().equals(type));
+                (indining.getType().equals(type)) &&
+                (indining.getDiningId() == super.getDiningId());
 
     }
 
@@ -83,7 +83,7 @@ public class Indining extends Dining {
     @Override
     public int hashCode() {
         String i = "Indining";
-        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getFoodGroup(),
-                super.getServing(), super.getMeal(), type);
+        return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(), super.getServing(),
+                 super.getMeal(), type);
     }
 }

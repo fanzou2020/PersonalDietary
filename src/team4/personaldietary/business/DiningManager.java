@@ -3,27 +3,29 @@ package team4.personaldietary.business;
 import javafx.collections.ObservableList;
 import team4.personaldietary.GUI.DiningTableRow;
 import team4.personaldietary.bean.Dining;
+import team4.personaldietary.facade.FacadeDAO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class DiningManager implements DiningManagerInterface{
-    private ArrayList<Dining> diningArrayList; // consider this as the data model.
+//    private ArrayList<Dining> diningArrayList; // consider this as the data model.
     private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
-    private Collection<DiningTableRow> observableCollection; // this is the items shown on the screen
+    private ObservableList<DiningTableRow> observableCollection; // this is the items shown on the screen
     private ObservableList<String> currServingList, consumedServingList; // ListView for serving
+    private FacadeDAO facadeDAO;
 
     public DiningManager(Collection<DiningTableRow> observableCollection,
                          Collection<String> currServingList, Collection<String> consumedServingList) {
-        this.observableCollection = observableCollection;
+        this.observableCollection = (ObservableList<DiningTableRow>) observableCollection;
         this.currServingList = (ObservableList<String>) currServingList;
         this.consumedServingList = (ObservableList<String>) consumedServingList;
-        this.diningArrayList = new ArrayList<>();
         this.diningTableRowArrayList = new ArrayList<>();
+        facadeDAO = new FacadeDAO();
     }
-    public ArrayList<Dining> getDiningArrayList() {
-        return diningArrayList;
-    }
+
     public Collection<DiningTableRow> getObservableCollection() {
         return observableCollection;
     }
@@ -36,63 +38,92 @@ public class DiningManager implements DiningManagerInterface{
         return consumedServingList;
     }
 
-    public boolean addDiningItem(Dining diningItem) {
-        DiningTableRow newItem = new DiningTableRow(diningItem, this);
-        observableCollection.add(newItem);     // control the GUI
-        diningTableRowArrayList.add(newItem);
-        addDiningItemDataModel(diningItem);
-        return true;
+    public List<Dining> loadInitial() {
+        try {
+            List<Dining> diningList = facadeDAO.findAllDining();
+            for (Dining d : diningList) {
+                DiningTableRow dtr = new DiningTableRow(d, this);
+                observableCollection.add(dtr);
+                diningTableRowArrayList.add(dtr);
+            }
+            return diningList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public boolean addDiningItemDataModel(Dining diningItem) {
-        diningArrayList.add(diningItem);   // control the data model.
-        return true;
+
+    public boolean addDiningItem(Dining diningItem) {
+        try {
+            int addResult = facadeDAO.createDining(diningItem);  // add item to database
+
+            // if item is added to database successfully
+            if (addResult == 1) {
+                 DiningTableRow dtr = new DiningTableRow(diningItem, this);
+                 observableCollection.add(dtr);
+                 diningTableRowArrayList.add(dtr);
+                 return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean removeDiningItem(Dining diningItem) {
-        if (!observableCollection.isEmpty())
-            observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
-        if (!diningTableRowArrayList.isEmpty())
-            diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
-        removeDiningItemDataModel(diningItem);
-        return true;
+        try {
+            // remove item from database
+            int removeResult = facadeDAO.deleteDining(diningItem.getDiningId());
+
+            // if remove from database successfully, remove it from GUI
+            if (removeResult == 1) {
+                observableCollection.removeIf(d -> d.getDiningItem().equals(diningItem));
+                diningTableRowArrayList.removeIf(d -> d.getDiningItem().equals(diningItem));
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public boolean removeDiningItemDataModel(Dining diningItem) {
-        if (!diningArrayList.isEmpty())
-            diningArrayList.remove(diningItem);   // control the data model
-        return true;
-    }
 
     public boolean markConsumed(Dining diningItem) {
-        // mark consumed in DiningTableRowArrayList
-        for (DiningTableRow d : diningTableRowArrayList)
-            if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
-        System.out.println(diningArrayList);
-        markConsumedDataModel(diningItem);
-        return true;
-    }
+        try {
+            // mark consumed in database
+            diningItem.setConsumed(true);
+            int updateResult = facadeDAO.updateDining(diningItem);
 
-    public boolean markConsumedDataModel(Dining diningItem) {
-        // mark consumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(true);
-        return true;
+            // mark consumed in DiningTableRowArrayList
+            if (updateResult == 1) {
+                for (DiningTableRow d : diningTableRowArrayList) {
+                    if (d.getDiningItem().equals(diningItem)) d.setConsumed(true);
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean markUnConsumed(Dining diningItem) {
-        // mark unconsumed in DiningTableRowArrayList
-        for (DiningTableRow d : diningTableRowArrayList)
-            if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
-        System.out.println(diningArrayList);
-        markUnConsumedDataModel(diningItem);
-        return true;
-    }
+        try {
+            // mark unConsumed in database
+            diningItem.setConsumed(false);
+            int updateResult = facadeDAO.updateDining(diningItem);
 
-    public boolean markUnConsumedDataModel(Dining diningItem) {
-        // mark unconsumed in arraylist, in data model.
-        int indexOfItem = diningArrayList.indexOf(diningItem);
-        diningArrayList.get(indexOfItem).setConsumed(false);
+            // mark consumed in DiningTableRowArrayList
+            if (updateResult == 1) {
+                for (DiningTableRow d : diningTableRowArrayList) {
+                    if (d.getDiningItem().equals(diningItem)) d.setConsumed(false);
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

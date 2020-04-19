@@ -11,10 +11,10 @@ import java.util.Objects;
  */
 public class Outdining extends Dining {
 
-    private String retailer;
+    private Retailer retailer;
 
     public  Outdining(){
-        this("",LocalDateTime.now(),FoodGroup.grain_products,new Serving(),"","");
+        this("",LocalDateTime.now(),new FoodGroup(), new Serving(), new Meal(),new Retailer());
     }
     /**
      * Constructor extends Dining class
@@ -26,7 +26,7 @@ public class Outdining extends Dining {
      * @param retailer
      */
     public Outdining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving,
-                     String meal, String retailer) {
+                     Meal meal, Retailer retailer) {
         super(name, time, foodGroup, serving, meal);
         setRetailer(retailer);
     }
@@ -34,7 +34,7 @@ public class Outdining extends Dining {
     /**
      * @return a string of retailer
      */
-    public String getRetailer() {
+    public Retailer getRetailer() {
         return retailer;
     }
 
@@ -42,7 +42,7 @@ public class Outdining extends Dining {
      * set retailer
      * @param retailer
      */
-    public void setRetailer(String retailer) {
+    public void setRetailer(Retailer retailer) {
         this.retailer = retailer;
     }
 
@@ -66,11 +66,11 @@ public class Outdining extends Dining {
         Outdining outdining = (Outdining) o;
         return (outdining.isConsumed() == super.isConsumed()) &&
                 (outdining.getName().equals(super.getName())) &&
-                (outdining.getTime().equals(super.getTime())) &&
-                (outdining.getFoodGroup() == super.getFoodGroup()) &&
+                (outdining.getFoodGroup().equals(super.getFoodGroup())) &&
                 (outdining.getServing().equals(super.getServing())) &&
                 (outdining.getMeal().equals(super.getMeal())) &&
-                (outdining.getRetailer().equals(retailer));
+                (outdining.getRetailer().equals(retailer)) &&
+                (outdining.getDiningId() == super.getDiningId());
 
     }
 
@@ -82,7 +82,7 @@ public class Outdining extends Dining {
     @Override
     public int hashCode() {
         String i = "Outdining";
-        return Objects.hash(i, super.isConsumed(), super.getName(), super.getTime(), super.getFoodGroup(),
-                super.getServing(), super.getMeal(), retailer);
+        return Objects.hash(i, super.isConsumed(), super.getName(),  super.getFoodGroup(), super.getServing(),
+                super.getMeal(), retailer);
     }
 }

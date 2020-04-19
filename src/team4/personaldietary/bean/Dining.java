@@ -7,22 +7,36 @@ import java.time.LocalDateTime;
  * @author Craig Boucher, Tanveer, Fan Zou, Osman Momoh, Xin Ma
  * @version 11/3/2020
  */
-public abstract class Dining {
+public class Dining {
 
+    private int diningId;
     private String name;
     private LocalDateTime time;
     private FoodGroup foodGroup;
     private Serving serving;
-    private String meal;
+    private Meal meal;
     private boolean consumed;
 
-    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, String meal) {
-        setName(name);
-        setTime(time);
-        setFoodGroup(foodGroup);
-        setServing(serving);
-        setMeal(meal);
-        setConsumed(false);
+    public Dining() {
+        this("",LocalDateTime.now(),new FoodGroup(), new Serving(), new Meal());
+    }
+
+    public Dining(String name, LocalDateTime time, FoodGroup foodGroup, Serving serving, Meal meal) {
+        this.setDiningId(-1);
+        this.setName(name);
+        this.setTime(time);
+        this.setFoodGroup(foodGroup);
+        this.setServing(serving);
+        this.setMeal(meal);
+        this.setConsumed(false);
+    }
+
+    public int getDiningId() {
+        return diningId;
+    }
+
+    public void setDiningId(int diningId) {
+        this.diningId = diningId;
     }
 
     /**
@@ -56,18 +70,10 @@ public abstract class Dining {
         this.foodGroup = foodGroup;
     }
 
-    public Serving getServing() {
-        return serving;
-    }
-
-    public void setServing(Serving serving) {
-        this.serving = serving;
-    }
-
     /**
      * @return a string of meal
      */
-    public String getMeal() {
+    public Meal getMeal() {
         return meal;
     }
 
@@ -75,8 +81,16 @@ public abstract class Dining {
      * set meal
      * @param meal
      */
-    public void setMeal(String meal) {
+    public void setMeal(Meal meal) {
         this.meal = meal;
+    }
+
+    public Serving getServing() {
+        return serving;
+    }
+
+    public void setServing(Serving serving) {
+        this.serving = serving;
     }
 
     public boolean isConsumed() {

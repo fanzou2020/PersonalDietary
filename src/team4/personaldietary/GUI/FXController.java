@@ -6,8 +6,12 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,12 +26,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.event.*;
 import team4.personaldietary.bean.*;
-import team4.personaldietary.business.*;
+import team4.personaldietary.business.DiningManager;
+import team4.personaldietary.facade.FacadeDAO;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The <tt>FXController</tt> class
@@ -42,15 +49,22 @@ public class FXController {
     private TextField nameField = new TextField();
     private DatePicker datePicker = new DatePicker();
     private TextField timeField = new TextField();
-    private TextField mealField = new TextField();
-    private TextField typeField = new TextField();
-    private TextField retailerField = new TextField();
+    private ComboBox<FoodGroup> foodGroupComboBox;
+    private ComboBox<String> mealComboBox;
+    private ComboBox<String> typeComboBox;
+    private ComboBox<String> retailerComboBox;
     private TextField amountField = new TextField();
     private TextField caloriesField = new TextField();
     private TextField fatField = new TextField();
     private TextField sodiumField = new TextField();
     private TextField sugarField = new TextField();
-    private ComboBox<String> foodGroup;
+    private ObservableList<FoodGroup> foodGroupObservableList;
+    private List<Meal> mealList;
+    private ObservableList<String> mealObservableList;
+    private List<Type> typeList;
+    private ObservableList<String> typeObservableList;
+    private List<Retailer> retailerList;
+    private ObservableList<String> retailerObservableList;
 
     // items for right part
     private ObservableList<String> currServingList = FXCollections.observableArrayList();
@@ -61,17 +75,15 @@ public class FXController {
     // items for center part
     private ObservableList<DiningTableRow> diningList = FXCollections.observableArrayList(); // ObservableList related to TableView.
     private TableView<DiningTableRow> table = new TableView<>(diningList); // TableView in the center of bPane.
-    private int[] numItemsInFoodGroup = {0, 0, 0, 0}; // number of items for each food group
     private boolean hideConsumed = false;  // whether to hide the consumed food item.
 
-    //Initializing buttons for food group
-    private Button buttonVeg = new Button("Vegetables and Fruits");
-    private Button buttonGrain = new Button("Grain Products");
-    private Button buttonMilk = new Button("Milk and Alternatives");
-    private Button buttonMeat = new Button("Meat and Alternatives");
-
+    // items for bottom part
+    private List<Button> buttonList= new ArrayList<>();
     // Business layer controller
     private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
+
+    //DAO
+    private FacadeDAO facadeDAO = new FacadeDAO();
 
     /**
      * initialize widgets
@@ -82,6 +94,18 @@ public class FXController {
         initialRightPart();
         initialBottomPart();
         initialCenterPart();
+        loadInitialData();
+    }
+
+    /**
+     * When launch application, load data from database
+     */
+    private void loadInitialData() {
+        List<Dining> initialList = diningManager.loadInitial();
+        for (Dining d : initialList)
+            markFoodGroupAdd(d.getFoodGroup());
+        diningManager.updateCurrServing();
+        diningManager.updateConsumedServing();
     }
 
     /**
@@ -172,18 +196,99 @@ public class FXController {
         Text sodiumText = new Text("Sodium");
         Text sugarText = new Text("Sugar");
 
-        // Since default indining/outdining toggle is indining, default gray out retailer field.
-        retailerField.setDisable(true);
-
         Button addItemButton = new Button("Add Item");
 
         //Combo box for food group
-        foodGroup = new ComboBox<>();
-        foodGroup.setPromptText("What group does it belong?");
-        foodGroup.getItems().addAll("Vegetables and Fruits", "Grain Products", "Milk and Alternatives", "Meat and Alternatives");
+        foodGroupComboBox = new ComboBox<>();
+        foodGroupComboBox.setPromptText("What group does it belong?");
+        try{
+            foodGroupObservableList = FXCollections.observableArrayList(facadeDAO.findAllFoodGroup());
+            foodGroupComboBox.setItems(foodGroupObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // ComboBox for meal
+        mealComboBox = new ComboBox<String>();
+        mealComboBox.setPromptText("Select or input a meal category:");
+        try {
+            mealList = facadeDAO.findAllMeal();
+            mealObservableList = FXCollections.observableArrayList();
+            for (Meal m : mealList)
+                mealObservableList.add(m.getMealName());
+            mealComboBox.setItems(mealObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        mealComboBox.setEditable(true);
+        mealComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null)
+                    updateMealList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        // ComboBox for type
+        typeComboBox = new ComboBox<>();
+        typeComboBox.setPromptText("Select or input a type category:");
+        try {
+            typeList = facadeDAO.findAllType();
+            typeObservableList = FXCollections.observableArrayList();
+            for (Type t : typeList)
+                if (t.getTypeId() != 0) typeObservableList.add(t.getTypeName());
+            typeComboBox.setItems(typeObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        typeComboBox.setEditable(true);
+        typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null && !newValue.equalsIgnoreCase("NA"))
+                        updateTypeList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // ComboBox for retailer
+        retailerComboBox = new ComboBox<>();
+        retailerComboBox.setPromptText("Select or input a retailer:");
+        try {
+            retailerList = facadeDAO.findAllRetailer();
+            retailerObservableList = FXCollections.observableArrayList();
+            for (Retailer r : retailerList)
+                if (r.getRetailerId() != 0) retailerObservableList.add(r.getRetailerName());
+            retailerComboBox.setItems(retailerObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        retailerComboBox.setEditable(true);
+        retailerComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue != null && !newValue.equalsIgnoreCase("NA"))
+                        updateRetailerList(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
         //*********************************** Set toggle switch ***************************************************
+        // Since default indining/outdining toggle is indining, default gray out retailer field.
+        retailerComboBox.setDisable(true);
+
         //Below are the instances to support toggle switches
         TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(.25));
         FillTransition fillAnimation = new FillTransition(Duration.seconds(.25));
@@ -229,15 +334,15 @@ public class FXController {
             //Grayed out text area based on indining/outdining
             if(inOutDining.getValue()){
                 //Indining
-                typeField.setDisable(false);
-                retailerField.clear();
-                retailerField.setDisable(true);
+                typeComboBox.setDisable(false);
+//                retailerComboBox.clear();
+                retailerComboBox.setDisable(true);
 
             } else {
                 //Outdining
-                retailerField.setDisable(false);
-                typeField.clear();
-                typeField.setDisable(true);
+                retailerComboBox.setDisable(false);
+//                typeField.clear();
+                typeComboBox.setDisable(true);
             }
         });
 
@@ -252,50 +357,39 @@ public class FXController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Dining foodItem = null;
-                // if it is indining food item
-                if (inOutDining.get() && validateInputIndining()) {
+                boolean isIndining = inOutDining.get();
+
+                if (validateInputDining(isIndining)) {
+                    LocalDateTime dateTime = LocalDateTime.of(
+                            datePicker.getValue(),
+                            LocalTime.parse(timeField.getText())
+                    );
                     Serving servingItem = new Serving(amountField.getText(),
                             Double.parseDouble(caloriesField.getText()),
                             Double.parseDouble(fatField.getText()),
                             Double.parseDouble(sodiumField.getText()),
                             Double.parseDouble(sugarField.getText())
                     );
-                    LocalDateTime dateTime = LocalDateTime.of(
-                            datePicker.getValue(),
-                            LocalTime.parse(timeField.getText())
-                    );
-                    foodItem = new Indining(nameField.getText(), dateTime,
-                            stringToGroup(foodGroup.getValue()), servingItem,
-                            mealField.getText(), typeField.getText());
-                }
-                // else, add outdining food item
-                else if(!inOutDining.get() && validateInputOutdining()){
-                    Serving servingItem = new Serving(amountField.getText(),
-                            Double.parseDouble(caloriesField.getText()),
-                            Double.parseDouble(fatField.getText()),
-                            Double.parseDouble(sodiumField.getText()),
-                            Double.parseDouble(sugarField.getText())
-                    );
-                    LocalDateTime dateTime = LocalDateTime.of(
-                            datePicker.getValue(),
-                            LocalTime.parse(timeField.getText())
-                    );
-                    foodItem = new Outdining(nameField.getText(), dateTime,
-                            stringToGroup(foodGroup.getValue()), servingItem,
-                            mealField.getText(), retailerField.getText());
+                    foodItem = DiningFactory.getDining(isIndining, nameField.getText(), dateTime,
+                            foodGroupComboBox.getValue(), servingItem, findMealByName(mealComboBox.getValue()),
+                            findTypeByName(typeComboBox.getValue()), findRetailerByName(retailerComboBox.getValue()));
                 }
 
+
                 if(foodItem != null) { // call add food item function of the business layer
-                    diningManager.addDiningItem(foodItem);
-                    markFoodGroupAdd(foodItem.getFoodGroup());
-                    diningManager.updateCurrServing();
-                    diningManager.updateConsumedServing();
-                    refreshItems();
+                    boolean addResult = diningManager.addDiningItem(foodItem);
+                    if (addResult) {
+                        markFoodGroupAdd(foodItem.getFoodGroup());
+                        diningManager.updateCurrServing();
+                        diningManager.updateConsumedServing();
+                        refreshItems();
+                    }
                 }
             }
         };
         addItemButton.setOnAction(addEventHandler);
         // **************************** End of event handle for add food item ******************
+
 
         // add items to gridPane
         gridPane.add(nameText, 0, 0);
@@ -305,13 +399,13 @@ public class FXController {
         gridPane.add(timeText, 0, 2);
         gridPane.add(timeField, 1, 2);
         gridPane.add(groupText, 0, 3);
-        gridPane.add(foodGroup, 1, 3);
+        gridPane.add(foodGroupComboBox, 1, 3);
         gridPane.add(mealText, 0, 4);
-        gridPane.add(mealField, 1, 4);
+        gridPane.add(mealComboBox, 1, 4);
         gridPane.add(typeText, 0, 5);
-        gridPane.add(typeField, 1, 5);
+        gridPane.add(typeComboBox, 1, 5);
         gridPane.add(retailerText, 0, 6);
-        gridPane.add(retailerField, 1, 6);
+        gridPane.add(retailerComboBox, 1, 6);
         gridPane.add(servingText, 0, 8);
         gridPane.add(amountText, 0, 9);
         gridPane.add(amountField, 1, 9);
@@ -357,10 +451,12 @@ public class FXController {
                 if(table.getItems().size()>0) {
                     DiningTableRow selectedItem = table.getSelectionModel().getSelectedItem();
                     if(selectedItem == null ) return;
-                    diningManager.removeDiningItem(selectedItem.getDiningItem());
-                    markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
-                    diningManager.updateCurrServing();
-                    diningManager.updateConsumedServing();
+                    boolean removeResult = diningManager.removeDiningItem(selectedItem.getDiningItem());
+                    if (removeResult) {
+                        markFoodGroupRemove(selectedItem.getDiningItem().getFoodGroup());
+                        diningManager.updateCurrServing();
+                        diningManager.updateConsumedServing();
+                    }
                 }
             }
         });
@@ -412,7 +508,14 @@ public class FXController {
      * Initialize the Bottom part of boarder pane
      */
     private void initialBottomPart() {
-        HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
+        //Initializing buttons for food group
+        HBox bottomMenu = new HBox();
+
+        for(FoodGroup f:foodGroupObservableList){
+            Button button=new Button(f.getFoodGroupName());
+            bottomMenu.getChildren().add(button);
+            buttonList.add(button);
+        }
 
         //Customize HBox
         bottomMenu.setPadding(new Insets(10, 0, 10, 0));
@@ -432,15 +535,18 @@ public class FXController {
         datePicker.getEditor().clear();
         timeField.clear();
         timeField.setPromptText("");
-        mealField.clear();
-        mealField.setPromptText("");
-        retailerField.clear();
-        retailerField.setPromptText("");
-        typeField.clear();
-        typeField.setPromptText("");
-        foodGroup.getSelectionModel().clearSelection();
-        foodGroup.setPromptText("What group does it belong?");
-        foodGroup.setStyle(null);
+        foodGroupComboBox.getSelectionModel().clearSelection();
+        foodGroupComboBox.setPromptText("What group does it belong?");
+        foodGroupComboBox.setStyle(null);
+        mealComboBox.getSelectionModel().clearSelection();
+        mealComboBox.setPromptText("Select or input a meal category:)");
+        mealComboBox.setStyle(null);
+        retailerComboBox.getSelectionModel().clearSelection();
+        retailerComboBox.setPromptText("Select or input a retailer:");
+        retailerComboBox.setStyle(null);
+        typeComboBox.getSelectionModel().clearSelection();
+        typeComboBox.setPromptText("Select or input a type category:");
+        typeComboBox.setStyle(null);
         amountField.clear();
         caloriesField.clear();
         fatField.clear();
@@ -449,38 +555,14 @@ public class FXController {
     }
 
     /**
-     * @param s
-     * @return
-     */
-    private FoodGroup stringToGroup(String s) {
-        switch (s){
-            case "Grain Products": return FoodGroup.grain_products;
-            case "Milk and Alternatives": return FoodGroup.milk_and_alternatives;
-            case "Meat and Alternatives": return FoodGroup.meat_and_alternatives;
-            case "Vegetables and Fruits": return FoodGroup.vegetable_and_fruit;
-            default: return null;
-        }
-    }
-
-    /**
      * @param foodGroup
      */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
-        if (foodGroup == FoodGroup.vegetable_and_fruit) {
-            numItemsInFoodGroup[0]++;
-            if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
-        }
-        else if (foodGroup == FoodGroup.grain_products) {
-            numItemsInFoodGroup[1]++;
-            if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
-        }
-        else if (foodGroup == FoodGroup.milk_and_alternatives) {
-            numItemsInFoodGroup[2]++;
-            if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
-        }
-        else {
-            numItemsInFoodGroup[3]++;
-            if (numItemsInFoodGroup[3] > 0) buttonMeat.setStyle("-fx-background-color: green");
+        for(Button button: buttonList){
+            if (foodGroup.getFoodGroupName().equalsIgnoreCase( button.getText())) {
+                button.setStyle("-fx-background-color: green");
+                break;
+            }
         }
     }
 
@@ -488,21 +570,11 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
-        if (foodGroup == FoodGroup.vegetable_and_fruit) {
-            numItemsInFoodGroup[0]--;
-            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle(null);
-        }
-        else if (foodGroup == FoodGroup.grain_products) {
-            numItemsInFoodGroup[1]--;
-            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle(null);
-        }
-        else if (foodGroup == FoodGroup.milk_and_alternatives) {
-            numItemsInFoodGroup[2]--;
-            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle(null);
-        }
-        else {
-            numItemsInFoodGroup[3]--;
-            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle(null);
+        for (Button button : buttonList) {
+            if (button.getText().equalsIgnoreCase(foodGroup.getFoodGroupName())) {
+                button.setStyle(null);
+                break;
+            }
         }
     }
 
@@ -525,7 +597,7 @@ public class FXController {
      * @param comboBox
      * @return
      */
-    private boolean validateInput(ComboBox<String> comboBox){
+    private boolean validateInput(ComboBox<? extends Object> comboBox){
         if(comboBox.getValue() == null ){
             comboBox.setStyle("-fx-background-color: red");
             comboBox.getParent().requestFocus();
@@ -543,6 +615,17 @@ public class FXController {
         if (datePicker.getValue() == null) {
             datePicker.setPromptText("Choose a date");
             datePicker.getParent().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateNA(ComboBox<String> comboBox) {
+        if (comboBox.getValue().equalsIgnoreCase("NA")) {
+            comboBox.setStyle("-fx-background-color: red");
+            comboBox.getEditor().clear();
+            comboBox.setPromptText("NA is not validate");
+            comboBox.getParent().requestFocus();
             return false;
         }
         return true;
@@ -598,8 +681,9 @@ public class FXController {
      * @return
      */
     private boolean validateInputIndining() {
-        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
-                validateInput(mealField) && validateInput(typeField) && validateInputServing();
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
+                validateInput(mealComboBox) && validateInput(typeComboBox) && validateInputServing() &&
+                validateNA(typeComboBox);
     }
 
     /**
@@ -607,7 +691,80 @@ public class FXController {
      * @return
      */
     private boolean validateInputOutdining() {
-        return validateInput(nameField) && validateInputTime() && validateInput(foodGroup) &&
-                validateInput(mealField) && validateInput(retailerField) && validateInputServing();
+        return validateInput(nameField) && validateInputTime() && validateInput(foodGroupComboBox) &&
+                validateInput(mealComboBox) && validateInput(retailerComboBox) && validateInputServing() &&
+                validateNA(retailerComboBox);
+    }
+
+
+    private boolean validateInputDining(boolean isIndining) {
+        if (isIndining) return validateInputIndining();
+        else            return validateInputOutdining();
+    }
+
+
+    // update meal list when the meal name is not in database
+    private boolean updateMealList(String mealName) throws SQLException {
+        // if meal not added into database
+        if (!mealObservableList.contains(mealName) &&
+                !mealName.equalsIgnoreCase("NA") &&
+                !mealName.equals("")) {
+                facadeDAO.createMeal(new Meal(mealName));
+                mealList = facadeDAO.findAllMeal();
+                mealObservableList.add(mealName);
+        }
+        return true;
+    }
+
+    // find Meal object by mealName in mealList
+    private Meal findMealByName(String mealName) {
+        for (Meal m : mealList) {
+            if (m.getMealName().equalsIgnoreCase(mealName)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    // update type list when the type name is not in database
+    private boolean updateTypeList(String typeName) throws SQLException {
+        // if meal not added into database
+        if (!typeObservableList.contains(typeName) &&
+                !typeName.equalsIgnoreCase("NA") &&
+                !typeName.equals("")) {
+            facadeDAO.createType(new Type(typeName));
+            typeList = facadeDAO.findAllType();
+            typeObservableList.add(typeName);
+        }
+        return true;
+    }
+
+    private Type findTypeByName(String typeName) {
+        for (Type t : typeList) {
+            if (t.getTypeName().equalsIgnoreCase(typeName)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    // update retailer list when the retailer name is not in database
+    private boolean updateRetailerList(String retailerName) throws SQLException {
+        // if retailer not added into database
+        if (!retailerObservableList.contains(retailerName) && !retailerName.equalsIgnoreCase("NA")) {
+            facadeDAO.createRetailer(new Retailer(retailerName));
+            retailerList = facadeDAO.findAllRetailer();
+            retailerObservableList.add(retailerName);
+        }
+        return true;
+    }
+
+    private Retailer findRetailerByName(String retailerName) {
+        for (Retailer r : retailerList) {
+            if (r.getRetailerName().equalsIgnoreCase(retailerName)) {
+                return r;
+            }
+        }
+        return null;
     }
 }

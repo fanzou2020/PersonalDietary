@@ -26,33 +26,33 @@ class DiningManagerTestInc1 {
     Dining diningItem2;
     Dining diningItem3;
 
-    @BeforeEach
-    void setUp() {
-        diningItem1 = new Indining();
-        diningItem2 = new Outdining();
-        diningItem3 = new Indining();
-        diningList = FXCollections.observableArrayList();
-        consumedServingList = FXCollections.observableArrayList();
-        currServingList = FXCollections.observableArrayList();
-        diningManager = new DiningManager(diningList, currServingList, consumedServingList);
-    }
-
-    @org.junit.jupiter.api.Test
-    void addDiningItem() {
-
-        diningManager.addDiningItem(diningItem1);
-        diningManager.addDiningItem(diningItem2);
-        diningManager.addDiningItem(diningItem3);
-
-        assertEquals(3, diningManager.getDiningArrayList().size());
-    }
-
-    @org.junit.jupiter.api.Test
-    void removeDiningItem() {
-
-        diningManager.addDiningItem(diningItem1);
-        diningManager.removeDiningItem(diningItem1);
-
-        assertEquals(0, diningManager.getDiningArrayList().size());
-    }
+//    @BeforeEach
+//    void setUp() {
+//        diningItem1 = new Indining();
+//        diningItem2 = new Outdining();
+//        diningItem3 = new Indining();
+//        diningList = FXCollections.observableArrayList();
+//        consumedServingList = FXCollections.observableArrayList();
+//        currServingList = FXCollections.observableArrayList();
+//        diningManager = new DiningManager(diningList, currServingList, consumedServingList);
+//    }
+//
+//    @org.junit.jupiter.api.Test
+//    void addDiningItem() {
+//
+//        diningManager.addDiningItem(diningItem1);
+//        diningManager.addDiningItem(diningItem2);
+//        diningManager.addDiningItem(diningItem3);
+//
+//        assertEquals(3, diningManager.getDiningArrayList().size());
+//    }
+//
+//    @org.junit.jupiter.api.Test
+//    void removeDiningItem() {
+//
+//        diningManager.addDiningItem(diningItem1);
+//        diningManager.removeDiningItem(diningItem1);
+//
+//        assertEquals(0, diningManager.getDiningArrayList().size());
+//    }
 }
