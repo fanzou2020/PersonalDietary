@@ -275,6 +275,69 @@ This test document outlines several testing methods and processes that were used
 	\hline
 	\end{tabular}
 
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & Set a food item as consumed or not consumed \\
+	\hline
+		 \textbf{Description} & The user is able to select in the list of foods which ones are consumed or not consumed \\ 
+	\hline
+		\textbf{Preconditions} &  One or more food items are in the food list\\
+	\hline
+		\textbf{Postconditions} & A food item is marked as consumed or not consumed. The total nutrients in the consumed food list is appropriately updated. \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & Choose a food item as either indining or outdining \\
+	\hline
+		 \textbf{Description} & The user is able to select if the food item has either an indining or outdining food attribute \\ 
+	\hline
+		\textbf{Preconditions} & The user has entered corrected all values in the text areas \\
+	\hline
+		\textbf{Postconditions} & A food item is entered into the food list with either an indining or outdining food attribute \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & View only consumed food items, or view all food items \\
+	\hline
+		 \textbf{Description} & The user is able to view either consumed food items, or a list of all food items (consumed and not consumed) \\ 
+	\hline
+		\textbf{Preconditions} &  Two or more food items are in the food list \\
+	\hline
+		\textbf{Postconditions} & Either all food items will  be displayed, or only consumed food items \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & The food list will persist after application closes \\
+	\hline
+		 \textbf{Description} & The food list is automatically saved in a database after a food item is added or deleted. The food list is restored upon opening the application \\ 
+	\hline
+		\textbf{Preconditions} &  The user has previously added or removed food items \\
+	\hline
+		\textbf{Postconditions} & The food list which existed before closing the application is restored upon opening the application. \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
 
     \section{User Interface Testing}
 
