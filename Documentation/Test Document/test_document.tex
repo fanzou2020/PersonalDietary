@@ -141,8 +141,18 @@ This test document outlines several testing methods and processes that were used
     We frequently distinguish our testing strategies between white- and black-box testing. White-box testing tests the internal structures of an application (e.g. source code, classes, methods). Conversely, black-box testing tests the external functions that the software is supposed to perform, and does not necessarily examine the underlying source code.
 
     \section{Unit Testing}
+    The primary focus of unit testing is performing isolated tests on specific methods in the system. We we will be using white box testing techniques to iterate through the paths the methods take to execute their instructions. The following list of methods is not every method present in the software application however they are the most crucial. For a complete list of the methods please see the design document. Here are the methods included in this document which are tested: \\
+    \begin{itemize}
+    \item Method createDining
+    \item Method deleteDining
+    \item Method findDiningByName
+    \item Method createMeal
+    \item Method createRetailer
+    \end{itemize}
 
     \section{Integration and Module Testing}
+    
+    The integration and module testing will verify that the classes and methods work together as a larger system. There is only one main window for the personal dietary application. Both bottom up and top down testing are used when describing the test cases and their results for the functionality available to the user in the main window. From the main window, every piece of the model view controller (MVC) model is coordinated to deliver the appropriate software functionality.
 
     \section{Functional Testing}
     Functional testing is a form a black-box testing in which the application use cases are tested. These use cases can be found both in the SRS and the Project Infromation class notes document. In other words, the functional requirements of the project are tested for correctness.
