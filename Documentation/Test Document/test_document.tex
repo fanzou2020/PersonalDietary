@@ -25,92 +25,120 @@
 \date{}
 \usepackage{hyperref}
 \begin{document}
-\begin{titlepage}
-  \flushright\bfseries\huge
-  \vspace*{\stretch{0.4}}
-    \rule{\linewidth}{5pt}
-    \par
-    \vspace{1cm}
-    {\Huge TEST \par DOCUMENT \par}
-    \vspace{2cm}
-    for \\
-    \vspace{2cm}
-    Personal Dietary Application \\
-    \vspace{2cm}
-     \LARGE{Version \myversion \\}
-    \vspace{2cm}
-    by Craig Boucher \\
-    Md Tanveer Alamgir \\
-    Fan Zou\\
-    Osman Momoh \\
-    Xin Ma
-    \vspace{2cm}
-    \rule{\linewidth}{5pt}
-    \vspace{\stretch{1}}
-\end{titlepage}
+    \begin{titlepage}
+        \flushright\bfseries\huge
+        \vspace*{\stretch{0.4}}
+        \rule{\linewidth}{5pt}
+        \par
+        \vspace{1cm}
+        {\Huge MASTER \par TEST \par DOCUMENT \par}
+        \vspace{2cm}
+        for \\
+        \vspace{2cm}
+        Personal Dietary Application \\
+        \vspace{2cm}
+        \LARGE{Version \myversion \\}
+        \vspace{2cm}
+        by Craig Boucher \\
+        Md Tanveer Alamgir \\
+        Fan Zou\\
+        Osman Momoh \\
+        Xin Ma
+        \vspace{2cm}
+        \rule{\linewidth}{5pt}
+        \vspace{\stretch{1}}
+    \end{titlepage}
 
-\tableofcontents
+    \tableofcontents
 
-\chapter{Introduction}
+    \chapter{Introduction}
+    This master testing document describes the strategies and tools we (Team 4) used to test the Personal Dietary Manager application. This testing document serves as the deliverable document for iteration 3 of the class project in COMP 5541 at Concordia Univeristy. Iteration 3 is the final iteration of of Personal Dietary Manager, and implements database functionality using MySQL. \\ \\
+    Associated with this test plan are documents delivered in iteration 1 and iteration 2 of this project. These are, respectively, the Software Requirements Specifications (SRS) and Design Documents (DD). This test plan will refer to these other documents for the purpose of traceability.
 
-\section{Purpose}
+    \section{Purpose}
+    The purpose of this test plan is to verify the quality and correctness of the Personal Dietary Manager application. Correctness is the state in which the application satisfies the SRS and delivers a product that can accurately track a dietary regimen. Quality is the state in which the application delivers a user-friendly experience that is free of bugs, runs fast, and runs smoothly. \\\\
+    As no software project is perfect, any outstanding bugs and issues will also be discussed.
 
-\section{Scope}
+    \section{Scope}
+    The scope of this test document are the tools are strategies that are used for testing. These are:
+    \begin{itemize}
+        \item Unit testing
+        \item Integration and Module Testing
+        \item Function Testing
+        \item User Interface Testing
+    \end{itemize}
+    Tests that are outside of the scope of this document are load, configuration and installation, business analysis, network security, and stress testing.
 
-\section{Document Terminology and Acronyms}
 
-\begin{tabular}{|l|l|}
-\hline
-	\textbf{Abbreviation} & \textbf{Term} \\
-\hline
-	MVC & Model View Controller \\
-\hline
-	GUI & Graphical User Interface \\
-\hline
-	UML & Unified Modeling Language \\
-\hline
-	PDA & Personal Dietary Application \\
-\hline
-	GRASP & General Responsibility Assignment Software Patterns \\
-\hline
-\end{tabular}
+    \section{Document Terminology and Acronyms}
 
-\section{References}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Abbreviation} & \textbf{Term} \\
+        \hline
+        MVC & Model View Controller \\
+        \hline
+        GUI & Graphical User Interface \\
+        \hline
+        UML & Unified Modeling Language \\
+        \hline
+        PDA & Personal Dietary Application \\
+        \hline
+        GRASP & General Responsibility Assignment Software Patterns \\
+        \hline
+    \end{tabular}
 
-\chapter{Evaluation and Mission Test Motivation}
+    \section{References}
 
-\section{Background}
+    \begin{itemize}
 
-\section{Evaluation Mission}
+        \item Dr. Nora Houari, 2020, ``COMP 5541 Course Notes" including:
+        \begin{itemize}
+            \item Introduction to testing
+            \item Tutorial: Testing
+            \item Project Information
+            \item Montrealopoly Master Test Plan
+        \end{itemize}
+        \item Pressman, R.S. (2009). Software Engineering: A Practitioner's Approach, 7Th Edition.
 
-\section{Test Motivators}
+        \item ISO/IEC/IEEE International Standard - Software and systems engineering -- Software testing --Part 3: Test documentation," in ISO/IEC/IEEE 29119-3:2013(E) , vol., no., pp.1-138, 1 Sept. 2013
 
-\chapter{Outline of Planned Tests}
+    \end{itemize}
 
-\section{Unit Testing}
+    \chapter{Evaluation and Mission Test Motivation}
 
-\section{Integration and Module Testing}
+    \section{Background}
 
-\section{Function Testing}
+    \section{Evaluation Mission}
 
-\section{User Interface Testing}
+    \section{Test Motivators}
 
-\chapter{Test Approach}
+    \chapter{Outline of Planned Tests}
 
-\section{Unit Testing}
+    \section{Unit Testing}
 
-\subsection{Methods...}
+    \section{Integration and Module Testing}
 
-\section{Integration and Module Testing}
+    \section{Function Testing}
 
-\subsection{MVC...}
+    \section{User Interface Testing}
 
-\section{Function Testing}
+    \chapter{Test Approach}
 
-\subsection{The use case tests...}
+    \section{Unit Testing}
 
-\section{User Interface Testing}
+    \subsection{Methods...}
 
-\subsection{UI, buttons, etc...}
+    \section{Integration and Module Testing}
+
+    \subsection{MVC...}
+
+    \section{Function Testing}
+
+    \subsection{The use case tests...}
+
+    \section{User Interface Testing}
+
+    \subsection{UI, buttons, etc...}
 
 \end{document}
