@@ -1,4 +1,4 @@
-\documentclass{scrreprt}
+\documentclass[table]{scrreprt}
 \setcounter{secnumdepth}{5}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -8,6 +8,8 @@
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{placeins}
 \usepackage{caption}
+\usepackage{xcolor}
+
 \hypersetup{
     bookmarks=false,    % show bookmarks bar?
     pdftitle={Software Requirement Specification},    % title
@@ -174,23 +176,104 @@ This test document outlines several testing methods and processes that were used
 
 	In this section we outline the tests done for the functional requirements (a.k.a use cases). A list of these use cases can be found in the SRS and Project 			Information class notes.
 	
-	\subsection{Use case: View all the consumed food in the list}
+	\subsection{}
+	
+	\newcolumntype{a}{>{\columncolor{green}}c}	
 
-\bgroup
-\def\arraystretch{1.5}
-	\begin{tabular}{|l|l|}
-\hline
-	\hspace{5cm} & Diet \\
-\hline
-	 Hello & Engineering \\ [4ex]
-\hline
-	Table & Software \\
-\hline
-	Test & Function \\
-\hline
-	This & Unit \\
-\hline
-\end{tabular}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} &  View a list of all foods in diet \\
+	\hline
+		 \textbf{Description} & The user is able to view a list of foods (both consumed and not consumed) \\ 
+	\hline
+		\textbf{Preconditions} & The user has entered food items into list \\
+	\hline
+		\textbf{Postconditions} & A list of foods is displayed on the center portion of the application \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} &  Add a new food item\\
+	\hline
+		 \textbf{Description} & A new food item is added to the list of foods \\ 
+	\hline
+		\textbf{Preconditions} & The user has inputted all text fields with appropriate data \\
+	\hline
+		\textbf{Postconditions} & A new food item appears at the end of the displayed food list \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} &  Mark a food group as eaten or not eaten \\
+	\hline
+		 \textbf{Description} & A food group will be marked as eaten if a food item is consumed of that group. It will be marked not eaten if there are no consumed food items in that group \\ 
+	\hline
+		\textbf{Preconditions} &  The presence, or not, of food items in the food list \\
+	\hline
+		\textbf{Postconditions} & The appropriate food group box will light up at the bottom of the application \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} &  Mark a food group as eaten or not eaten \\
+	\hline
+		 \textbf{Description} & A food group will be marked as eaten if a food item is consumed of that group. It will be marked not eaten if there are no consumed food items in that group \\ 
+	\hline
+		\textbf{Preconditions} &  The presence, or not, of food items in the food list \\
+	\hline
+		\textbf{Postconditions} & The appropriate food group box will light up at the bottom of the application \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} &  Remove a food item \\
+	\hline
+		 \textbf{Description} & A food item in the food list is removed \\ 
+	\hline
+		\textbf{Preconditions} & One or more food items are in the food list \\
+	\hline
+		\textbf{Postconditions} & The selected food item is removed from the food list \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+	\subsection{}
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & Sort the food list based on a food attribute (e.g. serving, time, food group) \\
+	\hline
+		 \textbf{Description} & The list of foods is sorted based on a given food attribute \\ 
+	\hline
+		\textbf{Preconditions} & Two or more food items are in the food list \\
+	\hline
+		\textbf{Postconditions} & The foods in the food list are sorted in ascending or descending order based on the attribute \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
 
 
     \section{User Interface Testing}
