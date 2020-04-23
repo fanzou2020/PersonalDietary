@@ -1,62 +1,63 @@
-create schema personaldietarydb collate latin1_swedish_ci;
-
 create table foodgroup
 (
-    foodgroup_id int not null
+    foodgroup_id   int         not null
         primary key,
     foodgroup_name varchar(25) null
 );
 
 create table meal
 (
-    meal_id int auto_increment
+    meal_id   int auto_increment
         primary key,
     meal_name varchar(20) not null
 );
 
 create table retailer
 (
-    retailer_id int auto_increment
+    retailer_id   int auto_increment
         primary key,
     retailer_name varchar(50) not null
-);
-
-create table type
-(
-    type_id int auto_increment
-        primary key,
-    type_name varchar(20) not null
 );
 
 create table serving
 (
     serving_id int auto_increment
         primary key,
-    calories decimal(5,2) default 0.00 not null,
-    fat decimal(5,2) default 0.00 not null,
-    sodium decimal(5,2) default 0.00 not null,
-    sugar decimal(5,2) default 0.00 not null,
-    amount varchar(20) not null
+    calories   decimal(5, 2) default 0.00 not null,
+    fat        decimal(5, 2) default 0.00 not null,
+    sodium     decimal(5, 2) default 0.00 not null,
+    sugar      decimal(5, 2) default 0.00 not null,
+    amount     varchar(20)                not null
+);
+
+create table type
+(
+    type_id   int auto_increment
+        primary key,
+    type_name varchar(20) not null
 );
 
 create table dining
 (
-    dining_id int auto_increment
+    dining_id    int auto_increment
         primary key,
-    dining_name varchar(20) not null,
-    time datetime null,
-    foodgroup_id int not null,
-    meal_id int not null,
-    isConsumed tinyint(1) null,
-    retailer_id int not null,
-    type_id int not null,
-    serving_id int not null,
+    dining_name  varchar(20) not null,
+    time         datetime    null,
+    foodgroup_id int         not null,
+    meal_id      int         not null,
+    isConsumed   tinyint(1)  null,
+    retailer_id  int         not null,
+    type_id      int         not null,
+    serving_id   int         not null,
     constraint dining_ibfk_1
         foreign key (foodgroup_id) references foodgroup (foodgroup_id),
     constraint dining_ibfk_2
         foreign key (meal_id) references meal (meal_id),
     constraint dining_idfk_3
-        foreign key (serving_id) references serving (serving_id)
+        foreign key (serving_id) references serving (serving_id),
+    constraint dining_idfk_4
+        foreign key (type_id) references type (type_id),
+    constraint dining_idfk_5
+        foreign key (retailer_id) references retailer (retailer_id)
 );
-
 
