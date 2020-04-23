@@ -165,12 +165,191 @@ This test document outlines several testing methods and processes that were used
     \chapter{Test Approach}
 
     \section{Unit Testing}
+    Individual methods are tested here, in the unit testing portion of the testing phase. The methods have been integrated to perform with the latest increment of the development for this personal dietary application. Therefore, they have database functionality.
 
-    \subsection{Methods...}
+    \subsection{createDiningTest()}
+    The createDining() method initialized a Dining item to be added to an observable list. This list keeps track of all the dining items input by the user. The Dining items are also added to the database.
+    \begin{verbatim}
+public void createDiningTest() throws SQLException {
+        DiningDAO diningDAO= new DiningDAOImp();
+        FoodGroup foodGroup=new FoodGroup("vegetables_and_fruits");
+        foodGroup.setFoodGroupId(1);
+        Meal meal=new Meal("coffee");
+        meal.setMealId(3);
+        Type type=new Type("homemade");
+        type.setTypeId(1);
+        Retailer retailer=new Retailer("McDonald");
+        retailer.setRetailerId(4);
+        Serving serving = new Serving("1 cup", 10, 10, 10, 10);
+
+        Indining indining=new Indining();
+        indining.setName("testIndining");
+        indining.setConsumed(false);
+        indining.setFoodGroup(foodGroup);
+        indining.setMeal(meal);
+        indining.setTime(LocalDateTime.now());
+        indining.setType(type);
+        indining.setServing(serving);
+
+        int inResult = diningDAO.createDining(indining);
+        Dining inFound= diningDAO.findDiningById(indining.getDiningId());
+
+        Serving serving2 = new Serving("1 cup", 20, 20, 20, 20);
+        Outdining outdining=new Outdining();
+        outdining.setName("testOutdining");
+        outdining.setConsumed(false);
+        outdining.setFoodGroup(foodGroup);
+        outdining.setMeal(meal);
+        outdining.setTime(LocalDateTime.now());
+        outdining.setRetailer(retailer);
+        outdining.setServing(serving2);
+        int outResult = diningDAO.createDining(outdining);
+        Dining outFound= diningDAO.findDiningById(outdining.getDiningId());
+
+        assertEquals("T0---Create Dining", 1, inResult);
+        assertEquals("T0---createInDiningTest", inFound, indining);
+    }
+
+\end{verbatim}
+
+Unit test case passes.
+
+
+\subsection{deleteKnownDiningTest()}
+The delete method removes the dining item from the list and from the database.
+
+\begin{verbatim}
+    public void deleteKnownDiningTest() throws SQLException {
+        DiningDAO diningDAO= new DiningDAOImp();
+        int result = diningDAO.deleteDining(31);
+        assertEquals("T30---deleteKnownDiningTest: ", 1, result);
+    }
+\end{verbatim}
+
+Unit test case passes.
+
+\subsection{findFoodGroupByNameTest()}
+Every food item has an associated food group. This method will find the food group that has been associated to the food item.
+
+\begin{verbatim}
+    public void findFoodGroupByNameTest() throws SQLException {
+        FoodGroupDAO foodGroupDAO= new FoodGroupDAOImp();
+        String name="grain_products";
+        FoodGroup foodGroup =foodGroupDAO.findFoodGroupByName(name);
+        assertEquals("T3---findFoodGroupByName: ", name, foodGroup.getFoodGroupName());
+    }
+\end{verbatim}
+
+Unit test case passes.
+
+\subsection{createMealTest()}
+
+The createMeal() method instantiates the necessary meal object to be used in the software application. The data given by the user indicates what kind of meal object to create with dedicated attributes.
+
+\begin{verbatim}
+   public void createMealTest() throws SQLException {
+        MealDAO mealDAO= new MealDAOImp();
+        Meal meal1=new Meal(), meal2 = new Meal();
+        meal1.setMealName("test7");
+        meal2.setMealName("test8");
+
+        int result = mealDAO.createMeal(meal1);
+        int result2 = mealDAO.createMeal(meal2);
+        Meal found= mealDAO.findMealById(meal1.getMealId());
+        Meal found2 = mealDAO.findMealById(meal2.getMealId());
+        assertEquals("T0---Create Meal", 1, result);
+        assertEquals("T0---Create Meal", 1, result2);
+        assertEquals("T0---CreateMealTest", found, meal1);
+        assertEquals("T0---CreateMealTest", found2, meal2);
+    }
+\end{verbatim}
+
+Unit test case passes.
+
+\subsection{createRetailerTest()}
+
+For an out dining object, the createRetailer() method will instantiate the necessary retailer object. The data is fed to the database as necessary.
+
+\begin{verbatim}
+    public void createRetailerTest() throws SQLException {
+        RetailerDAO retailerDAO= new RetailerDAOImp();
+        Retailer retailer=new Retailer();
+        retailer.setRetailerName("test3");
+
+        int result = retailerDAO.createRetailer(retailer);
+        Retailer found= retailerDAO.findRetailerById(retailer.getRetailerId());
+        assertEquals("T0---Create retailer", 1, result);
+        assertEquals("T0---CreateRetailerTest", found, retailer);
+    }
+\end{verbatim}
+
+Unit test case passes.
+
+\newpage
 
     \section{Integration and Module Testing}
+    The integration and module testing observes, tests, and sees how different parts of the application operate together. \par
+    The personal dietary application has several modules that work together to form a Model-View-Controller (MVC) architecture. There is only one window, the main window, from which all operations can be performed. Several test cases were reviewed to ensure the overall architecture of the application is well integrated and working properly.
+    % Explain the MVC work together and the database... leads to the test cases.
 
-    \subsection{MVC...}
+    \subsection{Main Window}
+    
+    \newcolumntype{a}{>{\columncolor{yellow}}c}	
+
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{12cm}|}
+	\hline
+		\textbf{Test Case 1} &  Application opens to main window \\
+	\hline
+		 \textbf{Test Case Description} & Test to see if the main window opens. This test case is performed when the program is run. \\ 
+	\hline
+		\textbf{Result} & Passed \\
+	\hline
+	\end{tabular}
+	\\ \\ \\
+		\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{12cm}|}
+	\hline
+		\textbf{Test Case 2} &  Data is read from text boxes \\
+	\hline
+		 \textbf{Test Case Description} & When the application is launched with the main window visible, test to see if the text boxes on the left hand side can read input. \\ 
+	\hline
+		\textbf{Result} & Passed \\
+	\hline
+	\end{tabular}
+		\\ \\ \\
+		\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{12cm}|}
+	\hline
+		\textbf{Test Case 3} &  Events are handled by controller \\
+	\hline
+		 \textbf{Test Case Description} & Several events are initiated by the various buttons the user can interact with in the main window. Attempt to test them by using their operations. \\ 
+	\hline
+		\textbf{Result} & Passed \\
+	\hline
+	\end{tabular}
+    	\\ \\ \\
+		\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{12cm}|}
+	\hline
+		\textbf{Test Case 4} & Information is saved to database \\
+	\hline
+		 \textbf{Test Case Description} & The items recorded by the application are transferred from main memory to the database. Tested by adding items with the provided buttons. \\ 
+	\hline
+		\textbf{Result} & Passed \\
+	\hline
+	\end{tabular}
+		\\ \\ \\
+		\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{12cm}|}
+	\hline
+		\textbf{Test Case 5} &  Necessary data is loaded from database \\
+	\hline
+		 \textbf{Test Case Description} & After saving data in the system, close the application and relaunch the application to observe if data is still present. \\ 
+	\hline
+		\textbf{Result} & Passed \\
+	\hline
+	\end{tabular}
 
     \section{Functional Testing}
 
