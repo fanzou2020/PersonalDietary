@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>55a945b1-9a98-4dd1-8118-180f302222ac</OriginalElement>
+  <nodes>
+    <node x="-85.0" y="372.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.retailer</node>
+    <node x="420.0" y="392.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.type</node>
+    <node x="167.0" y="234.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.dining</node>
+    <node x="400.0" y="42.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.foodgroup</node>
+    <node x="-88.0" y="51.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.meal</node>
+    <node x="178.0" y="0.0">55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.serving</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.dining" target="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.serving">
+      <point x="0.0" y="-125.0" />
+      <point x="0.0" y="92.0" />
+    </edge>
+    <edge source="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.dining" target="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.foodgroup">
+      <point x="55.0" y="-125.0" />
+      <point x="304.5" y="209.0" />
+      <point x="436.0" y="209.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.dining" target="55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.meal">
+      <point x="-55.0" y="-125.0" />
+      <point x="194.5" y="209.0" />
+      <point x="79.0" y="209.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="332.0" y="267.0" />
+  <SelectedNodes>
+    <node>55a945b1-9a98-4dd1-8118-180f302222ac.TABLE:personaldietarydb.retailer</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
