@@ -339,13 +339,11 @@ public class FXController {
             if(inOutDining.getValue()){
                 //Indining
                 typeComboBox.setDisable(false);
-//                retailerComboBox.clear();
                 retailerComboBox.setDisable(true);
 
             } else {
                 //Outdining
                 retailerComboBox.setDisable(false);
-//                typeField.clear();
                 typeComboBox.setDisable(true);
             }
         });
