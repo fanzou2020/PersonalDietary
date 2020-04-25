@@ -33,7 +33,6 @@ import team4.personaldietary.facade.FacadeDAO;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,8 +76,14 @@ public class FXController {
     private TableView<DiningTableRow> table = new TableView<>(diningList); // TableView in the center of bPane.
     private boolean hideConsumed = false;  // whether to hide the consumed food item.
 
-    // items for bottom part
-    private List<Button> buttonList= new ArrayList<>();
+    //Initializing buttons for food group
+    private int[] numItemsInFoodGroup = {0, 0, 0, 0}; // number of items for each food group
+    private Button buttonVeg = new Button("Vegetables and Fruits");
+    private Button buttonGrain = new Button("Grain Products");
+    private Button buttonMilk = new Button("Milk and Alternatives");
+    private Button buttonMeat = new Button("Meat and Alternatives");
+//    // items for bottom part
+//    private List<Button> buttonList= new ArrayList<>();
     // Business layer controller
     private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
 
@@ -509,13 +514,7 @@ public class FXController {
      */
     private void initialBottomPart() {
         //Initializing buttons for food group
-        HBox bottomMenu = new HBox();
-
-        for(FoodGroup f:foodGroupObservableList){
-            Button button=new Button(f.getFoodGroupName());
-            bottomMenu.getChildren().add(button);
-            buttonList.add(button);
-        }
+        HBox bottomMenu = new HBox(buttonVeg, buttonGrain, buttonMilk, buttonMeat);
 
         //Customize HBox
         bottomMenu.setPadding(new Insets(10, 0, 10, 0));
@@ -558,11 +557,21 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupAdd(FoodGroup foodGroup) {
-        for(Button button: buttonList){
-            if (foodGroup.getFoodGroupName().equalsIgnoreCase( button.getText())) {
-                button.setStyle("-fx-background-color: green");
-                break;
-            }
+        if (foodGroup.getFoodGroupName().equals("vegetable_and_fruit")) {
+            numItemsInFoodGroup[0]++;
+            if (numItemsInFoodGroup[0] > 0) buttonVeg.setStyle("-fx-background-color: green");
+        }
+        else if (foodGroup.getFoodGroupName().equals("grain_products")) {
+            numItemsInFoodGroup[1]++;
+            if (numItemsInFoodGroup[1] >0)  buttonGrain.setStyle("-fx-background-color: green");
+        }
+        else if (foodGroup.getFoodGroupName().equals("milk_and_alternatives")) {
+            numItemsInFoodGroup[2]++;
+            if (numItemsInFoodGroup[2] > 0) buttonMilk.setStyle("-fx-background-color: green");
+        }
+        else {
+            numItemsInFoodGroup[3]++;
+            if (numItemsInFoodGroup[3] > 0) buttonMeat.setStyle("-fx-background-color: green");
         }
     }
 
@@ -570,12 +579,28 @@ public class FXController {
      * @param foodGroup
      */
     private void markFoodGroupRemove(FoodGroup foodGroup) {
-        for (Button button : buttonList) {
-            if (button.getText().equalsIgnoreCase(foodGroup.getFoodGroupName())) {
-                button.setStyle(null);
-                break;
-            }
+        if (foodGroup.getFoodGroupName().equals("vegetable_and_fruit")) {
+            numItemsInFoodGroup[0]--;
+            if (numItemsInFoodGroup[0] <= 0) buttonVeg.setStyle(null);
         }
+        else if (foodGroup.getFoodGroupName().equals("grain_products")) {
+            numItemsInFoodGroup[1]--;
+            if (numItemsInFoodGroup[1] <= 0)  buttonGrain.setStyle(null);
+        }
+        else if (foodGroup.getFoodGroupName().equals("milk_and_alternatives")) {
+            numItemsInFoodGroup[2]--;
+            if (numItemsInFoodGroup[2] <= 0) buttonMilk.setStyle(null);
+        }
+        else {
+            numItemsInFoodGroup[3]--;
+            if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle(null);
+        }
+//        for (Button button : buttonList) {
+//            if (button.getText().equalsIgnoreCase(foodGroup.getFoodGroupName())) {
+//                button.setStyle(null);
+//                break;
+//            }
+//        }
     }
 
     /**
