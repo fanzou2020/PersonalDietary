@@ -82,8 +82,7 @@ public class FXController {
     private Button buttonGrain = new Button("Grain Products");
     private Button buttonMilk = new Button("Milk and Alternatives");
     private Button buttonMeat = new Button("Meat and Alternatives");
-//    // items for bottom part
-//    private List<Button> buttonList= new ArrayList<>();
+
     // Business layer controller
     private DiningManager diningManager = new DiningManager(diningList, currServingList, consumedServingList);
 
@@ -595,12 +594,6 @@ public class FXController {
             numItemsInFoodGroup[3]--;
             if (numItemsInFoodGroup[3] <= 0) buttonMeat.setStyle(null);
         }
-//        for (Button button : buttonList) {
-//            if (button.getText().equalsIgnoreCase(foodGroup.getFoodGroupName())) {
-//                button.setStyle(null);
-//                break;
-//            }
-//        }
     }
 
     /**
