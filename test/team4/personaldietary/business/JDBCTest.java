@@ -337,4 +337,25 @@ public class JDBCTest {
         Serving serving = servingDAO.findServingById(id);
         assertEquals("T3---findServingByUnknownIdTest: ", -1, serving.getServingId());
     }
+
+    @Ignore
+    @Test
+    public void createServingTest() throws SQLException {
+        ServingDAO servingDAO = new ServingDAOImp();
+        //Serving serving = new Serving();
+        //int id=100;
+        int servingDao = servingDAO.createServing(new Serving());
+        assertEquals("T3---findServingByUnknownIdTest: ", -1, servingDao);
+    }
+
+    @Ignore
+    @Test
+    public void deleteServingTest() throws SQLException {
+        ServingDAO servingDAO = new ServingDAOImp();
+        //Serving serving = new Serving();
+        int id=100;
+        int servingDao = servingDAO.deleteServing(id);
+        assertEquals("T3---findServingByUnknownIdTest: ", -1, servingDao);
+    }
+
 }

@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class DiningManager implements DiningManagerInterface{
-//    private ArrayList<Dining> diningArrayList; // consider this as the data model.
+
     private ArrayList<DiningTableRow> diningTableRowArrayList; // this contains all the TableRow items
     private ObservableList<DiningTableRow> observableCollection; // this is the items shown on the screen
     private ObservableList<String> currServingList, consumedServingList; // ListView for serving
