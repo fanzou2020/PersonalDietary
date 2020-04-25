@@ -517,11 +517,155 @@ Unit test case passes.
 		\textbf{Comments} & Test sucessful \\
 	\hline
 	\end{tabular}
-
+	\newpage
     \section{User Interface Testing}
+	
+	 In this section we outline some of the user interface components and fields and test their functionality with an application to their associated use case. \\ \\ 	
+	\includegraphics[scale=0.4]{Screenshot.jpg}
 
-    \subsection{UI, buttons, etc...}
-    
+    \subsection{Image 1: Food group combo box}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.2 Add a food item \\
+	\hline
+		 \textbf{Description} & Drop down menu to select food group of added item \\ 
+	\hline
+		\textbf{Preconditions} &  Application is open; data has been properly entered \\
+	\hline
+		\textbf{Postconditions} & Food item appears with proper food group \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 2: Indining/outdining toggle switch}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.8 Choose a food item as either indining or outdining \\
+	\hline
+		 \textbf{Description} & Toggle between indining and outdining food attribute \\ 
+	\hline
+		\textbf{Preconditions} &  Application is open; data has been properly entered \\
+	\hline
+		\textbf{Postconditions} & Food item appears with proper indining or outdining attribute \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 3: Food add button}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.2 Add a food item \\
+	\hline
+		 \textbf{Description} & Add a food item \\ 
+	\hline
+		\textbf{Preconditions} &  Application is open; data has been properly entered \\
+	\hline
+		\textbf{Postconditions} & Food item appears with proper food attributes \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 4: Consumed checkbox}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.7 Set a food item as consumed or not consumed \\
+	\hline
+		 \textbf{Description} & Checkbox for setting food attribute as consumed or not consumed \\ 
+	\hline
+		\textbf{Preconditions} &  Food item is present in center list \\
+	\hline
+		\textbf{Postconditions} & Food item appears either as consumed, or not consumed; right-bottom serving box is updated \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 5: Table column button}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.6 Sort the food list based on a food attribute (e.g. serving, time, food group) \\
+	\hline
+		 \textbf{Description} & Button to sort (ascending or descending) list of food based on alphanumeric values \\ 
+	\hline
+		\textbf{Preconditions} &  Food items are present in center list \\
+	\hline
+		\textbf{Postconditions} & Food items appear sorted based on selected attribute \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 6: Remove button}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.5 Remove a food item \\
+	\hline
+		 \textbf{Description} & Removes the selected food item from the food list \\ 
+	\hline
+		\textbf{Preconditions} &  Food item(s) is present in center list; food item is selected \\
+	\hline
+		\textbf{Postconditions} &  Selected food item is removed from list \\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 7: Hide/Unhide Consumed button}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.9 View only consumed food items, or view all food items \\
+	\hline
+		 \textbf{Description} & Shows list of either all food items, or only consumed food items \\ 
+	\hline
+		\textbf{Preconditions} &  Food items are present in center list; at least one food item is set to consumed \\
+	\hline
+		\textbf{Postconditions} &  Either list of all food items, or only consumed food items, is shown; top-right display is updated\\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
+
+   \subsection{Image 8: Food group button}
+
+	\newcolumntype{a}{>{\columncolor{pink}}c}	
+	\def\arraystretch{1.5}
+		\begin{tabular}{|a|p{13cm}|}
+	\hline
+		\textbf{Use Case} & 4.3.3 Mark a food group as eaten or not eaten \\
+	\hline
+		 \textbf{Description} & Lights up when a food is in the list with the given food attribute \\ 
+	\hline
+		\textbf{Preconditions} &  Food items are present in food list \\
+	\hline
+		\textbf{Postconditions} & Buttons at bottom are light up with relevant food groups\\
+	\hline
+		\textbf{Comments} & Test sucessful \\
+	\hline
+	\end{tabular}
     \chapter{Database UML Class Diagram}
     
     \includegraphics[scale=0.6]{db-uml.png}
